@@ -18,7 +18,7 @@ This repository currently consists of the following content:
 
 * **Dataset/** provides complete datasets for various Autonomous Systems (or ASes) we measured with `SAGE` from the PlanetLab testbed.
 
-* **src** provides all the source files of `SAGE`.
+* **src/** provides all the source files of `SAGE`.
 
 ## Legacy
 
