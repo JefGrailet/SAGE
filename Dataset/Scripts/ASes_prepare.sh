@@ -36,12 +36,15 @@ while [ $i -lt $n_nodes ]
 do
     j=$((($i+$rotationNumber)%$n_nodes))
     echo "Preparation of ${nodes[$j]}"
-    homeFolder=/home/jefgrailet/PhD
+    homeFolder=/home/jefgrailet/PhD # TODO: change this path to match your own filesystem
     commands="mkdir -p SAGE; cd SAGE; rm AS*; " # rm Log*; rm Additional.txt; "
     commandsNext="cd SAGE; chmod 755 sage;"
     ssh ulgple_lisp@${nodes[$j]} -i ~/.ssh/id_rsa -T $commands
+    
+    # TODO: don't forget to change the paths towards the files to match your own filesystem
     scp -i ~/.ssh/id_rsa $homeFolder/Executables\ PlanetLab/i686/sage ulgple_lisp@${nodes[$j]}:/home/ulgple_lisp/SAGE
     scp -i ~/.ssh/id_rsa $homeFolder/Campaigns/SAGE/${targets[$i]}/${targets[$i]}.txt ulgple_lisp@${nodes[$j]}:/home/ulgple_lisp/SAGE
+    
     ssh ulgple_lisp@${nodes[$j]} -i ~/.ssh/id_rsa -T $commandsNext
     i=`expr $i + 1`
 done

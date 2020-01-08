@@ -76,6 +76,8 @@ do
     j=$((($i+$rotationNumber)%$n_nodes))    
     echo "Getting and processing measurements of ${targets[$i]} from ${nodes[$j]}"
     mkdir -p ./${targets[$i]}/$year/$month/$day
+    
+    # TODO: don't forget to change this path to match your own filesystem
     destFolder=/home/jefgrailet/PhD/Campaigns/SAGE/${targets[$i]}/$year/$month/$day
     
     # Downloads the output files

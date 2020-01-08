@@ -1,6 +1,6 @@
 # Scripts to schedule measurements with SAGE
 
-*By Jean-François Grailet (last updated: January 7, 2020)*
+*By Jean-François Grailet (last updated: January 8, 2020)*
 
 ## About
 
@@ -14,32 +14,36 @@ prefixes.
 
 Here's the content of this folder in details:
 
-* **Example_targets:** a simple text file that provides the ASes you want to measure. Each line 
+* `Example_targets`: a simple text file that provides the ASes you want to measure. Each line 
   provides an AS.
 
-* **Example_nodes:** another text file which rather provides the set of PlanetLab nodes you want 
+* `Example_nodes`: another text file which rather provides the set of PlanetLab nodes you want 
   to use for the campaign. Each line provide a single node.
 
-* **ASes_check.sh:** a script that contact each remote PlanetLab node to print the content of the 
+* `ASes_check.sh`: a script that contact each remote PlanetLab node to print the content of the 
   *SAGE/* subfolder (automatically created by the preparation script, see below) and check whether 
   some measurement is complete (typically, a measurement is complete when the *.metrics* output 
   file is available). You have to provide the file listing the nodes to run this script.
 
-* **ASes_get.sh:** a script you will use to download the datasets once all measurements have been 
+* `ASes_get.sh`: a script you will use to download the datasets once all measurements have been 
   completed. You need to provide both the file listing target ASes and the file listing the 
   PlanetLab nodes to run this script.
 
-* **ASes_prepare.sh:** a script you will use to prepare the PlanetLab nodes to start new 
+* `ASes_prepare.sh`: a script you will use to prepare the PlanetLab nodes to start new 
   measurements. The script automatically creates a *SAGE/* folder on the remote node, and uploads 
   in it every file needed to start a measurement. You need to provide both the file listing target 
   ASes and the file listing the PlanetLab nodes to run this script.
 
-* **ASes_start.sh:** a script that starts new measurements from the PlanetLab testbed. Just like 
+* `ASes_start.sh`: a script that starts new measurements from the PlanetLab testbed. Just like 
   the two previous scripts, you have to provide both the file listing target ASes and the file 
   listing the PlanetLab nodes to run this script. Note that in some cases, the program might not 
   actually start running due to the specific settings of the node, but a file with the AS number 
-  and the date will be created anyway (but will have a size of 0 octet). In such a situation, you 
-  have to log yourself on the node to run the command starting the measurement.
+  and the date will be created anyway (though it will have a size of 0 octet). In such a 
+  situation, you have to log yourself on the node to run the command starting the measurement.
+
+**Remark:** don't forget to have a quick look at the scripts to change the paths towards files 
+or folders to match your own filesystem if you intend to deploy `SAGE` by re-using these scripts. 
+In particular, you should at least modify `ASes_get.sh` and `ASes_prepare.sh`.
 
 ## Rotating vantage points (or VPs)
 
