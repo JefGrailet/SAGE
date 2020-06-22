@@ -1,4 +1,4 @@
-# Campaign n°1 (29/12/2019 to ??/01/2020)
+# Campaign n°1 (29/12/2019 to 15/01/2020)
 
 **Remark:** the target ASes for this campaign are the same as for the last 2019 campaign of WISE 
 (see the [`WISE` public repository](https://github.com/JefGrailet/WISE)).
@@ -24,7 +24,7 @@
 
 |  Node                                      |  Authority  |
 | :----------------------------------------- | :---------: |
-| planetlab1.upm.ro                          | PLE         |
+| planetlabeu-1.tssg.org                     | PLE         |
 | ple41.planet-lab.eu                        | PLE         |
 | planetlab-1.ing.unimo.it                   | PLE         |
 | planetlab1.xeno.cl.cam.ac.uk               | PLE         |

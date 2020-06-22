@@ -1,0 +1,240 @@
+SAGE (Subnet AGgrEgation) v2.0 - Time at start: 07-01-2020 23:36:59
+
+--- Start of target pre-scanning ---
+Pre-scanning with initial timeout... done.
+Found a total of 7343 responsive IPs.
+Second opinion with twice the timeout (5sec : 0micsec)... done.
+Found a total of one additional reponsive IP.
+--- End of target pre-scanning (08-01-2020 00:24:30) ---
+Elapsed time: 47 minutes 31 seconds
+Total amount of probes: 185169
+Total amount of successful probes: 14206 (7.67191%)
+Total amount of discovered responsive IPs: 7344
+
+Filtered target IPs have been saved in an output file AS13789_08-01.ips (temporar).
+
+--- Start of target scanning ---
+Starting the estimation of distance of all target IPs (in TTL).
+To do this, 230 threads will be scheduled (up to 32 target IPs per thread).
+1602 out of 7333 IPs with an estimated TTL (21.8464%) need to be re-probed to improve trails.
+Starting re-probing target IPs with incomplete trails.
+Starting re-probing n°1.
+To do this, 30 threads will be scheduled (from 2 to 119 target IPs per thread).
+
+There are flickering IPs that could lead to the discovery of 9 aliases.
+Now starting alias hints collection...
+Collecting hints for 63.251.20.253, 104.153.107.253, 162.248.95.253... Done.
+Collecting hints for 64.15.3.151, 65.51.70.162... Done.
+Collecting hints for 64.74.240.194, 64.74.240.214, 64.74.242.94, 64.95.158.218, 74.201.136.10, 74.201.136.14, 74.201.136.18, 74.201.136.22, 74.201.138.2, 74.201.252.2, 74.217.49.238, 74.217.50.26, 216.52.95.20, 216.52.95.46, 216.52.95.47, 216.52.95.82, 216.52.95.86, 216.52.95.107, 216.52.95.109, 216.52.95.110... Done.
+Collecting hints for 64.94.185.1, 64.94.185.132, 64.94.185.145, 70.42.38.49, 70.42.38.51, 70.42.38.65, 70.42.38.67, 70.42.38.69, 70.42.38.76, 70.42.38.82, 70.42.38.91, 70.42.38.93, 70.42.38.97, 70.42.38.99, 70.42.38.106, 70.42.38.108, 70.42.38.114, 70.42.38.116, 70.42.38.129, 70.42.38.131, 70.42.38.133, 70.42.38.140, 70.42.38.170, 70.42.38.172, 70.42.38.180, 70.42.38.182, 70.42.38.189, 70.42.38.203, 70.42.38.205, 70.42.38.211, 70.42.38.237, 70.42.38.243, 70.42.38.245, 74.201.145.60, 74.201.145.86, 74.201.145.91, 74.201.145.93... Done.
+Collecting hints for 64.95.158.234, 72.26.212.14... Done.
+Collecting hints for 72.26.212.210, 75.98.84.242... Done.
+Collecting hints for 75.98.32.8, 75.98.32.11, 75.98.32.94, 75.98.32.169... Done.
+Collecting hints for 80.239.195.50, 209.191.128.108... Done.
+Collecting hints for 216.52.93.230, 216.52.95.44... Done.
+Resolving... Done.
+--- End of target scanning (08-01-2020 00:53:02) ---
+Elapsed time: 28 minutes 32 seconds
+Total amount of probes: 41304
+Total amount of successful probes: 33146 (80.2489%)
+
+Updated IP dictionary has been saved in the output file AS13789_08-01.ips.
+
+--- Start of subnet inference ---
+Inferring subnets... Done.
+Post-processing the discovered subnets... Done.
+--- End of subnet inference (08-01-2020 00:53:04) ---
+Elapsed time: 2 seconds
+
+Inferred subnets has been saved in the output file AS13789_08-01.subnets.
+Alias hints (subnet inference) have been saved in the output file AS13789_08-01.hints.
+Fingerprints (subnet inference) have been saved in the output file AS13789_08-01.fingerprints.
+Aliases discovered during subnet discovery have been written in AS13789_08-01.aliases-1.
+
+--- Start of neighborhood inference ---
+Collecting additional data to discover and locate neighborhoods.
+
+3431 IPs will be used as targets for traceroute-like probing, using 256 threads (up to 14 targets per thread).
+Probing the 3431 target IPs... Done.
+Building initial aggregates of subnets... Done.
+Discovered direct peer IP(s) for 136 aggregates.
+Discovered remote peer IP(s) for 44 aggregates.
+78 aggregates don't have any peer.
+Peer IPs have been adjusted for 53 aggregates using previously discovered aliases.
+
+There are aggregates of subnets with more than one peer and/or with miscellaneous IPs observed at the same distance.
+SAGE will conduct alias resolution to test whether these IPs belong to the same devices or not (peer disambiguation).
+
+Collecting hints for 63.251.32.14, 74.201.53.90... Done.
+Collecting hints for 64.74.240.194, 128.177.168.190, 213.248.66.102, 216.52.93.230, 216.52.95.44... Done.
+Collecting hints for 64.94.0.4, 64.94.0.91... Done.
+Collecting hints for 64.95.158.74, 64.95.158.218, 74.201.138.2, 74.201.138.6, 216.52.95.20, 216.52.95.46, 216.52.95.47... Done.
+Collecting hints for 64.95.158.234, 74.201.136.66... Done.
+Collecting hints for 72.5.59.34, 75.98.32.11... Done.
+Collecting hints for 74.201.136.18, 74.201.136.22... Done.
+Collecting hints for 74.217.149.42, 74.217.151.150... Done.
+Collecting hints for 216.52.95.23, 216.52.95.86... Done.
+Collecting hints for 216.52.95.45, 216.52.95.108... Done.
+6 aliases could be discovered.
+
+Identified 2 aggregates with blindspots (previously unidentified peers).
+Building the vertices of the graph... Done.
+Building the edges of the graph... Done.
+--- End of neighborhood inference (08-01-2020 00:58:19) ---
+Elapsed time: 5 minutes 15 seconds
+Total amount of probes: 6809
+Total amount of successful probes: 5774 (84.7995%)
+
+Updated IP dictionary has been saved in the output file AS13789_08-01.ips.
+Alias hints (up to graph building) have been saved in the output file AS13789_08-01.hints.
+Fingerprints (up to graph building) have been saved in the output file AS13789_08-01.fingerprints.
+Aliases discovered during graph building have been written in AS13789_08-01.aliases-2.
+Additional traceroute data has been saved in the output file AS13789_08-01.peers.
+Neighborhoods have been saved in the output file AS13789_08-01.neighborhoods.
+Network graph been saved in the output file AS13789_08-01.graph.
+
+--- Start of full alias resolution ---
+Conducting alias resolution on N1 - {Echo, TTL=21, Pre-echoing=156.154.217.136 (offset=2)}... Done.
+Conducting alias resolution on N2 - {Echo, TTL=21, Pre-echoing=216.52.162.70 (offset=1)}... Done.
+Conducting alias resolution on N4 - {Echo, TTL=25, Pre-echoing=144.121.223.66 (offset=1)}... Done.
+Conducting alias resolution on N11 - {64.95.40.151 | 1}... Done.
+Conducting alias resolution on N12 - {74.201.136.14 | 1}... Done.
+Conducting alias resolution on N13 - {74.201.152.98 | 1}... Done.
+Conducting alias resolution on N14 - {74.201.152.98 | 2}... Done.
+Conducting alias resolution on N16 - {74.201.176.13 | 1}... Done.
+Conducting alias resolution on N19 - {74.201.176.17 | 1}... Done.
+Conducting alias resolution on N20 - {74.201.176.19 | 1}... Done.
+Conducting alias resolution on N21 - {74.201.176.21 | 1}... Done.
+Conducting alias resolution on N22 - {74.201.176.24 | 1}... Done.
+Conducting alias resolution on N23 - {74.201.176.26 | 1}... Done.
+Conducting alias resolution on N24 - {74.201.176.31 | 1}... Done.
+Conducting alias resolution on N25 - {74.201.176.32 | 1}... Done.
+Conducting alias resolution on N26 - {74.201.176.34 | 1}... Done.
+Conducting alias resolution on N27 - {74.201.176.36 | 1}... Done.
+Conducting alias resolution on N28 - {74.201.176.40 | 1}... Done.
+Conducting alias resolution on N29 - {74.201.176.42 | 1}... Done.
+Conducting alias resolution on N30 - {74.201.176.45 | 1}... Done.
+Conducting alias resolution on N33 - {74.201.176.50 | 1}... Done.
+Conducting alias resolution on N34 - {74.201.176.52 | 1}... Done.
+Conducting alias resolution on N35 - {74.201.176.57 | 1}... Done.
+Conducting alias resolution on N36 - {74.201.176.59 | 1}... Done.
+Conducting alias resolution on N37 - {74.201.176.61 | 1}... Done.
+Conducting alias resolution on N40 - {74.201.176.64 | 1}... Done.
+Conducting alias resolution on N41 - {74.201.176.66 | 1}... Done.
+Conducting alias resolution on N42 - {74.201.176.68 | 1}... Done.
+Conducting alias resolution on N43 - {74.201.176.70 | 1}... Done.
+Conducting alias resolution on N44 - {74.201.176.73 | 1}... Done.
+Conducting alias resolution on N45 - {74.201.176.75 | 1}... Done.
+Conducting alias resolution on N46 - {74.201.176.77 | 1}... Done.
+Conducting alias resolution on N48 - {74.201.176.83 | 1}... Done.
+Conducting alias resolution on N51 - {74.201.176.124 | 1}... Done.
+Conducting alias resolution on N52 - {74.201.181.230 | 1}... Done.
+Conducting alias resolution on N53 - {75.98.40.51 | 1}... Done.
+Conducting alias resolution on N55 - {144.121.35.0}... Done.
+Conducting alias resolution on N56 - {144.121.35.8}... Done.
+Conducting alias resolution on N57 - {144.121.223.66 | 1}... Done.
+Conducting alias resolution on N58 - {152.179.31.142}... Done.
+Conducting alias resolution on N60 - {156.154.251.101}... Done.
+Conducting alias resolution on N61 - {209.48.169.253}... Done.
+Conducting alias resolution on N63 - {216.52.95.47 | 1}... Done.
+Conducting alias resolution on N64 - {216.52.95.107 | 1}... Done.
+Conducting alias resolution on N65 - {216.52.95.107 | 2}... Done.
+Conducting alias resolution on N66 - {216.52.95.109 | 1}... Done.
+Conducting alias resolution on N68 - {89.187.100.122}... Done.
+Conducting alias resolution on N70 - {80.239.195.50}... Done.
+Conducting alias resolution on N71 - {Echo, TTL=19, Pre-echoing=209.191.128.108 (offset=1)}... Done.
+Conducting alias resolution on N72 - {216.223.63.74}... Done.
+Conducting alias resolution on N75 - {64.94.189.211}... Done.
+Conducting alias resolution on N76 - {38.32.124.34}... Done.
+Conducting alias resolution on N78 - {74.201.53.90}... Done.
+Conducting alias resolution on N79 - {Echo, TTL=22, Pre-echoing=63.251.32.14, 74.201.53.90 (offset=1)}... Done.
+Conducting alias resolution on N80 - {128.177.70.66}... Done.
+Conducting alias resolution on N81 - {107.150.129.54}... Done.
+Conducting alias resolution on N82 - {107.150.129.65}... Done.
+Conducting alias resolution on N83 - {64.94.0.91, 64.94.0.4 (B)} (cluster)... Done.
+Conducting alias resolution on N84 - {207.200.176.73}... Done.
+Conducting alias resolution on N85 - {198.32.160.128}... Done.
+Conducting alias resolution on N86 - {173.231.161.146}... Done.
+Conducting alias resolution on N87 - {216.52.118.70}... Done.
+Conducting alias resolution on N88 - {216.52.125.158}... Done.
+Conducting alias resolution on N89 - {64.95.158.234, 74.201.136.66} (cluster)... Done.
+Conducting alias resolution on N90 - {72.26.212.10}... Done.
+Conducting alias resolution on N91 - {72.26.212.14}... Done.
+Conducting alias resolution on N92 - {74.201.137.65}... Done.
+Conducting alias resolution on N93 - {173.231.161.206}... Done.
+Conducting alias resolution on N94 - {74.10.143.127}... Done.
+Conducting alias resolution on N95 - {64.199.250.2}... Done.
+Conducting alias resolution on N96 - {64.15.3.151}... Done.
+Conducting alias resolution on N97 - {65.51.70.162}... Done.
+Conducting alias resolution on N98 - {64.94.137.42}... Done.
+Conducting alias resolution on N99 - {72.5.59.34}... Done.
+Conducting alias resolution on N100 - {75.98.32.8}... Done.
+Conducting alias resolution on N101 - {75.98.33.42}... Done.
+Conducting alias resolution on N102 - {75.98.33.43}... Done.
+Conducting alias resolution on N103 - {75.98.33.174}... Done.
+Conducting alias resolution on N104 - {75.98.32.11}... Done.
+Conducting alias resolution on N105 - {Echo, TTL=27, Pre-echoing=75.98.32.11}... Done.
+Conducting alias resolution on N106 - {75.98.84.242}... Done.
+Conducting alias resolution on N107 - {72.26.212.178}... Done.
+Conducting alias resolution on N108 - {72.26.212.210}... Done.
+Conducting alias resolution on N109 - {74.217.151.150}... Done.
+Conducting alias resolution on N110 - {167.160.91.2}... Done.
+--- End of full alias resolution (08-01-2020 01:05:18) ---
+Elapsed time: 6 minutes 59 seconds
+Total amount of probes: 1771
+Total amount of successful probes: 1495 (84.4156%)
+
+Final alias hints have been saved in the output file AS13789_08-01.hints.
+Final fingerprints have been saved in the output file AS13789_08-01.fingerprints.
+Final aliases been saved in the output file AS13789_08-01.aliases-f.
+Network graph metrics been saved in the output file AS13789_08-01.metrics.
+*** glibc detected *** ./sage: free(): invalid next size (fast): 0x0950e008 ***
+======= Backtrace: =========
+/lib/libc.so.6[0xf7cd8ac1]
+/lib/libc.so.6(cfree+0x90)[0xf7cdc0f0]
+/lib/libstdc++.so.6(_ZdlPv+0x21)[0xf7eae111]
+./sage[0x80a9e9c]
+./sage[0x80ccd5f]
+/lib/libc.so.6(__libc_start_main+0xe0)[0xf7c85390]
+./sage(__gxx_personality_v0+0x135)[0x804b0d1]
+======= Memory map: ========
+08048000-080e9000 r-xp 00000000 00:29 41053                              /home/ulgple_lisp/SAGE/sage
+080e9000-080ea000 rw-p 000a1000 00:29 41053                              /home/ulgple_lisp/SAGE/sage
+08de0000-097ee000 rw-p 00000000 00:00 0                                  [heap]
+9f100000-9f18b000 rw-p 00000000 00:00 0 
+9f18b000-9f200000 ---p 00000000 00:00 0 
+c2300000-c23bd000 rw-p 00000000 00:00 0 
+c23bd000-c2400000 ---p 00000000 00:00 0 
+f3464000-f3465000 ---p 00000000 00:00 0 
+f3465000-f3c65000 rw-p 00000000 00:00 0 
+f4c67000-f4c68000 ---p 00000000 00:00 0 
+f4c68000-f5468000 rw-p 00000000 00:00 0 
+f5468000-f5469000 ---p 00000000 00:00 0 
+f5469000-f5c69000 rw-p 00000000 00:00 0 
+f5c69000-f5c6a000 ---p 00000000 00:00 0 
+f5c6a000-f646a000 rw-p 00000000 00:00 0 
+f746c000-f7c6f000 rw-p 00000000 00:00 0 
+f7c6f000-f7dc2000 r-xp 00000000 00:29 40581                              /usr/lib/libc.so.6
+f7dc2000-f7dc4000 r--p 00153000 00:29 40581                              /usr/lib/libc.so.6
+f7dc4000-f7dc5000 rw-p 00155000 00:29 40581                              /usr/lib/libc.so.6
+f7dc5000-f7dc8000 rw-p 00000000 00:00 0 
+f7dc8000-f7dd3000 r-xp 00000000 00:29 40582                              /usr/lib/libgcc_s.so.1
+f7dd3000-f7dd4000 rw-p 0000a000 00:29 40582                              /usr/lib/libgcc_s.so.1
+f7dd4000-f7dfb000 r-xp 00000000 00:29 40583                              /usr/lib/libm.so.6
+f7dfb000-f7dfc000 r--p 00026000 00:29 40583                              /usr/lib/libm.so.6
+f7dfc000-f7dfd000 rw-p 00027000 00:29 40583                              /usr/lib/libm.so.6
+f7dfd000-f7edb000 r-xp 00000000 00:29 40585                              /usr/lib/libstdc++.so.6
+f7edb000-f7ede000 r--p 000dd000 00:29 40585                              /usr/lib/libstdc++.so.6
+f7ede000-f7ee0000 rw-p 000e0000 00:29 40585                              /usr/lib/libstdc++.so.6
+f7ee0000-f7ee6000 rw-p 00000000 00:00 0 
+f7ee6000-f7efb000 r-xp 00000000 00:29 40584                              /usr/lib/libpthread.so.0
+f7efb000-f7efc000 r--p 00014000 00:29 40584                              /usr/lib/libpthread.so.0
+f7efc000-f7efd000 rw-p 00015000 00:29 40584                              /usr/lib/libpthread.so.0
+f7efd000-f7f00000 rw-p 00000000 00:00 0 
+f7f03000-f7f04000 rw-p 00000000 00:00 0 
+f7f04000-f7f07000 r--p 00000000 00:00 0                                  [vvar]
+f7f07000-f7f09000 r-xp 00000000 00:00 0                                  [vdso]
+f7f09000-f7f24000 r-xp 00000000 00:29 40580                              /usr/lib/ld-linux.so.2
+f7f24000-f7f25000 r--p 0001a000 00:29 40580                              /usr/lib/ld-linux.so.2
+f7f25000-f7f26000 rw-p 0001b000 00:29 40580                              /usr/lib/ld-linux.so.2
+ff94f000-ff970000 rw-p 00000000 00:00 0                                  [stack]

@@ -1,6 +1,6 @@
 # SAGE (Subnet AGgrEgation)
 
-*By Jean-François Grailet (last updated: January 7, 2020)*
+*By Jean-François Grailet (last updated: June 22, 2020)*
 
 ## Overview
 
@@ -10,7 +10,7 @@
 
 ## About the code
 
-Since it needs to be compatible with old environments (e.g. 32-bit machines from the [PlanetLab testbed](https://planet-lab.eu/) running with Fedora 8), `SAGE` is written in an _old-fashioned_ C++, i.e., it doesn't take advantage of the changes brought by C++11 and onwards. This said, after several campaigns run from PlanetLab towards all kinds of target networks, it is safe to assume `SAGE` is unlikely to crash or mismanage memory. It has been, on top of that, been extensively tested with `valgrind` on a local network.
+Since it is built on top of `WISE`, which initially needed to be compatible with old environments (e.g. 32-bit machines from the [PlanetLab testbed](https://planet-lab.eu/) running with Fedora 8), `SAGE` is written in an _old-fashioned_ C++. In other words, it doesn't take advantage of the features of the language brought by C++11 and onwards. This said, after several campaigns run from the PlanetLab testbed towards all kinds of target networks without getting a suspicious crash, it is safe to assume `SAGE` is unlikely to mismanage memory. It has been, on top of that, extensively tested with `valgrind` on a local network.
 
 ## Content of this repository
 

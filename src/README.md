@@ -1,10 +1,10 @@
 # About SAGE v2.0 (sage)
 
-*By Jean-François Grailet (last updated: January 7, 2020)*
+*By Jean-François Grailet (last updated: June 22, 2020)*
 
 ## About the code
 
-Since it needs to be compatible with old environments (e.g. Fedora 8, see remarks on deployment below), `SAGE` (just like `WISE`) is written in an _old-fashioned_ C++, i.e., it doesn't take advantage of the changes brought by C++11 and onwards. As already said elsewhere, it is also designed to be a 32-bit application for the same reason. This said, after several campaigns run from the PlanetLab testbed towards all kinds of target networks, it is safe to assume `SAGE` is unlikely to crash or mismanage memory. It has been, on top of that, been extensively tested with `valgrind` on a local network.
+Since it is built on top of `WISE`, which initially needed to be compatible with old environments (e.g. Fedora 8, see remarks on deployment below), `SAGE` is written in an _old-fashioned_ C++. In other words, it doesn't take advantage of the changes brought by C++11 and onwards. As already said elsewhere, it is also designed to be a 32-bit application for the same reason. This said, after several campaigns run from the PlanetLab testbed towards all kinds of target networks without getting a suspicious crash, it is safe to assume `SAGE` is unlikely to mismanage memory. It has been, on top of that, extensively tested with `valgrind` on a local network.
 
 ## Compilation
 
@@ -22,6 +22,8 @@ make
 ```
 
 ## Deployement on PlanetLab testbed
+
+**Remark: during the course of 2020, [PlanetLab will be shut down](https://www.systemsapproach.org/blog/its-been-a-fun-ride). This section is therefore now outdated, but left untouched in case one would want to deploy `WISE` in an environment comparable to PlanetLab.**
 
 If you intent to use `SAGE` from the PlanetLab testbed, here is some advice.
 

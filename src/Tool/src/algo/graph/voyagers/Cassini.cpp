@@ -104,12 +104,12 @@ void Cassini::visit(Graph *g)
             visitedPrevious[j] = visited[j];
     }
     
-    // Visits a graph a third and final time to evaluate longest path in each component
+    // Visits a graph a third and final time to evaluate the depth of each component
     for(list<list<Vertice*> >::iterator i = visitedGates.begin(); i != visitedGates.end(); ++i)
     {
         list<Vertice*> gates = (*i);
         
-        unsigned int longestPath = 0;
+        unsigned int depth = 0;
         for(list<Vertice*>::iterator j = gates.begin(); j != gates.end(); ++j)
         {
             // Resets visited for each visit from a given gate
@@ -118,11 +118,11 @@ void Cassini::visit(Graph *g)
             
             // Visits the component from this gate
             unsigned int curLength = this->visitRecursive3((*j), 0);
-            if(curLength > longestPath)
-                longestPath = curLength;
+            if(curLength > depth)
+                depth = curLength;
         }
         
-        componentDepth.push_back(longestPath);
+        componentDepth.push_back(depth);
     }
 }
 
@@ -278,20 +278,20 @@ unsigned int Cassini::visitRecursive3(Vertice *v, unsigned int depth)
     
     visited[ID - 1] = true;
     
-    // No more out edges: longest path length is equal to the current depth
+    // No more out edges
     list<Edge*> *next = v->getEdges();
     if(next->size() == 0)
         return depth;
     
-    // Otherwise, gets the longest path for each out edge, and returns it
-    unsigned int longest = 0;
+    // Otherwise, gets the depth for each out edge, and returns the biggest
+    unsigned int deepest = 0;
     for(list<Edge*>::iterator i = next->begin(); i != next->end(); ++i)
     {
         unsigned int curLength = this->visitRecursive3((*i)->getHead(), depth + 1);
-        if(curLength > longest)
-            longest = curLength;
+        if(curLength > deepest)
+            deepest = curLength;
     }
-    return longest;
+    return deepest;
 }
 
 string Cassini::getMetrics()
@@ -406,8 +406,8 @@ string Cassini::getMetrics()
         list<Vertice*> visitedGates = (*j);
         j++;
         
-        // Gets the longest path of the component
-        unsigned int longestPath = (*k);
+        // Gets the depth of the component
+        unsigned int depth = (*k);
         k++;
         
         // Islet scenario
@@ -438,11 +438,11 @@ string Cassini::getMetrics()
             ss << "Via gate N" << visitedGates.front()->getID() << ": ";
             ss << nbReachable << " (" << percentage << "%";
         }
-        ss << "; longest path: ";
-        if(longestPath > 1)
-            ss << longestPath << " hops";
+        ss << "; graph depth: ";
+        if(depth > 1)
+            ss << depth << " vertices";
         else
-            ss << "one hop";
+            ss << "one vertice";
         ss << ")\n";
     }
     
