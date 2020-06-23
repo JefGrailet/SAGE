@@ -1,16 +1,32 @@
 # SAGE (Subnet AGgrEgation)
 
-*By Jean-François Grailet (last updated: June 22, 2020)*
+*By Jean-François Grailet (last updated: June 23, 2020)*
 
 ## Overview
 
-`SAGE` is new topology discovery tool built on top of `WISE` which relies on subnet aggregation and partial `traceroute` records to build a graph modeling the target domain.
+`SAGE` is new topology discovery tool built on top of [`WISE`](https://github.com/JefGrailet/WISE) (a subnet inference tool) which relies on subnet aggregation and partial (Paris) `traceroute` measurements to build a directed graph modeling the target domain. In this graph, vertices model _neighborhoods_, i.e., network locations bordered by a set of subnets located at most one hop away from each other. Such neighborhoods are in practice approximations of routers or meshes of routers and can be elucidated through alias resolution. Neighborhoods are inferred then located w.r.t. each others using partial `traceroute` records towards a subset of interfaces of each inferred subnet. The edges in the graph model how neighborhoods appear to be connected, following the `traceroute` measurements, and are ideally matched with surrounding subnets, as subnets act as a connection medium between neighborhoods (and, _in fine_, routers).
 
-`SAGE` is fully working but just got deployed. As such, only the source files (written in C/C++) and a few datasets are currently available.
+`SAGE` being involved in ongoing research, this repository only provides the source files (written in C/C++) and an early public dataset for now.
 
-## About the code
+## About development
 
-Since it is built on top of `WISE`, which initially needed to be compatible with old environments (e.g. 32-bit machines from the [PlanetLab testbed](https://planet-lab.eu/) running with Fedora 8), `SAGE` is written in an _old-fashioned_ C++. In other words, it doesn't take advantage of the features of the language brought by C++11 and onwards. This said, after several campaigns run from the PlanetLab testbed towards all kinds of target networks without getting a suspicious crash, it is safe to assume `SAGE` is unlikely to mismanage memory. It has been, on top of that, extensively tested with `valgrind` on a local network.
+### About the code
+
+Since it is built on top of `WISE`, which initially needed to be compatible with old environments (e.g. 32-bit machines from the [PlanetLab testbed](https://planet-lab.eu/) running with Fedora 8), `SAGE` is currently written in an _old-fashioned_ C++. In other words, it doesn't take advantage of the features of the language brought by C++11 and onwards. This said, after several campaigns run from the PlanetLab testbed towards all kinds of target networks without getting a suspicious crash, it is safe to assume `SAGE` is unlikely to mismanage memory. On top of that, it has been extensively tested with `valgrind` on a local network.
+
+### Future updates
+
+`SAGE` itself will probably not be updated for a while, unless a bug or an algorithmical issue is discovered. However, side programs (such as Python scripts) will eventually be released to provide ways to parse, interpret and analyze the data collected by `SAGE`.
+
+## Publications
+
+### Preliminary research
+
+While there is currently no publication mentioning or introducing `SAGE`, one peer-reviewed publication already discusses the core ideas used to build `SAGE` (i.e., _neighborhoods_ and their _peers_), using an upgraded version of `WISE` to collect the data we needed to do so.
+
+* [Virtual Insanity: Linear Subnet Discovery](http://www.run.montefiore.ulg.ac.be/~grailet/docs/publications/WISE_TNSM_2020.pdf)<br />
+  Jean-François Grailet, Benoit Donnet<br />
+  [IEEE Transactions on Network and Service Management](https://www.comsoc.org/publications/journals/ieee-tnsm), Volume 17, Issue 2, pp. 1268-1281 (see also on [IEEE Xplore](https://ieeexplore.ieee.org/document/9016121))
 
 ## Content of this repository
 

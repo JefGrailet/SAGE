@@ -1,10 +1,10 @@
 # About SAGE v2.0 (sage)
 
-*By Jean-François Grailet (last updated: June 22, 2020)*
+*By Jean-François Grailet (last updated: June 23, 2020)*
 
 ## About the code
 
-Since it is built on top of `WISE`, which initially needed to be compatible with old environments (e.g. Fedora 8, see remarks on deployment below), `SAGE` is written in an _old-fashioned_ C++. In other words, it doesn't take advantage of the changes brought by C++11 and onwards. As already said elsewhere, it is also designed to be a 32-bit application for the same reason. This said, after several campaigns run from the PlanetLab testbed towards all kinds of target networks without getting a suspicious crash, it is safe to assume `SAGE` is unlikely to mismanage memory. It has been, on top of that, extensively tested with `valgrind` on a local network.
+Since it is built on top of `WISE`, which initially needed to be compatible with old environments (e.g. Fedora 8, see remarks on deployment below), `SAGE` is written in an _old-fashioned_ C++. In other words, it doesn't take advantage of the changes brought by C++11 and onwards. As already said elsewhere, it is also designed to be a 32-bit application for the same reason. This said, after several campaigns run from the PlanetLab testbed towards all kinds of target networks without getting a suspicious crash, it is safe to assume `SAGE` is unlikely to mismanage memory. On top of that, it has been extensively tested with `valgrind` on a local network.
 
 ## Compilation
 
@@ -23,7 +23,7 @@ make
 
 ## Deployement on PlanetLab testbed
 
-**Remark: during the course of 2020, [PlanetLab will be shut down](https://www.systemsapproach.org/blog/its-been-a-fun-ride). This section is therefore now outdated, but left untouched in case one would want to deploy `WISE` in an environment comparable to PlanetLab.**
+**Remark: in the course of 2020, [PlanetLab will be shut down](https://www.systemsapproach.org/blog/its-been-a-fun-ride). This section is therefore now outdated, but left untouched in case one would want to deploy `WISE` in an environment comparable to PlanetLab.**
 
 If you intent to use `SAGE` from the PlanetLab testbed, here is some advice.
 
@@ -55,13 +55,17 @@ In order to simplify the parameters of `SAGE` and only allow the editing of the 
 
 ## Changes history
 
-* **January 7, 2020:** early release of `SAGE` v2.0.
+* **January 7, 2020:** release of `SAGE` v2.0.
 
 ## Disclaimer
 
 `SAGE` was written by Jean-François Grailet, currently Ph. D. student at the University of Liège (Belgium) in the Research Unit in Networking (RUN). `SAGE` itself is built on top of `WISE`, a subnet inference tool designed and implemented by the same author. For more details on `WISE`, check its dedicated public repository:
 
 https://github.com/JefGrailet/WISE
+
+It's worth noting `SAGE` is actually in its second version, because an earlier build exists. This version is rather built on top of [`TreeNET`](https://github.com/JefGrailet/TreeNET) rather than on top of `WISE`, but uses roughly the same ideas (in a less refined manner). You can learn about this _beta_ version by consulting the dedicated public repository:
+
+https://github.com/JefGrailet/SAGE_beta
 
 ## Contact
 
