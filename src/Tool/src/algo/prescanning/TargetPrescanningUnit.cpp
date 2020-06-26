@@ -71,7 +71,7 @@ IPsToProbe(IPs)
                                           env.debugMode());
         }
     }
-    catch(SocketException &se)
+    catch(const SocketException &se)
     {
         ostream *out = env.getOutputStream();
         Environment::consoleMessagesMutex.lock();
@@ -110,7 +110,7 @@ ProbeRecord TargetPrescanningUnit::probe(const InetAddress &dst)
     {
         record = prober->singleProbe(localIP, dst, TTL, usingFixedFlow);
     }
-    catch(SocketException &se)
+    catch(const SocketException &se)
     {
         throw;
     }
@@ -145,7 +145,7 @@ void TargetPrescanningUnit::run()
         {
             probeRecord = this->probe(curIP);
         }
-        catch(SocketException &se)
+        catch(const SocketException &se)
         {
             this->stop();
             return;

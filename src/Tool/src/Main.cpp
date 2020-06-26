@@ -446,7 +446,7 @@ int main(int argc, char *argv[])
                     {
                         localIPAddress = InetAddress::getLocalAddressByInterfaceName(optargSTR);
                     }
-                    catch (InetAddressException &e)
+                    catch (const InetAddressException &e)
                     {
                         cout << "Error for -e option: cannot obtain any IP address ";
                         cout << "assigned to the interface \"" + optargSTR + "\". ";
@@ -498,7 +498,7 @@ int main(int argc, char *argv[])
             }
         }
     }
-    catch(std::logic_error &le)
+    catch(const std::logic_error &le)
     {
         cout << "Use -h or --help to get more details." << endl;
         return 1;
@@ -536,7 +536,7 @@ int main(int argc, char *argv[])
         {
             localIPAddress = InetAddress::getFirstLocalAddress();
         }
-        catch(InetAddressException &e)
+        catch(const InetAddressException &e)
         {
             cout << "Cannot obtain a valid local IP address for probing. ";
             cout << "Please check your connectivity." << endl;
@@ -550,7 +550,7 @@ int main(int argc, char *argv[])
         {
             LANSubnetMask = NetworkAddress::getLocalSubnetPrefixLengthByLocalAddress(localIPAddress);
         }
-        catch(InetAddressException &e)
+        catch(const InetAddressException &e)
         {
             cout << "Cannot obtain subnet mask of the local area network (LAN) .";
             cout << "Please check your connectivity." << endl;
@@ -607,7 +607,7 @@ int main(int argc, char *argv[])
                               DirectICMPProber::DEFAULT_UPPER_ICMP_SEQUENCE, 
                               false);
     }
-    catch(SocketException &e)
+    catch(const SocketException &e)
     {
         cout << "Unable to create sockets. Try running this program as a privileged user (for ";
         cout << "example, try with sudo)." << endl;
@@ -889,7 +889,7 @@ int main(int argc, char *argv[])
         mariner.cleanVertices();
         delete g;
     }
-    catch(StopException e)
+    catch(const StopException &e)
     {
         cout << "Halting now." << endl;
         return 1;

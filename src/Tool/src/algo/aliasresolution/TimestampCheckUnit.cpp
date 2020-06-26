@@ -42,7 +42,7 @@ IPToProbe(IP)
         
         ((DirectICMPProber*) prober)->useTimestampRequests();
     }
-    catch(SocketException &se)
+    catch(const SocketException &se)
     {
         ostream *out = env.getOutputStream();
         Environment::consoleMessagesMutex.lock();
@@ -79,7 +79,7 @@ ProbeRecord TimestampCheckUnit::probe(const InetAddress &dst, unsigned char TTL)
     {
         record = prober->singleProbe(localIP, dst, TTL, false);
     }
-    catch(SocketException e)
+    catch(const SocketException &e)
     {
         throw;
     }
@@ -96,7 +96,7 @@ void TimestampCheckUnit::run()
     {
         newProbe = this->probe(target, PROBE_TTL);
     }
-    catch(SocketException &se)
+    catch(const SocketException &se)
     {
         this->stop();
         return;
@@ -107,7 +107,7 @@ void TimestampCheckUnit::run()
         // Sometimes, the replying address is not the target: we consider the target does not reply
         if(newProbe.getRplyAddress() == target)
         {
-            // TODO: check if replying address is actually an alias of the target or not
+            // TODO ? Check if replying address is actually an alias of the target or not
             
             AliasHints &curHints = IPToProbe->getLattestHints();
             if(!curHints.isEmpty()) // Just in case

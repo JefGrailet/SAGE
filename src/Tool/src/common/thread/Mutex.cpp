@@ -46,7 +46,7 @@ Mutex::Mutex(int mutexType, string name): type(mutexType), mutexName(name)
 		if(pthread_mutex_init(&mutex, &attr)!=0){
 			throw MutexException(string("Can NOT initialize the mutex object for the mutex named ")+mutexName);
 		}
-	}catch(MutexException &e){
+	}catch(const MutexException &e){
 		pthread_mutexattr_destroy(&attr);
 		pthread_mutex_destroy(&mutex);
 		throw;

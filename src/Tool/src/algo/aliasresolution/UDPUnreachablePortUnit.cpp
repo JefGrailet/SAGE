@@ -47,7 +47,7 @@ IPToProbe(IP)
         
         ((DirectUDPWrappedICMPProber*) prober)->useHighPortNumber();
     }
-    catch(SocketException &se)
+    catch(const SocketException &se)
     {
         ostream *out = env.getOutputStream();
         Environment::consoleMessagesMutex.lock();
@@ -84,7 +84,7 @@ ProbeRecord UDPUnreachablePortUnit::probe(const InetAddress &dst, unsigned char 
     {
         record = prober->singleProbe(localIP, dst, TTL, usingFixedFlow);
     }
-    catch(SocketException e)
+    catch(const SocketException &e)
     {
         throw;
     }
@@ -102,7 +102,7 @@ void UDPUnreachablePortUnit::run()
     {
         newProbe = probe(target, PROBE_TTL);
     }
-    catch(SocketException &se)
+    catch(const SocketException &se)
     {
         this->stop();
         return;

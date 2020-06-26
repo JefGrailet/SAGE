@@ -51,7 +51,7 @@ void TargetParser::parse(string input, char separator)
                 parsedIPs.push_back(target);
                 itIPs->push_back(target);
             }
-            catch (InetAddressException &e)
+            catch(const InetAddressException &e)
             {
                 ostream *out = env.getOutputStream();
                 (*out) << "Malformed/Unrecognized destination IP address or host name \"" + targetStr + "\"" << endl;
@@ -70,7 +70,7 @@ void TargetParser::parse(string input, char separator)
                 parsedIPBlocks.push_back(block);
                 itRanges->push_back(block);
             }
-            catch (InetAddressException &e)
+            catch(const InetAddressException &e)
             {
                 ostream *out = env.getOutputStream();
                 (*out) << "Malformed/Unrecognized address block \"" + targetStr + "\"" << endl;

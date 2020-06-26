@@ -333,7 +333,7 @@ void TargetScanner::scan()
 
             th1[i] = new Thread(task);
         }
-        catch(SocketException &se)
+        catch(const SocketException &se)
         {
             // Cleaning remaining threads (if any is set)
             for(unsigned short k = 0; k < nbThreads; k++)
@@ -341,7 +341,7 @@ void TargetScanner::scan()
             
             throw StopException();
         }
-        catch(ThreadException &te)
+        catch(const ThreadException &te)
         {
             (*out) << "Unable to create more threads." << endl;
                 
@@ -431,7 +431,7 @@ void TargetScanner::scan()
 
                     th2[j] = new Thread(task);
                 }
-                catch(SocketException &se)
+                catch(const SocketException &se)
                 {
                     // Cleaning remaining threads (if any is set)
                     for(unsigned short k = 0; k < nbThreads; k++)
@@ -439,7 +439,7 @@ void TargetScanner::scan()
                     
                     throw StopException();
                 }
-                catch(ThreadException &te)
+                catch(const ThreadException &te)
                 {
                     (*out) << "Unable to create more threads." << endl;
                     
