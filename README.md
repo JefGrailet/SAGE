@@ -1,12 +1,12 @@
 # SAGE (Subnet AGgrEgation)
 
-*By Jean-François Grailet (last updated: June 23, 2020)*
+*By Jean-François Grailet (last updated: October 12, 2020)*
 
 ## Overview
 
 `SAGE` is new topology discovery tool built on top of [`WISE`](https://github.com/JefGrailet/WISE) (a subnet inference tool) which relies on subnet aggregation and partial (Paris) `traceroute` measurements to build a directed graph modeling the target domain. In this graph, vertices model _neighborhoods_, i.e., network locations bordered by a set of subnets located at most one hop away from each other. Such neighborhoods are in practice approximations of routers or meshes of routers and can be elucidated through alias resolution. Neighborhoods are inferred then located w.r.t. each others using partial `traceroute` records towards a subset of interfaces of each inferred subnet. The edges in the graph model how neighborhoods appear to be connected, following the `traceroute` measurements, and are ideally matched with surrounding subnets, as subnets act as a connection medium between neighborhoods (and, _in fine_, routers).
 
-`SAGE` being involved in ongoing research, this repository only provides the source files (written in C/C++) and an early public dataset for now.
+`SAGE` being involved in ongoing research, this repository only provides the source files (written in C/C++) and a first dataset for now. Said dataset provides AS (for **A**utonomous **S**ystem) snapshots collected from both [PlanetLab](https://planet-lab.eu/) and [EdgeNet](https://edge-net.org/).
 
 ## About development
 
@@ -16,7 +16,7 @@ Since it is built on top of `WISE`, which initially needed to be compatible with
 
 ### Future updates
 
-`SAGE` itself will probably not be updated for a while, unless a bug or an algorithmical issue is discovered. However, side programs (such as Python scripts) will eventually be released to provide ways to parse, interpret and analyze the data collected by `SAGE`.
+`SAGE` itself will probably not get any large update for a while, though minor issues will be corrected from time to time. However, side programs (such as Python scripts) will eventually be released to provide ways to parse, interpret and analyze the data collected by `SAGE`.
 
 ## Publications
 
@@ -26,7 +26,7 @@ While there is currently no publication mentioning or introducing `SAGE`, one pe
 
 * [Virtual Insanity: Linear Subnet Discovery](http://www.run.montefiore.ulg.ac.be/~grailet/docs/publications/WISE_TNSM_2020.pdf)<br />
   Jean-François Grailet, Benoit Donnet<br />
-  [IEEE Transactions on Network and Service Management](https://www.comsoc.org/publications/journals/ieee-tnsm), Volume 17, Issue 2, pp. 1268-1281 (see also on [IEEE Xplore](https://ieeexplore.ieee.org/document/9016121))
+  [IEEE Transactions on Network and Service Management](https://www.comsoc.org/publications/journals/ieee-tnsm), Volume 17, Issue 2, pp. 1268-1281 ([cf. IEEE Xplore](https://ieeexplore.ieee.org/document/9016121))
 
 ## Content of this repository
 
@@ -36,9 +36,9 @@ This repository currently consists of the following content:
 
 * **src/** provides all the source files of `SAGE`.
 
-## Legacy
+## Beta version
 
-It is worth noting that an early version of `SAGE` (v1.0) has already been designed and implemented back in late 2017. This early version was built using parts of another topology discovery tool involving subnet inference (`TreeNET`), as `WISE` was developed in late 2018 and deployed in 2019.
+It is worth noting that an early version of `SAGE` (v1.0) has already been designed and implemented back in late 2017. This early version was built using parts of another topology discovery tool involving subnet inference ([`TreeNET`](https://github.com/JefGrailet/treenet)), as `WISE` was developed in late 2018 and deployed in 2019.
 
 This early version of `SAGE` became publicly available online via a GitHub repository created during the first half of 2018. This repository still exists but has been renamed to avoid confusion. You can therefore still review it by following the next link:
 

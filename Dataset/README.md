@@ -1,28 +1,22 @@
 # Dataset
 
-*By Jean-François Grailet (last updated: June 23, 2020)*
+*By Jean-François Grailet (last updated: October 12, 2020)*
 
 ## About
 
 The data provided in this repository consists in separate sets of files collected for a variety of 
 Autonomous Systems (or ASes) at specific dates. Each set of files (or _snapshot_) was obtained by 
-running a single instance of `SAGE` from a single vantage point. In order to renew the 
-measurements in a more interesting manner, vantage points were rotated during each campaign. The 
-dates of each campaign present in this dataset are provided below.
-
-|  Start date  |  End date  |  # probed ASes  |  Number  |
-| :----------: | :--------- | :-------------- | :------- |
-| 29/12/2019   | 15/01/2020 | 12              | 1        |
-| 06/03/2020   | 20/03/2020 | 12              | 2        |
-
-The ASes targetted by each campaign as well as the sets of involved vantage points can be found 
-in the "CampaignX.md" files at the root of this folder, where X is the number of the campaign as 
-shown in the above table.
+running a single instance of `SAGE` from a single vantage point.
 
 A few remarks about this public dataset:
 
-* Each AS sub-folder contains a target file suffixed in *.txt*. Such a file provides all IPv4 
-  prefixes associated to the AS, with one prefix per line.
+* Each AS sub-folder contains a target file named after the AS and suffixed in *.txt*. Such a file 
+  provides all IPv4 prefixes associated to the AS, with one prefix per line.
+
+* An AS sub-folder might also contain similar target file but prefixed with an underscore (_). 
+  This is simply because target files for ASes that have been already measured in Spring 2020 have 
+  been updated in June 2020. The file without the underscore denotes the current target file, 
+  while the target file prefixed by an underscore corresponds to what we used prior to June 2020.
 
 * The IPv4 prefixes were obtained via the BGP toolkit of Hurricane Electric. You can access 
   and use the BGP toolkit at the following address:
@@ -31,6 +25,37 @@ A few remarks about this public dataset:
 
 * For the sake of reproducibility, we also provide in a **Scripts/** folder the bash scripts and 
   the typical files we used to schedule and retrieve our measurements.
+
+## About the testbeds and measurement scheduling
+
+The snapshots provided in this repository were collected from two different testbeds: 
+[PlanetLab](https://planet-lab.eu/) and [EdgeNet](https://edge-net.org/). Indeed, 
+[PlanetLab was terminated during 2020](https://www.systemsapproach.org/blog/its-been-a-fun-ride), 
+so the earliest snapshots collected with `SAGE` were still using vantage points from PlanetLab 
+(until March 2020 included), but starting from September 2020, all snapshots were collected from 
+the EdgeNet cluster.
+
+It is worth noting that, due to the low amount of PlanetLab nodes that were still working for 
+the past two years, the measurements run from PlanetLab were organized as campaigns to make 
+the most out of the available nodes. During such campaigns, vantage points were rotated between 
+each snapshot, therefore ensuring each snapshot for a given AS was collected from a different 
+vantage point. This scheduling strategy is actually identical to the strategy used to collect 
+data with [`WISE`](https://github.com/JefGrailet/WISE). The dates of each campaign present in 
+this dataset are provided below.
+
+|  Start date  |  End date  |  # probed ASes  |  Number  |
+| :----------: | :--------- | :-------------- | :------- |
+| 29/12/2019   | 15/01/2020 | 12              | 1        |
+| 06/03/2020   | 20/03/2020 | 12              | 2        |
+
+The ASes targetted by each campaign as well as the sets of involved vantage points can be found 
+in the "PlanetLabCampaignX.md" files at the root of this folder, where X is the number of the 
+campaign as shown in the above table.
+
+The snapshots collected from EdgeNet do not follow such a scheme, but our selection of the 
+vantage point upon scheduling a measurement typically makes sure the selected EdgeNet node was 
+never used before to probe the given AS (or that the amount of snapshots collected from this 
+vantage point is the lowest among available nodes).
 
 ## Composition of this dataset
 
@@ -90,9 +115,20 @@ lower). For example, `1.2.3.5` is lower than both `1.2.3.6` and `2.2.3.5`.
 * **VP.txt:** gives the host name of the **v**antage **p**oint used to measure the AS on that 
   specific date.
 
-In rare instances, these 13 files might be complemented by one additional **README** file in case 
-there was something unusual about the measurement (such as having to restart it and/or to change 
-the vantage point due to a temporar failure).
+In rare instances, these files might be complemented by one additional **README** file in case 
+there was something unusual about the measurement (such as having to restart it due to a temporar 
+failure).
+
+## Special remarks
+
+* Up to late September 2020, the `.graph` files might list (in)direct links with a _medium_ (i.e., 
+  a subnet which might be the real-life link) connecting a neighborhood `u` to a neighborhood `v` 
+  where `v` is bordered by subnets built with the third rule of subnet inference (_echoing_ 
+  trails). Such links shouldn't actually have a _medium_ at all since the last route hops towards 
+  subnets like those of `v` are _echoing_ and therefore hiding the actual router interface. While 
+  parsing a `.graph`, one can therefore ignore the _medium_ associated to any link pointing 
+  towards a neighborhood comparable to `v`. As of October 12, 2020, the public code of `SAGE` no 
+  longer searches a _medium_ for such links.
 
 ## Contact
 

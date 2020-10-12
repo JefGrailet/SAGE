@@ -806,25 +806,10 @@ Graph *TopologyInferrer::infer()
             {
                 Vertice *u = (*j);
                 
-                // Do we have a direct connecting subnet ?
+                // Do we have a direct connecting subnet ? Let's check with the trails.
                 Subnet *medium = NULL;
-                if(vT->size() == 0)
+                if(vT->size() > 0)
                 {
-                    // "Rule 3" neighborhood: checks pre-echoing IPs
-                    if(Node *node = dynamic_cast<Node*>(v))
-                    {
-                        list<InetAddress> *pE = node->getPreEchoing();
-                        for(list<InetAddress>::iterator k = pE->begin(); k != pE->end(); k++)
-                        {
-                            medium = u->getConnectingSubnet((*k));
-                            if(medium != NULL)
-                                break;
-                        }
-                    }
-                }
-                else
-                {
-                    // Checks trails
                     for(list<Trail>::iterator k = vT->begin(); k != vT->end(); ++k)
                     {
                         medium = u->getConnectingSubnet(k->getLastValidIP());
@@ -833,33 +818,26 @@ Graph *TopologyInferrer::infer()
                     }
                 }
                 
+                /*
+                 * Regarding "Rule 3" neighborhoods (i.e., cases where vT->size() == 0): there 
+                 * can't be a proper direct link from our perspective, because the interface(s) of 
+                 * the router giving access to the "echo" subnets are de facto "invisible" since 
+                 * it's this router which implements the routing policy creating the echoing issue 
+                 * witnessed observed from our vantage point.
+                 */
+                
                 // Yes: establishes a direct link between u and v
                 if(medium != NULL)
                 {
                     u->addEdge(new DirectLink(u, v, medium));
                 }
-                // No: creates an indirect link; looks for a medium among the mappings of the graph
+                // No: creates an indirect link
                 else
                 {
-                    SubnetVerticeMapping m = SubnetVerticeMapping(); // Empty mapping
-                    
-                    if(vT->size() == 0)
+                    // Looks for a medium among the mappings of the graph (default: empty mapping)
+                    SubnetVerticeMapping m = SubnetVerticeMapping();
+                    if(vT->size() > 0)
                     {
-                        // "Rule 3" neighborhood: checks pre-echoing IPs
-                        if(Node *node = dynamic_cast<Node*>(v))
-                        {
-                            list<InetAddress> *pE = node->getPreEchoing();
-                            for(list<InetAddress>::iterator k = pE->begin(); k != pE->end(); k++)
-                            {
-                                m = graph->getSubnetContaining((*k));
-                                if(!m.isEmpty())
-                                    break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // Checks trails
                         for(list<Trail>::iterator k = vT->begin(); k != vT->end(); ++k)
                         {
                             m = graph->getSubnetContaining(k->getLastValidIP());
@@ -867,6 +845,14 @@ Graph *TopologyInferrer::infer()
                                 break;
                         }
                     }
+                    
+                    /*
+                     * Regarding "Rule 3" neighborhoods (i.e., cases where vT->size() == 0): there 
+                     * can't be an indirect link with a medium from our perspective, because the 
+                     * interface(s) of the router giving access to the "echo" subnets are de facto 
+                     * "invisible" since it's this router which implements the routing policy 
+                     * creating the echoing issue witnessed observed from our vantage point.
+                     */
                     
                     if(m.isEmpty())
                         u->addEdge(new IndirectLink(u, v));

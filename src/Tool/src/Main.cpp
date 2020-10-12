@@ -446,7 +446,7 @@ int main(int argc, char *argv[])
                     {
                         localIPAddress = InetAddress::getLocalAddressByInterfaceName(optargSTR);
                     }
-                    catch (const InetAddressException &e)
+                    catch(const InetAddressException &e)
                     {
                         cout << "Error for -e option: cannot obtain any IP address ";
                         cout << "assigned to the interface \"" + optargSTR + "\". ";
