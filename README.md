@@ -1,6 +1,6 @@
 # SAGE (Subnet AGgrEgation)
 
-*By Jean-François Grailet (last updated: October 12, 2020)*
+*By Jean-François Grailet (last updated: October 14, 2020)*
 
 ## Overview
 
@@ -32,7 +32,9 @@ While there is currently no publication mentioning or introducing `SAGE`, one pe
 
 This repository currently consists of the following content:
 
-* **Dataset/** provides complete datasets for various Autonomous Systems (or ASes) we measured with `SAGE` from the PlanetLab testbed.
+* **Dataset/** provides complete datasets for various Autonomous Systems (or ASes) we measured with `SAGE` from both the PlanetLab testbed and the EdgeNet cluster.
+
+* **Python/** provides various Python scripts to evaluate or visualize the data collected by `SAGE`.
 
 * **src/** provides all the source files of `SAGE`.
 
