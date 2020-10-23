@@ -65,7 +65,7 @@ public:
      *  to see if we can find better peer IP(s) for this aggregate. The Environment object is 
      *  needed to check all existing sets of  aliases when checking a hop can be considered as a 
      *  peer (previous method only needing the set built during peer disambiguation).
-     * -To call at the start of vertice creation, listFinalPeers() visits a map giving matchings 
+     * -To call at the start of vertex creation, listFinalPeers() visits a map giving matchings 
      *  InetAddress -> Peer* to get the final peers for this aggregate. They differ in the sense 
      *  that the Peer objects can consist of one IP or several IPs previously aliased together.
      */
@@ -84,7 +84,7 @@ public:
      *  A blindspot is a formerly miscellaneous IP that has been aliased with a peer IP during 
      *  topology inference.
      * -listIdentifyingIPs() lists the IPs from direct trail(s) of this aggregate. It's used 
-     *  during vertice creation to identify "terminus" neighborhoods.
+     *  during vertex creation to identify "terminus" neighborhoods.
      */
     
     list<InetAddress> listInitialPeerIPs();

@@ -9,9 +9,9 @@
  * the peers of multiple aggregates (if there are several) to only keep the closest peers and to 
  * remove possible duplicates.
  *
- * The goal is to isolate the final peers of a Vertice, still as Peer objects, while all Vertice 
+ * The goal is to isolate the final peers of a Vertex, still as Peer objects, while all Vertex 
  * objects are built aside without their final peering details. Setting the peering details of 
- * the vertices (with peers being provided as Vertice, rather than Peer) after all vertices have 
+ * the vertices (with peers being provided as Vertex, rather than Peer) after all vertices have 
  * been built is easier than building them "on the fly" - which brings not only algorithmical 
  * challenges, but also consistency issues if stuff like cycles appear inside the graph.
  *

@@ -4,7 +4,7 @@
  *  Created on: Nov 28, 2019
  *      Author: jefgrailet
  *
- * A child class of Vertice, Cluster is used to build vertices which are made of a several subnet 
+ * A child class of Vertex, Cluster is used to build vertices which are made of a several subnet 
  * aggregates, as opposed to Node, with a small exception: in the case where the IP identifying 
  * one aggregate was aliased with blindspot(s), a Cluster is also built despite using a single 
  * aggregate. This policy was chosen to display the fact that blindposts are ultimately "invisible 
@@ -18,9 +18,9 @@
 #ifndef CLUSTER_H_
 #define CLUSTER_H_
 
-#include "Vertice.h"
+#include "Vertex.h"
 
-class Cluster : public Vertice
+class Cluster : public Vertex
 {
 public:
 

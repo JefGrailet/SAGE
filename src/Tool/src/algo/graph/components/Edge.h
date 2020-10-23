@@ -11,18 +11,18 @@
 #ifndef EDGE_H_
 #define EDGE_H_
 
-#include "Vertice.h"
-class Vertice; // Forward declaration
+#include "Vertex.h"
+class Vertex; // Forward declaration
 
 class Edge
 {
 public:
 
-    Edge(Vertice *tail, Vertice *head);
+    Edge(Vertex *tail, Vertex *head);
     virtual ~Edge();
     
-    inline Vertice* getTail() { return tail; }
-    inline Vertice* getHead() { return head; }
+    inline Vertex* getTail() { return tail; }
+    inline Vertex* getHead() { return head; }
     
     // Comparison method for sorting (e.g. used in a method of the "Mariner" voyager)
     static bool compare(Edge *e1, Edge *e2);
@@ -36,7 +36,7 @@ protected:
      * In graph theory, given an edge u -> v, u is the tail while v is the head.
      */
     
-    Vertice *tail, *head;
+    Vertex *tail, *head;
     
 };
 

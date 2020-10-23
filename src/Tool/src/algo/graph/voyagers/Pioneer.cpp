@@ -12,7 +12,7 @@
 
 Pioneer::Pioneer(Environment &env) : Voyager(env)
 {
-    counter = 1; // First vertice will be "N1"
+    counter = 1; // First vertex will be "N1"
 }
 
 Pioneer::~Pioneer()
@@ -21,14 +21,14 @@ Pioneer::~Pioneer()
 
 void Pioneer::visit(Graph *g)
 {
-    list<Vertice*> *gates = g->getGates();
-    for(list<Vertice*>::iterator i = gates->begin(); i != gates->end(); ++i)
+    list<Vertex*> *gates = g->getGates();
+    for(list<Vertex*>::iterator i = gates->begin(); i != gates->end(); ++i)
         this->visitRecursive((*i));
     
     g->setNbVertices(counter - 1);
 }
 
-void Pioneer::visitRecursive(Vertice *v)
+void Pioneer::visitRecursive(Vertex *v)
 {
     if(v->getID() != 0)
         return;

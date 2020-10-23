@@ -20,7 +20,7 @@ class DirectLink : public Edge
 {
 public:
 
-    DirectLink(Vertice *tail, Vertice *head, Subnet *medium);
+    DirectLink(Vertex *tail, Vertex *head, Subnet *medium);
     ~DirectLink();
     
     inline Subnet* getMedium() { return medium; }

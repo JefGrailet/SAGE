@@ -4,16 +4,16 @@
  *  Created on: Nov 28, 2019
  *      Author: jefgrailet
  *
- * A child class of Vertice, Node is used to build vertices which are made of a single subnet 
+ * A child class of Vertex, Node is used to build vertices which are made of a single subnet 
  * aggregate, as opposed to Cluster.
  */
 
 #ifndef NODE_H_
 #define NODE_H_
 
-#include "Vertice.h"
+#include "Vertex.h"
 
-class Node : public Vertice
+class Node : public Vertex
 {
 public:
 

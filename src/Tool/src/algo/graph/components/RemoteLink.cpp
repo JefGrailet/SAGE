@@ -10,8 +10,8 @@
 
 #include "RemoteLink.h"
 
-RemoteLink::RemoteLink(Vertice *tail, 
-                       Vertice *head, 
+RemoteLink::RemoteLink(Vertex *tail, 
+                       Vertex *head, 
                        list<vector<RouteHop> > r) : Edge(tail, head), routes(r)
 {
     if(routes.size() > 0)

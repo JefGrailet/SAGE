@@ -4,10 +4,10 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/algo/graph/components/Vertice.cpp \
+../src/algo/graph/components/Vertex.cpp \
 ../src/algo/graph/components/Node.cpp \
 ../src/algo/graph/components/Cluster.cpp \
-../src/algo/graph/components/SubnetVerticeMapping.cpp \
+../src/algo/graph/components/SubnetVertexMapping.cpp \
 ../src/algo/graph/components/Edge.cpp \
 ../src/algo/graph/components/DirectLink.cpp \
 ../src/algo/graph/components/IndirectLink.cpp \
@@ -15,10 +15,10 @@ CPP_SRCS += \
 ../src/algo/graph/components/Graph.cpp
 
 OBJS += \
-./src/algo/graph/components/Vertice.o \
+./src/algo/graph/components/Vertex.o \
 ./src/algo/graph/components/Node.o \
 ./src/algo/graph/components/Cluster.o \
-./src/algo/graph/components/SubnetVerticeMapping.o \
+./src/algo/graph/components/SubnetVertexMapping.o \
 ./src/algo/graph/components/Edge.o \
 ./src/algo/graph/components/DirectLink.o \
 ./src/algo/graph/components/IndirectLink.o \
@@ -26,10 +26,10 @@ OBJS += \
 ./src/algo/graph/components/Graph.o
 
 CPP_DEPS += \
-./src/algo/graph/components/Vertice.d \
+./src/algo/graph/components/Vertex.d \
 ./src/algo/graph/components/Node.d \
 ./src/algo/graph/components/Cluster.d \
-./src/algo/graph/components/SubnetVerticeMapping.d \
+./src/algo/graph/components/SubnetVertexMapping.d \
 ./src/algo/graph/components/Edge.d \
 ./src/algo/graph/components/DirectLink.d \
 ./src/algo/graph/components/IndirectLink.d \

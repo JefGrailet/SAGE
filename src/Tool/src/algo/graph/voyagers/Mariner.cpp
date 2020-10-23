@@ -29,16 +29,16 @@ void Mariner::visit(Graph *g)
         visited.push_back(false);
     
     // Visits the graph
-    list<Vertice*> *gates = g->getGates();
-    for(list<Vertice*>::iterator i = gates->begin(); i != gates->end(); ++i)
+    list<Vertex*> *gates = g->getGates();
+    for(list<Vertex*>::iterator i = gates->begin(); i != gates->end(); ++i)
         this->visitRecursive((*i));
-    vertices.sort(Vertice::smallerID);
+    vertices.sort(Vertex::smallerID);
     
     // Clears "visited" in case another graph needed to be explored with the same object
     visited.clear();
 }
 
-void Mariner::visitRecursive(Vertice *v)
+void Mariner::visitRecursive(Vertex *v)
 {
     unsigned int ID = v->getID();
     if(visited[ID - 1])
@@ -55,7 +55,7 @@ void Mariner::visitRecursive(Vertice *v)
 void Mariner::outputNeighborhoods(string filename)
 {
     string output = "";
-    for(list<Vertice*>::iterator i = vertices.begin(); i != vertices.end(); ++i)
+    for(list<Vertex*>::iterator i = vertices.begin(); i != vertices.end(); ++i)
         output += (*i)->toString() + "\n";
     
     ofstream newFile;
@@ -72,14 +72,14 @@ void Mariner::outputGraph(string filename)
     stringstream ss;
     
     // First, list of neighborhoods (as "full" labels, i.e., mapping ID -> label(s))
-    for(list<Vertice*>::iterator i = vertices.begin(); i != vertices.end(); ++i)
+    for(list<Vertex*>::iterator i = vertices.begin(); i != vertices.end(); ++i)
     {
-        Vertice *v = (*i);
+        Vertex *v = (*i);
         ss << v->getFullLabel();
         
         /*
          * For the sake of completeness, Mariner also adds whether the peer IP(s) appearing in the 
-         * trail(s) of a vertice (Node or Cluster) was/were in the initial targets of the program. 
+         * trail(s) of a vertex (Node or Cluster) was/were in the initial targets of the program. 
          * This is interesting in the sense that it could later highlight how the target network 
          * connects with others.
          */
@@ -109,9 +109,9 @@ void Mariner::outputGraph(string filename)
     
     // Second, the edges tying vertices/neighborhoods together ("exit" direction only)
     list<RemoteLink*> remoteLinks;
-    for(list<Vertice*>::iterator i = vertices.begin(); i != vertices.end(); ++i)
+    for(list<Vertex*>::iterator i = vertices.begin(); i != vertices.end(); ++i)
     {
-        Vertice *v = (*i);
+        Vertex *v = (*i);
         list<Edge*> *edges = v->getEdges();
         
         if(edges->size() == 0)
@@ -155,7 +155,7 @@ void Mariner::outputGraph(string filename)
 
 void Mariner::cleanVertices()
 {
-    for(list<Vertice*>::iterator i = vertices.begin(); i != vertices.end(); ++i)
+    for(list<Vertex*>::iterator i = vertices.begin(); i != vertices.end(); ++i)
         delete (*i);
     vertices.clear();
 }

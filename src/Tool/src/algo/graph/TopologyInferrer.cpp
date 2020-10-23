@@ -527,7 +527,7 @@ Graph *TopologyInferrer::infer()
     }
     
     /*
-     * Step 4: vertice creation
+     * Step 4: vertex creation
      * ------------------------
      * The next step consists in creating the final vertices of the graph, knowing that due to 
      * peer disambiguation, there might be one or several neighborhoods that will be made of 
@@ -535,11 +535,11 @@ Graph *TopologyInferrer::infer()
      * involves several temporar data structures (in particular, "Peer" and "GraphPeers"). The 
      * general idea is to instantiate Peer objects which abstract "peering" aggregates and 
      * clusters before they become vertices and which are pointed to by every relevant aggregate. 
-     * Afterwards, aggregates and their peers are "split" as new Vertice objects (aggregates which 
+     * Afterwards, aggregates and their peers are "split" as new Vertex objects (aggregates which 
      * don't act as peers are identified as "termini" and become "Node" vertices) and GraphPeers 
-     * objects, with maps keeping track of which Peer corresponds to which Vertice and which 
-     * Vertice corresponds to which GraphPeers. It's only after building all Vertice objects that 
-     * the peering between vertices (i.e., the peers of a Vertice are known as Vertice objects 
+     * objects, with maps keeping track of which Peer corresponds to which Vertex and which 
+     * Vertex corresponds to which GraphPeers. It's only after building all Vertex objects that 
+     * the peering between vertices (i.e., the peers of a Vertex are known as Vertex objects 
      * directly, rather than Peer objects) is achieved by using the GraphPeers objects.
      */
      
@@ -629,24 +629,24 @@ Graph *TopologyInferrer::infer()
     termini.sort(Aggregate::compare);
     
     // Maps filled and used to create vertices and peer them all together after
-    map<Peer*, Vertice*> verticesMap;
-    map<Vertice*, GraphPeers*> peeringMap;
+    map<Peer*, Vertex*> verticesMap;
+    map<Vertex*, GraphPeers*> peeringMap;
     
     // Full list of vertices
-    list<Vertice*> vertices;
+    list<Vertex*> vertices;
     
     // First, creates the "termini" vertices (Node instances, by design)
     for(list<Aggregate*>::iterator i = termini.begin(); i != termini.end(); ++i)
     {
         Aggregate *cur = (*i);
-        Vertice *terminus = new Node(cur);
+        Vertex *terminus = new Node(cur);
         vertices.push_back(terminus);
         
         if(!cur->hasPeers())
             continue;
         
         GraphPeers *peering = new GraphPeers(cur);
-        peeringMap.insert(pair<Vertice*, GraphPeers*>(terminus, peering));
+        peeringMap.insert(pair<Vertex*, GraphPeers*>(terminus, peering));
     }
     
     // No peers, only "terminus" aggregates: stops here
@@ -656,7 +656,7 @@ Graph *TopologyInferrer::infer()
         
         // Builds a simplified graph, only consisting of "gates" (due to absence of peers)
         Graph *graph = new Graph();
-        for(list<Vertice*>::iterator i = vertices.begin(); i != vertices.end(); ++i)
+        for(list<Vertex*>::iterator i = vertices.begin(); i != vertices.end(); ++i)
             graph->addGate((*i));
         
         /*
@@ -694,18 +694,18 @@ Graph *TopologyInferrer::infer()
         if(aggs.size() == 0)
             continue; // Unlikely by design; just in case
         
-        Vertice *newVertice = NULL;
+        Vertex *newVertex = NULL;
         
         // Creates a Node
         if(aggs.size() == 1 && blindspots.size() == 0)
         {
             Aggregate *a = aggs.front();
-            newVertice = new Node(a);
+            newVertex = new Node(a);
             
             if(a->hasPeers())
             {
                 GraphPeers *peering = new GraphPeers(a);
-                peeringMap.insert(pair<Vertice*, GraphPeers*>(newVertice, peering));
+                peeringMap.insert(pair<Vertex*, GraphPeers*>(newVertex, peering));
             }
         }
         // Creates a Cluster; by design, in this case, we have 2+ aggs or at least one blindspot
@@ -716,7 +716,7 @@ Graph *TopologyInferrer::infer()
                 newCluster->addBlindspots(blindspots); // For completeness
             if(subInfAliases != NULL)
                 newCluster->addFlickeringAliases(subInfAliases); // Ditto
-            newVertice = newCluster;
+            newVertex = newCluster;
             
             bool clusterWithPeers = false;
             for(list<Aggregate*>::iterator j = aggs.begin(); j != aggs.end(); j++)
@@ -731,19 +731,19 @@ Graph *TopologyInferrer::infer()
             if(clusterWithPeers)
             {
                 GraphPeers *peering = new GraphPeers(aggs);
-                peeringMap.insert(pair<Vertice*, GraphPeers*>(newVertice, peering));
+                peeringMap.insert(pair<Vertex*, GraphPeers*>(newVertex, peering));
             }
         }
         
-        vertices.push_back(newVertice);
-        verticesMap.insert(pair<Peer*, Vertice*>(curPeer, newVertice));
+        vertices.push_back(newVertex);
+        verticesMap.insert(pair<Peer*, Vertex*>(curPeer, newVertex));
     }
     
     // Binds all vertices together, using the various maps that were built
-    for(list<Vertice*>::iterator i = vertices.begin(); i != vertices.end(); ++i)
+    for(list<Vertex*>::iterator i = vertices.begin(); i != vertices.end(); ++i)
     {
-        Vertice *v = (*i);
-        map<Vertice*, GraphPeers*>::iterator peersLookUp = peeringMap.find(v);
+        Vertex *v = (*i);
+        map<Vertex*, GraphPeers*>::iterator peersLookUp = peeringMap.find(v);
         if(peersLookUp != peeringMap.end()) // Peerless (gate) otherwise
         {
             v->setPeers(peersLookUp->second, verticesMap);
@@ -768,7 +768,7 @@ Graph *TopologyInferrer::infer()
      * ---------------------
      * The final graph object is created and initially filled with two pieces of information: 
      * -the "gates" of the topology (vertices without peers), 
-     * -the mappings between a given subnet and the vertice arounds which it appears.
+     * -the mappings between a given subnet and the vertex arounds which it appears.
      * Then, vertices created during the previous step are processed in order to create the edges 
      * which connect them with their peers, effectively binding all vertices together. The very 
      * final step consists in running a first visitor of the graph, "Pionneer", which will number 
@@ -778,10 +778,10 @@ Graph *TopologyInferrer::infer()
     (*out) << "Building the edges of the graph... " << std::flush;
     
     Graph *graph = new Graph();
-    list<Vertice*> toConnect;
+    list<Vertex*> toConnect;
     while(vertices.size() > 0)
     {
-        Vertice *v = vertices.front();
+        Vertex *v = vertices.front();
         vertices.pop_front();
         graph->createSubnetMappingsTo(v);
         
@@ -793,18 +793,18 @@ Graph *TopologyInferrer::infer()
     
     while(toConnect.size() > 0)
     {
-        Vertice *v = toConnect.front();
+        Vertex *v = toConnect.front();
         toConnect.pop_front();
         
-        list<Vertice*> *vPeers = v->getPeers();
+        list<Vertex*> *vPeers = v->getPeers();
         unsigned short vPeersOffset = v->getPeersOffset();
         // v has direct peers: the edges with its peers will be direct or indirect links
         if(vPeersOffset == 0)
         {
             list<Trail> *vT = v->getTrails(); // T for Trails
-            for(list<Vertice*>::iterator j = vPeers->begin(); j != vPeers->end(); ++j)
+            for(list<Vertex*>::iterator j = vPeers->begin(); j != vPeers->end(); ++j)
             {
-                Vertice *u = (*j);
+                Vertex *u = (*j);
                 
                 // Do we have a direct connecting subnet ? Let's check with the trails.
                 Subnet *medium = NULL;
@@ -835,7 +835,7 @@ Graph *TopologyInferrer::infer()
                 else
                 {
                     // Looks for a medium among the mappings of the graph (default: empty mapping)
-                    SubnetVerticeMapping m = SubnetVerticeMapping();
+                    SubnetVertexMapping m = SubnetVertexMapping();
                     if(vT->size() > 0)
                     {
                         for(list<Trail>::iterator k = vT->begin(); k != vT->end(); ++k)
@@ -865,13 +865,13 @@ Graph *TopologyInferrer::infer()
         
         /*
          * Otherwise, there can only exist remote links between v and its peers. A specific method 
-         * of the Vertice class is used to easily discover the unique routes which exist between 
+         * of the Vertex class is used to easily discover the unique routes which exist between 
          * them and to store them as additional data in the RemoteLink object.
          */
         
-        for(list<Vertice*>::iterator j = vPeers->begin(); j != vPeers->end(); ++j)
+        for(list<Vertex*>::iterator j = vPeers->begin(); j != vPeers->end(); ++j)
         {
-            Vertice *u = (*j);
+            Vertex *u = (*j);
             list<Trail> *uT = u->getTrails();
             
             list<vector<RouteHop> > uniqueRoutes = v->findUniqueRoutes(*uT);

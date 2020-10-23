@@ -28,7 +28,7 @@ class RemoteLink : public Edge
 public:
 
     // Note: offset is inferred from the content of "routes".
-    RemoteLink(Vertice *tail, Vertice *head, list<vector<RouteHop> > routes);
+    RemoteLink(Vertex *tail, Vertex *head, list<vector<RouteHop> > routes);
     ~RemoteLink();
     
     inline unsigned short getOffset() { return offset; }

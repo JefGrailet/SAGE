@@ -35,14 +35,14 @@ protected:
     AliasResolver ar;
     
     // In order to output aliases by neighborhood, the vertices having aliases are listed.
-    list<Vertice*> withAliases;
-    vector<bool> visited; // Array for avoiding evaluating a vertice more than once
+    list<Vertex*> withAliases;
+    vector<bool> visited; // Array for avoiding evaluating a vertex more than once
     
     // Method to recursively visit the graph, node by node.
-    void visitRecursive(Vertice *v);
+    void visitRecursive(Vertex *v);
     
-    // Additional private method to add trail IPs to alias candidates of a vertice (contra-pivots)
-    list<IPTableEntry*> getAliasCandidates(Vertice *v);
+    // Additional private method to add trail IPs to alias candidates of a vertex (contra-pivots)
+    list<IPTableEntry*> getAliasCandidates(Vertex *v);
 
 };
 

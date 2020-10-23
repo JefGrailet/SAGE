@@ -29,8 +29,8 @@ protected:
     // Counter for the numbering
     unsigned int counter;
     
-    // Method to recursively visit the graph, vertice by vertice.
-    void visitRecursive(Vertice *v);
+    // Method to recursively visit the graph, vertex by vertex.
+    void visitRecursive(Vertex *v);
 
 };
 

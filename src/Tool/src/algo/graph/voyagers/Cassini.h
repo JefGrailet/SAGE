@@ -34,7 +34,7 @@ protected:
     // Vectors and lists to census visited nodes (overall or per gate)
     vector<bool> visited;
     list<unsigned int> reachableNodes; // Per component
-    list<list<Vertice*> > visitedGates; // Vertice* and not just IDs (useful for depth evaluation)
+    list<list<Vertex*> > visitedGates; // Vertex* and not just IDs (useful for depth evaluation)
     list<unsigned int> componentDepth; // Longest paths (#vertices) in each connected component
 
     // Fields to handle the metrics
@@ -83,14 +83,14 @@ protected:
      *  visited any node connected to the current component; i.e., it will also look at the in 
      *  edges for each node. When the method reaches a gate (i.e., no "in" edge), it appends it 
      *  to the list "componentGates" passed by reference to the method.
-     * -visitRecursive3() travels again the graph from a vertice, but only forward, and evaluates 
-     *  the longest path (or depth) starting from this vertice (typically, a gate).
+     * -visitRecursive3() travels again the graph from a vertex, but only forward, and evaluates 
+     *  the longest path (or depth) starting from this vertex (typically, a gate).
      */
     
     void reset();
-    void visitRecursive1(Vertice *v);
-    void visitRecursive2(Vertice *v, list<Vertice*> &componentGates);
-    unsigned int visitRecursive3(Vertice *v, unsigned int depth);
+    void visitRecursive1(Vertex *v);
+    void visitRecursive2(Vertex *v, list<Vertex*> &componentGates);
+    unsigned int visitRecursive3(Vertex *v, unsigned int depth);
 
 };
 

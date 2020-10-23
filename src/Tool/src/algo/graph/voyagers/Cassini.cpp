@@ -68,8 +68,8 @@ void Cassini::visit(Graph *g)
         visited.push_back(false);
     
     // Visits the graph (node metrics)
-    list<Vertice*> *gates = g->getGates();
-    for(list<Vertice*>::iterator i = gates->begin(); i != gates->end(); ++i)
+    list<Vertex*> *gates = g->getGates();
+    for(list<Vertex*>::iterator i = gates->begin(); i != gates->end(); ++i)
         this->visitRecursive1((*i));
     
     // For the second visit, a second array is used to now which nodes were visited last iteration
@@ -81,13 +81,13 @@ void Cassini::visit(Graph *g)
     }
     
     // Visits the graph a second time to isolate connected components
-    for(list<Vertice*>::iterator i = gates->begin(); i != gates->end(); ++i)
+    for(list<Vertex*>::iterator i = gates->begin(); i != gates->end(); ++i)
     {
         if(visitedPrevious[(*i)->getID() - 1])
             continue;
         
         // Visits recursively, listing the gates of the component in the process
-        list<Vertice*> componentGates;
+        list<Vertex*> componentGates;
         this->visitRecursive2((*i), componentGates);
         
         // Counts the amount of visited nodes
@@ -105,12 +105,12 @@ void Cassini::visit(Graph *g)
     }
     
     // Visits a graph a third and final time to evaluate the depth of each component
-    for(list<list<Vertice*> >::iterator i = visitedGates.begin(); i != visitedGates.end(); ++i)
+    for(list<list<Vertex*> >::iterator i = visitedGates.begin(); i != visitedGates.end(); ++i)
     {
-        list<Vertice*> gates = (*i);
+        list<Vertex*> gates = (*i);
         
         unsigned int depth = 0;
-        for(list<Vertice*>::iterator j = gates.begin(); j != gates.end(); ++j)
+        for(list<Vertex*>::iterator j = gates.begin(); j != gates.end(); ++j)
         {
             // Resets visited for each visit from a given gate
             for(unsigned int i = 0; i < totalNodes; ++i)
@@ -126,7 +126,7 @@ void Cassini::visit(Graph *g)
     }
 }
 
-void Cassini::visitRecursive1(Vertice *v)
+void Cassini::visitRecursive1(Vertex *v)
 {
     unsigned int ID = v->getID();
     if(visited[ID - 1])
@@ -248,7 +248,7 @@ void Cassini::visitRecursive1(Vertice *v)
         this->visitRecursive1((*i)->getHead());
 }
 
-void Cassini::visitRecursive2(Vertice *v, list<Vertice*> &componentGates)
+void Cassini::visitRecursive2(Vertex *v, list<Vertex*> &componentGates)
 {
     unsigned int ID = v->getID();
     if(visited[ID - 1])
@@ -257,9 +257,9 @@ void Cassini::visitRecursive2(Vertice *v, list<Vertice*> &componentGates)
     visited[ID - 1] = true;
     
     // Recursion (peers; i.e. equivalent to entering edges)
-    list<Vertice*> *peers = v->getPeers();
+    list<Vertex*> *peers = v->getPeers();
     if(peers->size() > 0)
-        for(list<Vertice*>::iterator i = peers->begin(); i != peers->end(); ++i)
+        for(list<Vertex*>::iterator i = peers->begin(); i != peers->end(); ++i)
             this->visitRecursive2((*i), componentGates);
     else
         componentGates.push_back(v);
@@ -270,7 +270,7 @@ void Cassini::visitRecursive2(Vertice *v, list<Vertice*> &componentGates)
         this->visitRecursive2((*i)->getHead(), componentGates);
 }
 
-unsigned int Cassini::visitRecursive3(Vertice *v, unsigned int depth)
+unsigned int Cassini::visitRecursive3(Vertex *v, unsigned int depth)
 {
     unsigned int ID = v->getID();
     if(visited[ID - 1]) // Even if we only go "forward", there's a minor risk of cycle
@@ -395,7 +395,7 @@ string Cassini::getMetrics()
     ss << "Connected components" << endl;
     ss << "--------------------" << endl;
     unsigned int nbIslets = 0;
-    list<list<Vertice*> >::iterator j = visitedGates.begin();
+    list<list<Vertex*> >::iterator j = visitedGates.begin();
     list<unsigned int>::iterator k = componentDepth.begin();
     for(list<unsigned int>::iterator i = reachableNodes.begin(); i != reachableNodes.end(); ++i)
     {
@@ -403,7 +403,7 @@ string Cassini::getMetrics()
         unsigned int nbReachable = (*i);
         
         // Gets the visited gates of the component
-        list<Vertice*> visitedGates = (*j);
+        list<Vertex*> visitedGates = (*j);
         j++;
         
         // Gets the depth of the component
@@ -423,8 +423,8 @@ string Cassini::getMetrics()
         if(nbVisitedGates > 1)
         {
             stringstream gatesStream;
-            visitedGates.sort(Vertice::smallerID);
-            for(list<Vertice*>::iterator l = visitedGates.begin(); l != visitedGates.end(); ++l)
+            visitedGates.sort(Vertex::smallerID);
+            for(list<Vertex*>::iterator l = visitedGates.begin(); l != visitedGates.end(); ++l)
             {
                 if(l != visitedGates.begin())
                     gatesStream << ", ";
@@ -442,7 +442,7 @@ string Cassini::getMetrics()
         if(depth > 1)
             ss << depth << " vertices";
         else
-            ss << "one vertice";
+            ss << "one vertex";
         ss << ")\n";
     }
     

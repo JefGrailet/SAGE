@@ -10,15 +10,15 @@
 
 #include "IndirectLink.h"
 
-IndirectLink::IndirectLink(Vertice *tail, 
-                           Vertice *head, 
-                           SubnetVerticeMapping &med) : Edge(tail, head), medium(med)
+IndirectLink::IndirectLink(Vertex *tail, 
+                           Vertex *head, 
+                           SubnetVertexMapping &med) : Edge(tail, head), medium(med)
 {
 }
 
-IndirectLink::IndirectLink(Vertice *tail, Vertice *head) : Edge(tail, head)
+IndirectLink::IndirectLink(Vertex *tail, Vertex *head) : Edge(tail, head)
 {
-    medium = SubnetVerticeMapping(); // Empty mapping
+    medium = SubnetVertexMapping(); // Empty mapping
 }
 
 IndirectLink::~IndirectLink()
@@ -36,7 +36,7 @@ string IndirectLink::toString(bool verbose)
     if(!medium.isEmpty())
     {
         ss << " via " << medium.subnet->getCIDR();
-        ss << " (from N" << medium.vertice->getID() << ")";
+        ss << " (from N" << medium.vertex->getID() << ")";
     }
     else
         ss << " (unknown medium)";

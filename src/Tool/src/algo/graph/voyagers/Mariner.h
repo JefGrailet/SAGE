@@ -23,7 +23,7 @@ public:
     Mariner(Environment &env);
     ~Mariner();
     
-    inline list<Vertice*> *getVertices() { return &vertices; }
+    inline list<Vertex*> *getVertices() { return &vertices; }
     
     void visit(Graph *g);
     
@@ -36,11 +36,11 @@ public:
 
 protected:
 
-    list<Vertice*> vertices;
-    vector<bool> visited; // Array for avoiding visiting a vertice more than once
+    list<Vertex*> vertices;
+    vector<bool> visited; // Array for avoiding visiting a vertex more than once
     
     // Method to recursively visit the graph, node by node.
-    void visitRecursive(Vertice *v);
+    void visitRecursive(Vertex *v);
 
 };
 

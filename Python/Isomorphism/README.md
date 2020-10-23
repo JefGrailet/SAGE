@@ -1,12 +1,12 @@
 # Evaluation of graph isomorphism
 
-*By Jean-François Grailet (last updated: October 14, 2020)*
+*By Jean-François Grailet (last updated: October 23, 2020)*
 
 ## About
 
 **N.B.:** if you reached this part of the repository via a direct link, please note that this 
-sub-folder doesn't provide the data collected by `SAGE`. You will rather find it in the 
-*Dataset/* sub-folder located at the root of this repository.
+sub-folder doesn't provide the data collected by `SAGE` nor its source code. You will rather find 
+them respectively in the **Dataset/** and **src/** sub-folders at the root of this repository.
 
 You can use the content of this folder in order to evaluate the isomorphism of graphs, i.e., 
 evaluate how similar two graphs **of a same target network** are. The purpose of the provided 
@@ -37,22 +37,22 @@ three metrics.
 
 There are three scripts to review these metrics.
 
-* _CompareGraphs.py_: given a target Autonomous System (or AS) and a list of dates (provided in 
+* `CompareGraphs.py`: given a target Autonomous System (or AS) and a list of dates (provided in 
   a text file), compares the graph obtained on the first date with each subsequent graph. The 
   computed metrics are written in the console and plotted in a figure at the end.
 
-* _CompareGraphPair.py_: given a target Autonomous System (or AS) and two dates in dd/mm/yyyy 
+* `CompareGraphPair.py`: given a target Autonomous System (or AS) and two dates in dd/mm/yyyy 
   format, compares the two graphs produced on both dates to obtain the ratio of redundant edges 
   and the ratio of common vertices. In addition, this script also writes a detailed description 
   of the redundant edges in the console.
 
-* _IsomorphismFigures.sh_: if provided with a list of Autonomous Systems (ASes) in text format 
+* `IsomorphismFigures.sh`: if provided with a list of Autonomous Systems (ASes) in text format 
   as well as a list of dates (again in text format), this Shell script will run the Python script 
-  _CompareGraphs.py_ for each individual AS for the given dates, then move the produced figures 
+  `CompareGraphs.py` for each individual AS for the given dates, then move the produced figures 
   to a sub-folder named after the first and last date of the list of dates.
 
 Here is the typical command you could use to generate figures for the ASes listed in 
-_Example\_ASes_ for the dates given in _Example\_dates_:
+`Example_ASes` for the dates given in `Example_dates`:
 
 ```sh
 ./IsomorphismFigures.sh Example_ASes Example_dates
@@ -63,10 +63,10 @@ _Example\_ASes_ for the dates given in _Example\_dates_:
 * Do not forget to adapt the `datasetPrefix` variable in both Python scripts to match the location 
   in your file system where you placed the data collected by `SAGE`.
 
-* _IsomorphismFigures.sh_ will be relevant if and only if the graphs available for the listed ASes 
+* `IsomorphismFigures.sh` will be relevant if and only if the graphs available for the listed ASes 
   were produced on the same dates, just like for the two PlanetLab campaigns of `SAGE` which you 
-  will find in the *Dataset/* sub-folder located at the root of this repository. Consider using 
-  _CompareGraphs.py_ directly (thus, one AS at a time with differing dates) if the graphs which 
+  will find in the **Dataset/** sub-folder located at the root of this repository. Consider using 
+  `CompareGraphs.py` directly (thus, one AS at a time with differing dates) if the graphs which 
   you want to compare for a collection of ASes were not produced on the same dates.
 
 ## Contact

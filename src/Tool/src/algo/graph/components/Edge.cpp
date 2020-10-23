@@ -10,7 +10,7 @@
 
 #include "Edge.h"
 
-Edge::Edge(Vertice *tail, Vertice *head)
+Edge::Edge(Vertex *tail, Vertex *head)
 {
     this->tail = tail;
     this->head = head;
@@ -24,6 +24,6 @@ Edge::~Edge()
 bool Edge::compare(Edge *e1, Edge *e2)
 {
     if(e1->getTail()->getID() == e2->getTail()->getID())
-        return Vertice::smallerID(e1->getHead(), e2->getHead());
-    return Vertice::smallerID(e1->getTail(), e2->getTail());
+        return Vertex::smallerID(e1->getHead(), e2->getHead());
+    return Vertex::smallerID(e1->getTail(), e2->getTail());
 }

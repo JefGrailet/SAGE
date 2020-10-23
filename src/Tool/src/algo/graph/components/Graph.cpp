@@ -10,12 +10,12 @@
 
 #include "Graph.h"
 
-SubnetVerticeMapping Graph::VOID_MAPPING = SubnetVerticeMapping();
+SubnetVertexMapping Graph::VOID_MAPPING = SubnetVertexMapping();
 
 Graph::Graph()
 {
     nbVertices = 0; // To be set later (via "Pioneer" voyager)
-    subnetMap = new list<SubnetVerticeMapping>[SIZE_SUBNET_MAP];
+    subnetMap = new list<SubnetVertexMapping>[SIZE_SUBNET_MAP];
 }
 
 Graph::~Graph()
@@ -24,13 +24,13 @@ Graph::~Graph()
     gates.clear(); // Nodes will be deleted via the "Mariner" voyager
 }
 
-void Graph::createSubnetMappingsTo(Vertice *v)
+void Graph::createSubnetMappingsTo(Vertex *v)
 {
     list<Subnet*> *subnets = v->getSubnets();
     for(list<Subnet*>::iterator i = subnets->begin(); i != subnets->end(); ++i)
     {
         unsigned long index = ((*i)->getLowerBorder().getULongAddress() >> 12);
-        subnetMap[index].push_back(SubnetVerticeMapping((*i), v));
+        subnetMap[index].push_back(SubnetVertexMapping((*i), v));
     }
 }
 
@@ -38,10 +38,10 @@ void Graph::sortMappings()
 {
     for(unsigned int i = 0; i < SIZE_SUBNET_MAP; i++)
         if(subnetMap[i].size() > 1)
-            subnetMap[i].sort(SubnetVerticeMapping::compare);
+            subnetMap[i].sort(SubnetVertexMapping::compare);
 }
 
-SubnetVerticeMapping &Graph::getSubnetContaining(InetAddress needle)
+SubnetVertexMapping &Graph::getSubnetContaining(InetAddress needle)
 {
     /*
      * Remark on implementation: "subnetList" must be at least a reference, because otherwise 
@@ -51,8 +51,8 @@ SubnetVerticeMapping &Graph::getSubnetContaining(InetAddress needle)
      */
 
     unsigned long index = (needle.getULongAddress() >> 12);
-    list<SubnetVerticeMapping> &subnetList = subnetMap[index];
-    for(list<SubnetVerticeMapping>::iterator i = subnetList.begin(); i != subnetList.end(); ++i)
+    list<SubnetVertexMapping> &subnetList = subnetMap[index];
+    for(list<SubnetVertexMapping>::iterator i = subnetList.begin(); i != subnetList.end(); ++i)
         if(i->subnet->contains(needle))
             return (*i);
     return VOID_MAPPING;

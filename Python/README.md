@@ -1,12 +1,12 @@
 # Python scripts for `SAGE`
 
-*By Jean-François Grailet (last updated: October 14, 2020)*
+*By Jean-François Grailet (last updated: October 23, 2020)*
 
 ## About
 
 **N.B.:** if you reached this part of the repository via a direct link, please note that this 
-sub-folder doesn't provide the data collected by `SAGE`. You will rather find it in the 
-*Dataset/* sub-folder located at the root of this repository.
+sub-folder doesn't provide the data collected by `SAGE` nor its source code. You will rather find 
+them respectively in the **Dataset/** and **src/** sub-folders at the root of this repository.
 
 This part of the repository provides several sub-folders that contain various Python scripts to 
 evaluate or visualize the data collected with `SAGE`. Most of these scripts produce figures to 

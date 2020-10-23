@@ -10,7 +10,7 @@
 
 #include "DirectLink.h"
 
-DirectLink::DirectLink(Vertice *tail, Vertice *head, Subnet *medium) : Edge(tail, head)
+DirectLink::DirectLink(Vertex *tail, Vertex *head, Subnet *medium) : Edge(tail, head)
 {
     this->medium = medium;
 }

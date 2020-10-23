@@ -13,7 +13,7 @@ using std::map;
 
 #include "Cluster.h"
 
-Cluster::Cluster(list<Aggregate*> aggregates) : Vertice()
+Cluster::Cluster(list<Aggregate*> aggregates) : Vertex()
 {
     for(list<Aggregate*>::iterator i = aggregates.begin(); i != aggregates.end(); ++i)
     {
@@ -171,7 +171,7 @@ string Cluster::toString()
         ss << ")\n";
     }
     
-    // Shows peer vertices (method inherited from parent class Vertice)
+    // Shows peer vertices (method inherited from parent class Vertex)
     ss << this->peersToString();
 
     return ss.str();

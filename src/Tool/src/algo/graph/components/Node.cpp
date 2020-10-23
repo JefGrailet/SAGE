@@ -10,7 +10,7 @@
 
 #include "Node.h"
 
-Node::Node(Aggregate *a) : Vertice()
+Node::Node(Aggregate *a) : Vertex()
 {
     list<Subnet*> *aggSubnets = a->getSubnets();
     subnets.insert(subnets.end(), aggSubnets->begin(), aggSubnets->end());
@@ -131,7 +131,7 @@ string Node::toString()
         ss << "\n";
     }
     
-    // Shows peer vertices (method inherited from parent class Vertice)
+    // Shows peer vertices (method inherited from parent class Vertex)
     ss << this->peersToString();
 
     return ss.str();

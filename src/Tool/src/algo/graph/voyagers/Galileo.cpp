@@ -33,20 +33,20 @@ void Galileo::visit(Graph *g)
         visited.push_back(false);
     
     // Visits the graph
-    list<Vertice*> *gates = g->getGates();
-    for(list<Vertice*>::iterator i = gates->begin(); i != gates->end(); ++i)
+    list<Vertex*> *gates = g->getGates();
+    for(list<Vertex*>::iterator i = gates->begin(); i != gates->end(); ++i)
         this->visitRecursive((*i));
-    withAliases.sort(Vertice::smallerID);
+    withAliases.sort(Vertex::smallerID);
     
     // Clears "visited" in case another graph needed to be explored with the same object
     visited.clear();
 }
 
-void Galileo::visitRecursive(Vertice *v)
+void Galileo::visitRecursive(Vertex *v)
 {
     /*
-     * Checks if we already evaluated this vertice. If we did, we stop here. Checking the list of 
-     * aliases of the vertice is empty is not enough, because there can be vertices with no alias 
+     * Checks if we already evaluated this vertex. If we did, we stop here. Checking the list of 
+     * aliases of the vertex is empty is not enough, because there can be vertices with no alias 
      * at all, which would therefore be re-evaluated for nothing.
      */
     
@@ -85,7 +85,7 @@ void Galileo::visitRecursive(Vertice *v)
             withAliases.push_back(v);
         }
         
-        // Small delay before analyzing next vertice (typically quarter of a second)
+        // Small delay before analyzing next vertex (typically quarter of a second)
         Thread::invokeSleep(env.getProbingThreadDelay());
     }
     
@@ -94,7 +94,7 @@ void Galileo::visitRecursive(Vertice *v)
         this->visitRecursive((*i)->getHead());
 }
 
-list<IPTableEntry*> Galileo::getAliasCandidates(Vertice *v)
+list<IPTableEntry*> Galileo::getAliasCandidates(Vertex *v)
 {
     IPLookUpTable *dict = env.getIPDictionary();
 
@@ -132,9 +132,9 @@ void Galileo::figaro(string filename)
     ofstream newFile;
     newFile.open(filename.c_str());
     
-    for(list<Vertice*>::iterator i = withAliases.begin(); i != withAliases.end(); ++i)
+    for(list<Vertex*>::iterator i = withAliases.begin(); i != withAliases.end(); ++i)
     {
-        Vertice *cur = (*i);
+        Vertex *cur = (*i);
         list<Alias*> *aliases = cur->getAliases();
         newFile << cur->getFullLabel() << ":\n";
         for(list<Alias*>::iterator j = aliases->begin(); j != aliases->end(); ++j)

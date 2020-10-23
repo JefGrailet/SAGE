@@ -82,7 +82,6 @@ if __name__ == "__main__":
         print("Dates must be in dd/mm/yyyy format.")
         sys.exit()
     
-    # TODO: change this !
     # Path of the dataset
     datasetPrefix = "/home/jefgrailet/Online repositories/SAGE/Dataset/" + ASNumber + "/"
     

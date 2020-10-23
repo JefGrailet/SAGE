@@ -19,7 +19,7 @@ using std::list;
 #include <map>
 using std::map;
 
-#include "SubnetVerticeMapping.h"
+#include "SubnetVertexMapping.h"
 
 class Graph
 {
@@ -27,46 +27,46 @@ public:
 
     /*
      * Size of the subnetMap array (array of lists), which is used for fast look-up of a subnet 
-     * listed in a vertice on the basis of an interface it should contain. Its size is based on 
-     * the fact that no subnet of a prefix length shorter than /20 was ever found in the 
-     * measurements. Therefore, the 20 first bits of any interface in a subnet are used to access 
-     * a list of subnets sharing the same prefix in O(1), the list containing at most 2048 subnets 
-     * (2048 subnets of prefix length /31). This dramatically speeds up the look-up for a subnet 
-     * present in a graph (in comparison with a more trivial method where one visits the graph), 
-     * at the cost of using more memory (~8Mo).
+     * listed in a vertex on the basis of an interface it should contain. Its size is based on the 
+     * fact that no subnet of a prefix length shorter than /20 was ever found in the measurements. 
+     * Therefore, the 20 first bits of any interface in a subnet are used to access a list of 
+     * subnets sharing the same prefix in O(1), the list containing at most 2048 subnets of prefix 
+     * length /31 (subnets with the prefix length /32 can exist, but are rare). This dramatically 
+     * speeds up the look-up for a subnet present in a graph (in comparison with a more trivial 
+     * method where one visits the graph), at the cost of using more memory (~8Mo).
      */
 
     const static unsigned int SIZE_SUBNET_MAP = 1048576;
     
-    static SubnetVerticeMapping VOID_MAPPING;
+    static SubnetVertexMapping VOID_MAPPING;
     
     Graph();
     ~Graph();
     
-    inline list<Vertice*> *getGates() { return &gates; }
-    inline void addGate(Vertice *gate) { gates.push_back(gate); }
+    inline list<Vertex*> *getGates() { return &gates; }
+    inline void addGate(Vertex *gate) { gates.push_back(gate); }
     
     inline unsigned int getNbVertices() { return nbVertices; }
     inline void setNbVertices(unsigned int nb) { nbVertices = nb; }
     
-    // Inserts the mappings subnet -> vertice for a given vertice
-    void createSubnetMappingsTo(Vertice *v);
+    // Inserts the mappings subnet -> vertex for a given vertex
+    void createSubnetMappingsTo(Vertex *v);
     void sortMappings();
     
     // Gets a subnet found in the graph which contains the given input address
-    SubnetVerticeMapping &getSubnetContaining(InetAddress needle);
+    SubnetVertexMapping &getSubnetContaining(InetAddress needle);
     
 private:
 
     /*
      * Private fields:
-     * -gates: Vertice objects modeling the first neighborhoods to appear in the topology with 
+     * -gates: Vertex objects modeling the first neighborhoods to appear in the topology with 
      *  respects to the (partial) traceroute measurements.
      * -subnetMap: array of lists for fast subnet look-up (cf. large comment in public section).
      */
     
-    list<Vertice*> gates;
-    list<SubnetVerticeMapping> *subnetMap;
+    list<Vertex*> gates;
+    list<SubnetVertexMapping> *subnetMap;
     
     unsigned int nbVertices; // Total amount; set after a visit by Pioneer
 

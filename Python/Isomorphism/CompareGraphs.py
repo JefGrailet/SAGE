@@ -90,7 +90,6 @@ if __name__ == "__main__":
         splitDate = datesRaw[i].split('/')
         dates.append(splitDate)
     
-    # TODO: change this !
     # Path of the dataset
     datasetPrefix = "/home/jefgrailet/Online repositories/SAGE/Dataset/" + ASNumber + "/"
     
@@ -147,7 +146,7 @@ if __name__ == "__main__":
         print("Common vertices: " + str(len(commonVertices)) + " (" + str('%.2f' % ratioVertices) + '%)')
         ratiosCommonVertices.append(ratioVertices)
         
-        # Removes from commonToAll any vertice that is NOT in cmpVertices
+        # Removes from commonToAll any vertex that is NOT in cmpVertices
         toRemove = set()
         for n in commonToAll:
             if n not in cmpVertices:
@@ -199,33 +198,48 @@ if __name__ == "__main__":
     print("Ratios of common vertices (w.r.t. reference snapshot): " + str(ratiosCommonVertices))
     print("Ratios of common edges (w.r.t. reference snapshot): " + str(ratiosCommonEdges))
     
-    # Plots result
-    hfont = {'fontname':'serif',
-             'fontweight':'bold',
-             'fontsize':28}
-
-    hfont2 = {'fontname':'serif',
-             'fontsize':26}
-
-    hfont3 = {'fontname':'serif',
-             'fontsize':15}
+    # Sizes for the ticks and labels of the plot
+    hfont = {'fontweight': 'bold', 'fontsize': 28}
+    hfont2 = {'fontsize': 26}
+    hfont3 = {'fontsize': 22}
     
-    # Bar charts stuff
+    # Bar chart stuff
     ind = np.arange(len(ratiosCommonEdges))
     widthBar = 0.7
 
+    # Plots result
     plt.figure(figsize=(13,9))
+    plt.rcParams.update({'font.family': 'Times New Roman'})
     
     xAxis = range(0, len(ratiosCommonEdges), 1)
-    plt.plot(xAxis, ratiosCommonEdges, color='#000000', linewidth=3, label="Redundant e.")
-    plt.bar(ind, ratiosCommonVertices, widthBar, color='#CCCCCC', edgecolor='#000000', linewidth=2, label="Common v.")
-    plt.axhline(y=ratioCommonToAll, linewidth=4, color='#0000FF', label="Intersect v.")
-    plt.rcParams.update({'font.size': 20})
+    plt.plot(xAxis, ratiosCommonEdges, color='#000000', linewidth=3, marker='o', label="Redundant edges")
+    plt.bar(ind, ratiosCommonVertices, widthBar, color='#CCCCCC', edgecolor='#000000', linewidth=2, label="Common vertices")
+    plt.axhline(y=ratioCommonToAll, linewidth=4, linestyle='--', color='#0000FF', label="Intersection")
     
+    # Limits
     plt.ylim([0, 105])
     plt.xlim([-0.5, len(ratiosCommonEdges) - 0.5])
-    plt.yticks(np.arange(0, 110, 10), **hfont2)
+    
+    # Axes aesthetics
     axis = plt.gca()
+    
+    # Removes right and to axes
+    axis.spines['right'].set_visible(False)
+    axis.spines['top'].set_visible(False)
+    
+    # Ensures ticks on remaining axes
+    axis.yaxis.set_ticks_position('left')
+    axis.xaxis.set_ticks_position('bottom')
+    
+    # Slightly moves the axes (towards left and bottom)
+    axis.spines['left'].set_position(('outward', 10))
+    axis.spines['bottom'].set_position(('outward', 10))
+    
+    # Makes ticks larger and thicker
+    axis.tick_params(direction='inout', length=6, width=3)
+    
+    # Ticks and labels
+    plt.yticks(np.arange(0, 110, 10), **hfont2)
     yaxis = axis.get_yaxis()
     yticks = yaxis.get_major_ticks()
     yticks[0].label1.set_visible(False)
@@ -233,7 +247,7 @@ if __name__ == "__main__":
     ticksForX = []
     for i in range(1, len(dates)):
         ticksForX.append(dates[i][0] + "/" + dates[i][1])
-    plt.xticks(xAxis, ticksForX, rotation=30, **hfont3)
+    plt.xticks(xAxis, ticksForX, **hfont3)
     
     plt.ylabel('Ratio (%)', **hfont)
     plt.xlabel('Snapshot (reference=' + dates[0][0] + '/' + dates[0][1] + ')', **hfont)
@@ -241,11 +255,11 @@ if __name__ == "__main__":
     plt.grid()
     
     plt.legend(bbox_to_anchor=(0, 1.02, 1.0, .102), 
-               loc=3,
+               loc=2,
                ncol=4, 
                mode="expand", 
                borderaxespad=0.,
-               fontsize=22)
+               fontsize=24)
     
     firstDataset = '-'.join(dates[0])
     lastDataset = '-'.join(dates[len(dates) - 1])

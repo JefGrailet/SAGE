@@ -1,6 +1,6 @@
 # SAGE (Subnet AGgrEgation)
 
-*By Jean-François Grailet (last updated: October 14, 2020)*
+*By Jean-François Grailet (last updated: October 23, 2020)*
 
 ## Overview
 
@@ -16,7 +16,7 @@ Since it is built on top of `WISE`, which initially needed to be compatible with
 
 ### Future updates
 
-`SAGE` itself will probably not get any large update for a while, though minor issues will be corrected from time to time. However, side programs (such as Python scripts) will eventually be released to provide ways to parse, interpret and analyze the data collected by `SAGE`.
+`SAGE` itself will probably not get any large update for a while, though minor issues will be corrected from time to time. However, side Python scripts, such as the `INSIGHT` library, will be expanded over time to provide ways to parse, model and analyze the data collected by `SAGE`.
 
 ## Publications
 
