@@ -1,4 +1,4 @@
-# INSIGHT - Investigate Networks from Subnet Inference to GrapH Transformations
+# INSIGHT - A Python library to model and study networks
 
 *By Jean-François Grailet (last updated: October 23, 2020)*
 
