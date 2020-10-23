@@ -34,7 +34,7 @@ This repository currently consists of the following content:
 
 * **Dataset/** provides complete datasets for various Autonomous Systems (or ASes) we measured with `SAGE` from both the PlanetLab testbed and the EdgeNet cluster.
 
-* **Python/** provides various Python scripts to evaluate or visualize the data collected by `SAGE`.
+* **Python/** provides various Python scripts, most notably the `INSIGHT` library, to evaluate or visualize the data collected by `SAGE`.
 
 * **src/** provides all the source files of `SAGE`.
 
