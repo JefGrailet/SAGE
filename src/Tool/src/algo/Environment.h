@@ -53,7 +53,7 @@ public:
     Environment(ostream *consoleOut, 
                 unsigned short probingProtocol, 
                 InetAddress &localIPAddress, 
-                NetworkAddress &LAN, 
+                unsigned char LANSubnetMask, 
                 unsigned short displayMode);
     ~Environment();
     
@@ -75,7 +75,7 @@ public:
     // Probing parameters (to be set by command line options)
     inline unsigned short getProbingProtocol() { return probingProtocol; }
     inline const InetAddress &getLocalIPAddress() { return localIPAddress; }
-    inline const NetworkAddress &getLAN() { return LAN; }
+    inline const unsigned char &getLANSubnetMask() { return LANSubnetMask; }
     
     // Probing parameters (to be set by configuration file)
     inline const TimeVal &getTimeoutPeriod() { return timeoutPeriod; }
@@ -227,7 +227,7 @@ private:
     // Probing parameters
     unsigned short probingProtocol;
     InetAddress &localIPAddress;
-    NetworkAddress &LAN; // Avoids editing the class for = operator or default constructor (lazy)
+    unsigned char LANSubnetMask;
     
     TimeVal timeoutPeriod;
     TimeVal probeRegulatingPeriod;

@@ -1,12 +1,12 @@
 # SAGE (Subnet AGgrEgation)
 
-*By Jean-François Grailet (last updated: October 23, 2020)*
+*By Jean-François Grailet (last updated: March 31, 2021)*
 
 ## Overview
 
-`SAGE` is new topology discovery tool built on top of [`WISE`](https://github.com/JefGrailet/WISE) (a subnet inference tool) which relies on subnet aggregation and partial (Paris) `traceroute` measurements to build a directed graph modeling the target domain. In this graph, vertices model _neighborhoods_, i.e., network locations bordered by a set of subnets located at most one hop away from each other. Such neighborhoods are in practice approximations of routers or meshes of routers and can be elucidated through alias resolution. Neighborhoods are inferred then located w.r.t. each others using partial `traceroute` records towards a subset of interfaces of each inferred subnet. The edges in the graph model how neighborhoods appear to be connected, following the `traceroute` measurements, and are ideally matched with surrounding subnets, as subnets act as a connection medium between neighborhoods (and, _in fine_, routers).
+`SAGE` is new topology discovery tool built on top of [`WISE`](https://github.com/JefGrailet/WISE) (a subnet inference tool) which relies on subnet aggregation and partial (Paris) `traceroute` measurements to build a directed graph modeling the hop-level of a target domain. In this graph, vertices model _neighborhoods_, i.e., network locations bordered by a set of subnets located at most one hop away from each other. Such neighborhoods are in practice individual routers or meshes of routers and can be elucidated through alias resolution. Neighborhoods are inferred then located w.r.t. each others using partial `traceroute` records towards a subset of interfaces of each inferred subnet. The edges in the graph model how neighborhoods appear to be connected, following the `traceroute` measurements, and are ideally matched with surrounding subnets, as subnets act as a connection medium between neighborhoods (and, _in fine_, routers). Graphs as built by `SAGE` can be translated into bipartite graphs to deepen the study of the measured networks.
 
-`SAGE` being involved in ongoing research, this repository only provides the source files (written in C/C++) and a first dataset for now. Said dataset provides AS (for **A**utonomous **S**ystem) snapshots collected from both [PlanetLab](https://planet-lab.eu/) and [EdgeNet](https://edge-net.org/).
+This repository provides all at once the source files (C/C++) of `SAGE`, a dataset and Python scripts to visualize or evaluate said data. The dataset consists of AS (for **A**utonomous **S**ystem) snapshots collected from both the [PlanetLab testbed](https://planet-lab.eu/) and the [EdgeNet cluster](https://edge-net.org/).
 
 ## About development
 
@@ -16,7 +16,7 @@ Since it is built on top of `WISE`, which initially needed to be compatible with
 
 ### Future updates
 
-`SAGE` itself will probably not get any large update for a while, though minor issues will be corrected from time to time. However, side Python scripts, such as the `INSIGHT` library, will be expanded over time to provide ways to parse, model and analyze the data collected by `SAGE`.
+`SAGE` itself will not get any large update for a while, though minor issues will be corrected from time to time. However, side Python scripts, such as the `INSIGHT` library, will be expanded over time to provide more ways to parse, model and analyze the data collected by `SAGE`.
 
 ## Publications
 

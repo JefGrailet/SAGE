@@ -1,6 +1,6 @@
 # About SAGE v2.0 (sage)
 
-*By Jean-François Grailet (last updated: October 23, 2020)*
+*By Jean-François Grailet (last updated: March 31, 2021)*
 
 ## About the code
 
@@ -58,6 +58,8 @@ In order to simplify the parameters of `SAGE` and only allow the editing of the 
 * **January 7, 2020:** release of `SAGE` v2.0.
 
 * **October 12, 2020:** made a slight change during the construction of the graph. Now, the code no longer looks for a _medium_ (i.e., a subnet which can act as the real-life link between two neighborhoods) when connecting two neighborhoods `u` and `v` where `v` is bordered by subnets built with the third rule of subnet inference (_echoing_ trails).
+
+* **March 31, 2021:** slightly edited `SAGE` to ease deployment on the EdgeNet cluster.
 
 ## Disclaimer
 

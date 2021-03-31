@@ -4,6 +4,10 @@
 '''
 Module for generating figures on the basis of the various graphs built by INSIGHT. Depending on 
 the type of figure, additional data besides the graph itself might be required.
+
+It's worth noting calling functions from this library does not write anything on the standard 
+output (it's assumed the user knows where to find the output files), but will write error messages 
+if the provided output file name has a problematic format.
 '''
 
 import networkx as nx
@@ -271,7 +275,6 @@ def degreeCDFsBip(bipGraph, outputFileName):
     plt.subplots_adjust(hspace=0.4)
     plt.savefig(outputFileName + ".pdf")
     plt.clf()
-    print("New figure saved in " + outputFileName + ".pdf")
     
     return neighborhoodsByDegree, subnetsByDegree
 
@@ -380,7 +383,6 @@ def topClusteringByDegreeBip(bipGraph, outputFileName):
     # Saves the figure
     plt.savefig(outputFileName + ".pdf")
     plt.clf()
-    print("New figure saved in " + outputFileName + ".pdf")
 
 def cyclesDistributionBip(bipGraph, subnetsVertices, outputFileName):
     '''
@@ -574,7 +576,6 @@ def cyclesDistributionBip(bipGraph, subnetsVertices, outputFileName):
     # Saves the figure
     plt.savefig(outputFileName + ".pdf")
     plt.clf()
-    print("New figure saved in " + outputFileName + ".pdf")
     
     # Sorts the cycles before returning them
     cycles.sort()

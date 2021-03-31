@@ -29,20 +29,12 @@ if __name__ == "__main__":
     mode = str(sys.argv[1])
     filesPrefix = str(sys.argv[2])
     outputFileName = str(sys.argv[3])
+    mode = mode.casefold()
     
     # Removes the extension from outputFileName (if any)
     if "." in outputFileName:
         splitName = outputFileName.split(".")
         outputFileName = splitName[0]
-    
-    # Checks if details must be printed in the terminal
-    withDetails = False
-    if "+" in mode:
-        modeSplit = mode.split("+")
-        mode = modeSplit[0]
-        if len(modeSplit) == 2 and modeSplit[1].lower() == "details":
-            withDetails = True
-    mode.lower()
     
     # Paths of the relevant files (follows the order of file generation in SAGE)
     paths = []
@@ -74,26 +66,26 @@ if __name__ == "__main__":
     aliases = Aliases.parseAliases(filesAsLines[3])
     Aliases.mapAliases(aliases, neighborhoods)
     
-    # The "mode" is used to select what kind of graph the script will build and analyze.
+    # The "mode" is used to select what kind of graph the script will build and/or analyze.
     # Currently available modes are:
     # * Raw: builds a simple graph which the vertices model neighborhoods while the edges show 
     #   how these neighborhoods are located w.r.t. each others.
     # * Bip: builds a simple bipartite graph where the first party contains the neighborhoods 
     #   while the second party consists of the subnets that connect them. A variety of figures are 
     #   generated on the basis of this bipartite graph.
+    # * BipTopProj: builds a simple bipartite just like in "Bip" mode, then projects it on top 
+    #   vertices (neighborhoods) and writes the result to an output text file.
+    # * BipBotProj: builds a simple bipartite just like in "Bip" mode, then projects it on bottom 
+    #   vertices (subnets) and writes the result to an output text file.
     
     if mode == "raw":
-        # Creates a directed graph using the lines from the .graph file
         directed = GraphBuilding.directedGraph(filesAsLines[2])
         
-        # Draws the graph
         GraphDrawing.drawDirectedGraph(directed, outputFileName)
     elif mode == "bip":
-        # Creates a bipartite graph using the lines from the .graph file
         bip, subnetsVertices = GraphBuilding.bipartiteGraph(filesAsLines[2])
         bipComplete = GraphBuilding.completeBipartiteGraph(bip, neighborhoods, subnetsVertices)
         
-        # General metrics on the graph
         print("--- About the graph ---")
         nodes = list(bip.nodes)
         nbEdges = len(list(bip.edges))
@@ -121,19 +113,15 @@ if __name__ == "__main__":
         print("Subnet vertices: " + str(totalSubnets) + " / " + str(len(nodes)) + " (" + str('%2f' % ratioSubnets) + "%)")
         print("Known subnet vertices: " + str(totalKnownSubnets) + " / " + str(totalSubnets) + " (" + str('%2f' % ratioKnownSubnets) + "%)")
         
-        # Gives the mappings for subnets acting as links (i.e. S_X => CIDR)
         print("\n--- Subnet mappings ---")
         listMappings = []
         for i in range(0, len(subnetsVertices)):
             listMappings.append(0)
         for subnet in subnetsVertices:
             listMappings[int(subnet[1:]) - 1] = subnetsVertices[subnet]
-        listMappings.sort()
         for i in range(0, len(listMappings)):
             print("S" + str(i+1) + " = " + listMappings[i])
         
-        # Degree distribution
-        print("\n--- Degree analysis ---")
         outCDFs = outputFileName + "_degree_CDFs"
         outClustering = outputFileName + "_top_local_density"
         neighborhoodsByDegree, subnetsByDegree = FigureFactory.degreeCDFsBip(bipComplete, outCDFs)
@@ -143,54 +131,49 @@ if __name__ == "__main__":
         for topDegree in neighborhoodsByDegree:
             if topDegree > maxTopDegree:
                 maxTopDegree = topDegree
-        for bottomDegree in neighborhoodsByDegree:
+        for bottomDegree in subnetsByDegree:
             if bottomDegree > maxBottomDegree:
                 maxBottomDegree = bottomDegree
-        print("Maximum top (neighborhood) degree: " + str(maxTopDegree))
-        print("Maximum bottom (subnet) degree: " + str(maxBottomDegree))
         
-        # The subsequent instructions are only relevant if user asked for details
-        if withDetails:
-            print("\nDetails on top (neighborhood) degree:")
-            for i in range(1, maxTopDegree + 1):
-                if i not in neighborhoodsByDegree:
-                    continue
-                degreeStr = "Degree " + str(i) + ": "
-                if len(neighborhoodsByDegree[i]) > 10:
-                    degreeStr += str(len(neighborhoodsByDegree[i])) + " neighborhoods"
-                else:
-                    neighborhoodsToShow = neighborhoodsByDegree[i]
-                    neighborhoodsToShow.sort()
-                    for j in range(0, len(neighborhoodsToShow)):
-                        if j > 0:
-                            degreeStr += ", "
-                        degreeStr += neighborhoodsToShow[j]
-                print(degreeStr)
-            print("\nDetails on bottom (subnet) degree:")
-            for i in range(1, maxBottomDegree + 1):
-                if i not in subnetsByDegree:
-                    continue
-                degreeStr = "Degree " + str(i) + ": "
-                if len(subnetsByDegree[i]) > 10:
-                    degreeStr += str(len(subnetsByDegree[i])) + " subnets"
-                else:
-                    subnetsToShow = subnetsByDegree[i]
-                    subnetsToShow.sort()
-                    for j in range(0, len(subnetsToShow)):
-                        if j > 0:
-                            degreeStr += ", "
-                        subnet = subnetsVertices[subnetsToShow[j]]
-                        degreeStr += subnet
-                        if subnets[subnet].isSound():
-                            degreeStr += " (sound)"
-                print(degreeStr)
+        print("\n--- Top (neighborhood) degrees ---")
+        for i in range(1, maxTopDegree + 1):
+            if i not in neighborhoodsByDegree:
+                continue
+            degreeStr = "Degree " + str(i) + ": "
+            if len(neighborhoodsByDegree[i]) > 10:
+                degreeStr += str(len(neighborhoodsByDegree[i])) + " neighborhoods"
+            else:
+                neighborhoodsToShow = neighborhoodsByDegree[i]
+                neighborhoodsToShow.sort()
+                for j in range(0, len(neighborhoodsToShow)):
+                    if j > 0:
+                        degreeStr += ", "
+                    degreeStr += neighborhoodsToShow[j]
+            print(degreeStr)
+        print("\n--- Bottom (subnet) degrees ---")
+        for i in range(1, maxBottomDegree + 1):
+            if i not in subnetsByDegree:
+                continue
+            degreeStr = "Degree " + str(i) + ": "
+            if len(subnetsByDegree[i]) > 10:
+                degreeStr += str(len(subnetsByDegree[i])) + " subnets"
+            else:
+                subnetsToShow = subnetsByDegree[i]
+                subnetsToShow.sort()
+                for j in range(0, len(subnetsToShow)):
+                    if j > 0:
+                        degreeStr += ", "
+                    subnet = subnetsVertices[subnetsToShow[j]]
+                    degreeStr += subnet
+                    if subnets[subnet].isSound() and subnets[subnet].getMaxNbInterfaces() >= i:
+                        degreeStr += " (sound)"
+            print(degreeStr)
         
         # Cycles
         print("\n--- Base cycles ---")
         outCyclesPDF = outputFileName + "_cycles"
         cycles = FigureFactory.cyclesDistributionBip(bip, subnetsVertices, outCyclesPDF)
         
-        # Prints cycles (if any)
         if cycles != None:
             for i in range(0, len(cycles)):
                 cycleStr = ""
@@ -198,52 +181,38 @@ if __name__ == "__main__":
                 for j in range(0, len(cycles[i])):
                     if j > 0:
                         cycleStr += ", "
-                    cycleStr += cycles[i][j]
-                    if cycles[i][j].startswith("T"):
-                        nbHypotheticVertices += 1
-                # The subsequent instructions are only relevant if user asked for details
-                if not withDetails:
-                    print(cycleStr)
-                    continue
-                soundVertices = []
-                bogusVertices = [] # I.e., degree is larger than the max amount of interfaces
-                # Re-checks the cycle to check if the subnets vertices are sound
-                for j in range(0, len(cycles[i])):
                     if not cycles[i][j].startswith("S"):
+                        cycleStr += cycles[i][j]
                         continue
                     curSubnet = subnets[subnetsVertices[cycles[i][j]]]
                     curSubnetDegree = len(bip.edges(cycles[i][j]))
                     if curSubnet.getMaxNbInterfaces() >= curSubnetDegree:
-                        soundVertices.append(curSubnet.getCIDR())
+                        cycleStr += cycles[i][j]
                     else:
-                        bogusVertices.append(curSubnet.getCIDR())
-                if (len(bogusVertices) * 2) == len(cycles[i]):
-                    cycleStr += "\nAll subnet vertices are bogus."
-                elif len(bogusVertices) == 0:
-                    cycleStr += "\nAll subnet vertices are sound."
-                else:
-                    if len(soundVertices) > 1:
-                        cycleStr += "\nSound vertices: "
-                        for j in range(0, len(soundVertices)):
-                            if j > 0:
-                                cycleStr += ", "
-                            cycleStr += soundVertices[j]
-                    elif len(soundVertices) == 1:
-                        cycleStr += "\nSound vertex: " + soundVertices[0]
-                    if len(bogusVertices) > 1:
-                        cycleStr += "\nBogus vertices: "
-                        for j in range(0, len(bogusVertices)):
-                            if j > 0:
-                                cycleStr += ", "
-                            cycleStr += bogusVertices[j]
-                    elif len(bogusVertices) == 1:
-                        cycleStr += "\nBogus vertex: " + bogusVertices[0]
-                    
+                        cycleStr += cycles[i][j] + " (B)"
                 print(cycleStr)
         else:
             print("No cycle could be found.")
         
-        # Draws the graph
+        # Comment the next line if you do not want the visual render (can take some time)
         GraphDrawing.drawBipartiteGraph(bip, outputFileName + "_graph")
+    elif mode == "bipprojtop":
+        bip, subnetsVertices = GraphBuilding.bipartiteGraph(filesAsLines[2])
+        forProjs = GraphBuilding.formatForProjections(bip)
+        
+        topProj = GraphBuilding.bipTopProjection(forProjs, neighborhoods)
+        topProjFile = open(outputFileName + ".txt", "w")
+        topProjFile.write(GraphBuilding.projectionToText(topProj))
+        topProjFile.close()
+    elif mode == "bipprojbot":
+        bip, subnetsVertices = GraphBuilding.bipartiteGraph(filesAsLines[2])
+        bipComplete = GraphBuilding.completeBipartiteGraph(bip, neighborhoods, subnetsVertices)
+        forProjs = GraphBuilding.formatForProjections(bipComplete)
+        
+        botProj = GraphBuilding.bipBotProjection(forProjs, subnetsVertices)
+        botProjFile = open(outputFileName + ".txt", "w")
+        botProjFile.write(GraphBuilding.projectionToText(botProj))
+        botProjFile.close()
     else:
-        print("Unknown mode (available modes: Raw, Bip).")
+        print(mode)
+        print("Unknown mode (available modes: Raw, Bip, BipProjTop, BipProjBot).")

@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sage-snapshot-TODO
+  namespace: authority-uliege-montefiore-slice-sage
+spec:
+  volumes:
+  - name: secret-db
+    secret:
+      secretName: remote-db
+  - name: secret-ssh-keys
+    secret:
+      defaultMode: 0400
+      secretName: rsa-key
+  containers:
+  - name: sage-snapshot-TODO
+    image: jefgrailet/sage-vp
+    resources:
+      limits:
+        cpu: TODO
+        memory: TODO
+      requests:
+        cpu: TODO
+        memory: TODO
+    volumeMounts:
+    - name: secret-db
+      readOnly: true
+      mountPath: "/etc/secret-db"
+    - name: secret-ssh-keys
+      readOnly: true
+      mountPath: "/etc/secret-ssh-keys"
+    command: ["/bin/sh","-c"]
+    args:
+      - TODO
+  restartPolicy: "OnFailure"
+  nodeName: "TODO"

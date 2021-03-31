@@ -319,11 +319,10 @@ string elapsedTimeStr(unsigned long elapsedSeconds)
     return ss.str();    
 }
 
-// Main function; deals with inputs and launches thread(s)
+// Main function; deals with inputs and kickstarts the main algorithmical steps
 
 int main(int argc, char *argv[])
 {
-    // Default parameters for options which can be edited by user in the command line
     string configFilePath = "";
     InetAddress localIPAddress;
     unsigned char LANSubnetMask = 0;
@@ -331,7 +330,6 @@ int main(int argc, char *argv[])
     unsigned short displayMode = Environment::DISPLAY_MODE_LACONIC;
     string outputFileName = ""; // Gets a default value later if not set by user.
     
-    // Values to check if algorithmic summary or usage should be displayed.
     bool displayInfo = false, displayUsage = false;
     
     /*
@@ -434,7 +432,6 @@ int main(int argc, char *argv[])
                     break;
             }
             
-            // Now we can actually treat the options.
             int gotNb = 0;
             switch(opt)
             {
@@ -524,45 +521,45 @@ int main(int argc, char *argv[])
      * SETTING THE ENVIRONMENT
      *
      * Before listing target IPs, the initialization is completed by getting the local IP and the 
-     * local subnet mask and creating a Environment object, which will be passed to other classes 
-     * to be able to get all the current settings, which are either default values either values 
-     * parsed in the parameters provided by the user. It also provides access to data structures 
-     * other classes should be able to access.
+     * local subnet mask and by creating a Environment object, which will be passed to other 
+     * classes to be able to get all the current settings, which are either default values either 
+     * values parsed in the parameters provided by the user. It also provides access to data 
+     * structures other classes should be able to access.
      */
 
     if(localIPAddress.isUnset())
     {
         try
         {
-            localIPAddress = InetAddress::getFirstLocalAddress();
+            vector<InetAddress> *localIPs = InetAddress::getLocalAddressList();
+            for(vector<InetAddress>::iterator it = localIPs->begin(); it != localIPs->end(); it++)
+            {
+                // Picks the first interface on LAN which the prefix is < 32, otherwise last /32
+                localIPAddress = (*it);
+                LANSubnetMask = NetworkAddress::getLocalSubnetPrefixLengthByLocalAddress(localIPAddress);
+                if(LANSubnetMask < 32)
+                    break;
+            }
+            delete localIPs;
         }
         catch(const InetAddressException &e)
         {
-            cout << "Cannot obtain a valid local IP address for probing. ";
+            cout << "Cannot obtain a valid local IP interface for probing. ";
             cout << "Please check your connectivity." << endl;
             return 1;
         }
     }
-
-    if(LANSubnetMask == 0)
+    
+    if(localIPAddress.isUnset() || LANSubnetMask == 0)
     {
-        try
-        {
-            LANSubnetMask = NetworkAddress::getLocalSubnetPrefixLengthByLocalAddress(localIPAddress);
-        }
-        catch(const InetAddressException &e)
-        {
-            cout << "Cannot obtain subnet mask of the local area network (LAN) .";
-            cout << "Please check your connectivity." << endl;
-            return 1;
-        }
+        cout << "Could not find a valid local IP interface for probing. ";
+        cout << "Please check your connectivity." << endl;
+        return 0;
     }
-
-    NetworkAddress LAN(localIPAddress, LANSubnetMask);
     
     /*
-     * We determine now the label of the output files. Here, it is either provided by the user 
-     * (via -l flag), either it is set to the current date (dd-mm-yyyy hh:mm:ss).
+     * Determines now the label of the output files. Here, it is either provided by the user (via 
+     * -l flag), either it is set to the current date (dd-mm-yyyy hh:mm:ss).
      */
     
     string newFileName = "";
@@ -579,10 +576,9 @@ int main(int argc, char *argv[])
     Environment env(&cout, 
                     probingProtocol, 
                     localIPAddress, 
-                    LAN, 
+                    LANSubnetMask, 
                     displayMode);
     
-    // Parses config file, if provided, to get user's preferred parameters
     if(configFilePath.length() > 0)
     {
         ConfigFileParser parser(env);
@@ -616,24 +612,29 @@ int main(int argc, char *argv[])
     
     try
     {
-        // Parses inputs and gets target lists
         TargetParser parser(env);
         parser.parseCommandLine(targetsStr);
         
         cout << "SAGE (Subnet AGgrEgation) v2.0 - Time at start: ";
         cout << getCurrentTimeStr() << "\n" << endl;
         
-        // Announces that it will ignore LAN.
         if(parser.targetsEncompassLAN())
         {
-            cout << "Target IPs encompass the LAN of the vantage point ("
-                 << LAN.getSubnetPrefix() << "/" << (unsigned short) LAN.getPrefixLength() 
-                 << "). IPs belonging to the LAN will be ignored.\n" << endl;
+            cout << "Target IPs encompass the LAN of the vantage point (";
+            if(LANSubnetMask < 32)
+            {
+                NetworkAddress LAN(localIPAddress, LANSubnetMask);
+                cout << LAN.getSubnetPrefix() << "/" << (unsigned short) LAN.getPrefixLength();
+            }
+            else
+            {
+                cout << localIPAddress << "/" << (unsigned short) LANSubnetMask;
+            }
+            cout << "). IPs belonging to the LAN will be ignored.\n" << endl;
         }
 
         list<InetAddress> targetsPrescanning = parser.getTargetsPrescanning();
         
-        // Stops if no target at all
         if(targetsPrescanning.size() == 0)
         {
             cout << "No target to probe." << endl;

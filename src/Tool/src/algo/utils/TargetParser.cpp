@@ -163,11 +163,17 @@ list<InetAddress> TargetParser::reorder(list<InetAddress> toReorder)
 
 list<InetAddress> TargetParser::getTargetsSimple()
 {
-    NetworkAddress LAN = env.getLAN();
-    InetAddress LANLowerBorder = LAN.getLowerBorderAddress();
-    InetAddress LANUpperBorder = LAN.getUpperBorderAddress();
-    list<InetAddress> targets;
+    InetAddress localIPAddress = env.getLocalIPAddress();
+    unsigned char LANSubnetMask = env.getLANSubnetMask();
+    InetAddress LANLowerBorder = localIPAddress, LANUpperBorder = localIPAddress;
+    if(LANSubnetMask < 32)
+    {
+        NetworkAddress LAN(localIPAddress, LANSubnetMask);
+        LANLowerBorder = LAN.getLowerBorderAddress();
+        LANUpperBorder = LAN.getUpperBorderAddress();
+    }
     
+    list<InetAddress> targets;
     for(std::list<InetAddress>::iterator it = parsedIPs.begin(); it != parsedIPs.end(); ++it)
     {
         InetAddress target((*it));
@@ -237,12 +243,17 @@ list<InetAddress> TargetParser::getTargetsPrescanning()
     }
 
     // Otherwise, copies lists and performs prescan expansion
-    NetworkAddress LAN = env.getLAN();
-    InetAddress LANLowerBorder = LAN.getLowerBorderAddress();
-    InetAddress LANUpperBorder = LAN.getUpperBorderAddress();
-    list<InetAddress> targets;
+    InetAddress localIPAddress = env.getLocalIPAddress();
+    unsigned char LANSubnetMask = env.getLANSubnetMask();
+    InetAddress LANLowerBorder = localIPAddress, LANUpperBorder = localIPAddress;
+    if(LANSubnetMask < 32)
+    {
+        NetworkAddress LAN(localIPAddress, LANSubnetMask);
+        LANLowerBorder = LAN.getLowerBorderAddress();
+        LANUpperBorder = LAN.getUpperBorderAddress();
+    }
     
-    // Copies parsedIPs
+    list<InetAddress> targets;
     std::vector<InetAddress> parsedIPsV(parsedIPs.size());
     std::copy(parsedIPs.begin(), parsedIPs.end(), parsedIPsV.begin());
     std::list<InetAddress> parsedIPsCopy(parsedIPsV.begin(), parsedIPsV.end());

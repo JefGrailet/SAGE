@@ -1,0 +1,17 @@
+# Using Ubuntu Linux
+FROM ubuntu:latest
+
+# Installing GCC/G++
+RUN apt-get update && \
+    apt-get -y install openssh-client && \
+    apt-get -y install build-essential && \
+    apt-get -y install gcc-multilib g++-multilib && \ 
+    gcc --version && \
+    g++ --version && \
+    mkdir /home/SAGE/
+
+# Copying SAGE sources
+COPY SAGE/ /home/SAGE/
+
+# Compiling SAGE
+RUN cd /home/SAGE/Release && make

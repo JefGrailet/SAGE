@@ -4,7 +4,7 @@
 # Compares a collection of snapshots collected by SAGE for a same target network from different 
 # vantage points to check how similar the graphs are. The first snapshot of the collection is 
 # compared to all subsequent snapshots, i.e. it is used as the reference snapshot. The results of 
-# the comparisons are plotted in a figure which acts as a visual summary.
+# the comparisons are plotted in a figure that acts as a visual summary.
 
 import os
 import sys
@@ -22,7 +22,7 @@ def getNeighborhoods(lines):
         nID = split[0]
         nLabel = split[1]
         if "not among targets" in nLabel:
-            secondSplit = nLabel.split(" (")
+            secondSplit = nLabel.rsplit(" (", 1) # In case there are tags like "(B)"
             nLabel = secondSplit[0]
         if nLabel in res:
             print("WARNING! Duplicate neighborhood: " + nLabel + " (line " + str(i + 1) + ")")
@@ -34,6 +34,7 @@ def getNeighborhoods(lines):
 def getAdjacencyMatrix(lines, vertices):
     matrix = np.zeros(shape=(len(vertices), len(vertices)))
     
+    # The "len(vertices) + 1" is to skip the part of the .graph listing vertices
     for i in range(len(vertices) + 1, len(lines)):
         if not lines[i]:
             break
@@ -57,17 +58,6 @@ def getAdjacencyMatrix(lines, vertices):
     
     return matrix
 
-def getDensity(matrix):
-    dims = matrix.shape
-    maxLinks = dims[0] * dims[1]
-    
-    nbLinks = 0
-    for i in range(0, dims[0]):
-        for j in range(0, dims[1]):
-            nbLinks += matrix[i][j]
-    
-    return float(nbLinks) / float(maxLinks)
-
 if __name__ == "__main__":
 
     if len(sys.argv) != 3:
@@ -90,7 +80,7 @@ if __name__ == "__main__":
         splitDate = datesRaw[i].split('/')
         dates.append(splitDate)
     
-    # Path of the dataset
+    # TODO: change this ! (path to the dataset)
     datasetPrefix = "/home/jefgrailet/Online repositories/SAGE/Dataset/" + ASNumber + "/"
     
     # Path of the graph used as the reference for the comparison (first snapshot of the campaign)
@@ -98,23 +88,26 @@ if __name__ == "__main__":
     refGraphPath += ASNumber + "_" + dates[0][0] + "-" + dates[0][1] + ".graph"
     refDate = dates[0][0] + "/" + dates[0][1] + "/" + dates[0][2]
     
-    # Checks the file for the reference graph exists
+    # Checks the file for the reference graph exists then parses it
     if not os.path.isfile(refGraphPath):
         print("Reference graph file does not exist (path: " + refGraphPath + ").")
         sys.exit()
     
-    # Parses the reference .graph file
     with open(refGraphPath) as f:
         refGraphLines = f.read().splitlines()
     refVertices = getNeighborhoods(refGraphLines)
     refGraph = getAdjacencyMatrix(refGraphLines, refVertices)
     
-    # Set of vertices that are common to all snapshots
+    # Set of vertices that are common to all snapshots (w/o best effort)
     commonToAll = set()
     for n in refVertices:
+        if " | " in n or "echoing" in n:
+            continue
         commonToAll.add(n)
+    totalNonBestEffort = len(commonToAll)
     
     # For each subsequent snapshot
+    ratiosWithBestEffort = []
     ratiosCommonVertices = []
     ratiosCommonEdges = []
     for i in range(1, len(dates)):
@@ -124,26 +117,36 @@ if __name__ == "__main__":
         cmpGraphPath += ASNumber + "_" + dates[i][0] + "-" + dates[i][1] + ".graph"
         cmpDate = dates[i][0] + "/" + dates[i][1] + "/" + dates[i][2]
         
-        # Checks the file exist
+        # Checks the file exist and parses it
         if not os.path.isfile(cmpGraphPath):
             print("The " + str(i+1) + "th graph file does not exist (path: " + cmpGraphPath + ").")
             sys.exit()
         
-        # Parses the .graph file
         with open(cmpGraphPath) as f:
             cmpGraphLines = f.read().splitlines()
         cmpVertices = getNeighborhoods(cmpGraphLines)
         cmpGraph = getAdjacencyMatrix(cmpGraphLines, cmpVertices)
         
-        # Finds common vertices
+        # Finds common/similar vertices
+        commonWithBestEffort = set()
         commonVertices = set()
+        totalNonBestEffort = 0
         for n in refVertices:
-            if n in cmpVertices:
-                commonVertices.add(n)
-        ratioVertices = (float(len(commonVertices)) / float(len(refVertices))) * 100
+            if " | " not in n and "echoing" not in n: # Ignores "best effort" neighborhoods
+                totalNonBestEffort += 1
+                if n in cmpVertices:
+                    commonVertices.add(n)
+                    commonWithBestEffort.add(n)
+            elif n in cmpVertices:
+                commonWithBestEffort.add(n)
+        
+        ratioWithBestEffort = (float(len(commonWithBestEffort)) / float(len(refVertices))) * 100
+        ratioVertices = (float(len(commonVertices)) / float(totalNonBestEffort)) * 100
         
         print("--- Comparaison of snapshots for " + ASNumber + " (" + refDate + " and " + cmpDate + ") ---")
-        print("Common vertices: " + str(len(commonVertices)) + " (" + str('%.2f' % ratioVertices) + '%)')
+        print("Common vertices (w/ best effort): " + str(len(commonWithBestEffort)) + " (" + str('%.2f' % ratioWithBestEffort) + '%)')
+        print("Common vertices (w/o best effort): " + str(len(commonVertices)) + " (" + str('%.2f' % ratioVertices) + '%)')
+        ratiosWithBestEffort.append(ratioWithBestEffort)
         ratiosCommonVertices.append(ratioVertices)
         
         # Removes from commonToAll any vertex that is NOT in cmpVertices
@@ -165,22 +168,18 @@ if __name__ == "__main__":
             ID1 = int(refVertices[v][1:])
             ID2 = int(cmpVertices[v][1:])
             for j in range(0, refGraph.shape[1]):
-                # For each (in)direct link in the first graph
-                if refGraph[ID1 - 1][j] == 1:
+                if refGraph[ID1 - 1][j] == 1: # For each (in)direct link in the first graph
                     ID3 = j + 1
                     otherLabel = reverseDict["N" + str(ID3)]
-                    # The next neighborhood in the topology also exists in the second graph
-                    if otherLabel in cmpVertices:
+                    if otherLabel in cmpVertices: # The next vertex also exists in the second graph
                         totalEdges += 1
                         ID4 = int(cmpVertices[otherLabel][1:])
-                        # The link present in the first graph also exists in the second graph
-                        if cmpGraph[ID2 - 1][ID4 - 1] == 1:
+                        if cmpGraph[ID2 - 1][ID4 - 1] == 1: # The link also exists in the second graph
                             commonEdge = "N" + str(ID1) + " -> N" + str(ID3)
                             commonEdge += " <=> N" + str(ID2) + " -> N" + str(ID4)
                             if commonEdge not in commonEdges: # Just in case
                                 commonEdges.add(commonEdge)
-                # If it's a remote link, continue (remote links are more "volatile")
-                elif refGraph[ID1 - 1][j] == 2:
+                elif refGraph[ID1 - 1][j] == 2: # Remote links are ignored (too many unknown hops)
                     continue
         
         if totalEdges > 0:
@@ -193,8 +192,8 @@ if __name__ == "__main__":
             print("There is no common edge between both graphs.")
     
     print("--- Summary for " + ASNumber + " ---")
-    ratioCommonToAll = (float(len(commonToAll)) / float(len(refVertices))) * 100
-    print("Vertices found in all snapshots: " + str(len(commonToAll)) + " (" + str('%.2f' % ratioCommonToAll) + '%)')
+    ratioCommonToAll = (float(len(commonToAll)) / float(totalNonBestEffort)) * 100
+    print("Vertices (w/o best effort) found in all snapshots: " + str(len(commonToAll)) + " (" + str('%.2f' % ratioCommonToAll) + '%)')
     print("Ratios of common vertices (w.r.t. reference snapshot): " + str(ratiosCommonVertices))
     print("Ratios of common edges (w.r.t. reference snapshot): " + str(ratiosCommonEdges))
     
@@ -205,16 +204,18 @@ if __name__ == "__main__":
     
     # Bar chart stuff
     ind = np.arange(len(ratiosCommonEdges))
-    widthBar = 0.7
+    widthBar = 0.4
+    padding = 0.2
 
     # Plots result
     plt.figure(figsize=(13,9))
     plt.rcParams.update({'font.family': 'Times New Roman'})
     
     xAxis = range(0, len(ratiosCommonEdges), 1)
-    plt.plot(xAxis, ratiosCommonEdges, color='#000000', linewidth=3, marker='o', label="Redundant edges")
-    plt.bar(ind, ratiosCommonVertices, widthBar, color='#CCCCCC', edgecolor='#000000', linewidth=2, label="Common vertices")
-    plt.axhline(y=ratioCommonToAll, linewidth=4, linestyle='--', color='#0000FF', label="Intersection")
+    plt.plot(xAxis, ratiosCommonEdges, color='#000000', linewidth=3, marker='o', markersize=12, label="Edges")
+    plt.bar(ind - widthBar + padding, ratiosWithBestEffort, widthBar, color='#959595', label="Vertices (w/ BE)")
+    plt.bar(ind + padding, ratiosCommonVertices, widthBar, color='#555555', label="Vertices")
+    plt.axhline(y=ratioCommonToAll, linewidth=3, linestyle='--', color='#00CDFF', label="Intersection")
     
     # Limits
     plt.ylim([0, 105])
@@ -249,7 +250,7 @@ if __name__ == "__main__":
         ticksForX.append(dates[i][0] + "/" + dates[i][1])
     plt.xticks(xAxis, ticksForX, **hfont3)
     
-    plt.ylabel('Ratio (%)', **hfont)
+    plt.ylabel('Redundancy ratio (%)', **hfont)
     plt.xlabel('Snapshot (reference=' + dates[0][0] + '/' + dates[0][1] + ')', **hfont)
     
     plt.grid()
@@ -259,7 +260,7 @@ if __name__ == "__main__":
                ncol=4, 
                mode="expand", 
                borderaxespad=0.,
-               fontsize=24)
+               fontsize=23)
     
     firstDataset = '-'.join(dates[0])
     lastDataset = '-'.join(dates[len(dates) - 1])

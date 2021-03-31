@@ -1,6 +1,6 @@
 # Dataset
 
-*By Jean-François Grailet (last updated: October 23, 2020)*
+*By Jean-François Grailet (last updated: March 31, 2021)*
 
 ## About
 
@@ -13,24 +13,28 @@ A few remarks about this public dataset:
 * Each AS sub-folder contains a target file named after the AS and suffixed in `.txt`. Such a file 
   provides all IPv4 prefixes associated to the AS, with one prefix per line.
 
-* An AS sub-folder might also contain similar target file but prefixed with an underscore (_). 
-  This is simply because target files for ASes that have been already measured in Spring 2020 have 
-  been updated in June 2020. The file without the underscore denotes the current target file, 
-  while the target file prefixed by an underscore corresponds to what we used prior to June 2020.
-
 * The IPv4 prefixes were obtained via the BGP toolkit of Hurricane Electric. You can access 
   and use the BGP toolkit at the following address:
   
   http://bgp.he.net
 
-* For the sake of reproducibility, we also provide in a **Scripts/** folder the bash scripts and 
-  the typical files we used to schedule and retrieve our measurements.
+* Our target ASes are selected to be representative, i.e., they encompass Tier-1, Transit as well 
+  as Stub ASes. In particular, some Transit/Tier-1 were selected with the help of CAIDA's AS Rank, 
+  which is available at the following address:
+  
+  https://asrank.caida.org/
+
+* For the sake of reproducibility, we also provide in a **Scripts/** sub-repository the bash 
+  scripts and the typical files we used to schedule and retrieve our measurements.
+
+* Finally, a **Archives/** sub-repository provides older target files as well as scripts we used 
+  when `SAGE` was still being deployed from the PlanetLab testbed.
 
 ## About the testbeds and measurement scheduling
 
-The snapshots provided in this repository were collected from two different testbeds: 
-[PlanetLab](https://planet-lab.eu/) and [EdgeNet](https://edge-net.org/). Indeed, 
-[PlanetLab was terminated during 2020](https://www.systemsapproach.org/blog/its-been-a-fun-ride), 
+The snapshots provided in this repository were collected from both the 
+[PlanetLab testbed](https://planet-lab.eu/) and the [EdgeNet cluster](https://edge-net.org/). 
+Indeed, [PlanetLab termination was announced during 2020](https://www.systemsapproach.org/blog/its-been-a-fun-ride), 
 so the earliest snapshots collected with `SAGE` were still using vantage points from PlanetLab 
 (until March 2020 included), but starting from September 2020, all snapshots were collected from 
 the EdgeNet cluster.
@@ -40,22 +44,13 @@ the past two years, the measurements run from PlanetLab were organized as campai
 the most out of the available nodes. During such campaigns, vantage points were rotated between 
 each snapshot, therefore ensuring each snapshot for a given AS was collected from a different 
 vantage point. This scheduling strategy is actually identical to the strategy used to collect 
-data with [`WISE`](https://github.com/JefGrailet/WISE). The dates of each campaign present in 
-this dataset are provided below.
-
-|  Start date  |  End date  |  # probed ASes  |  Number  |
-| :----------: | :--------- | :-------------- | :------- |
-| 29/12/2019   | 15/01/2020 | 12              | 1        |
-| 06/03/2020   | 20/03/2020 | 12              | 2        |
-
-The ASes targetted by each campaign as well as the sets of involved vantage points can be found 
-in the "PlanetLabCampaignX.md" files at the root of this folder, where X is the number of the 
-campaign as shown in the above table.
+data with [`WISE`](https://github.com/JefGrailet/WISE). More details about PlanetLab campaigns 
+are provided in the *Archives/PlanetLab/* sub-repository.
 
 The snapshots collected from EdgeNet do not follow such a scheme, but our selection of the 
 vantage point upon scheduling a measurement typically makes sure the selected EdgeNet node was 
-never used before to probe the given AS (or that the amount of snapshots collected from this 
-vantage point is the lowest among available nodes).
+never used before to probe the given AS or that the amount of snapshots collected from this 
+vantage point is the lowest among available nodes.
 
 ## Composition of this dataset
 
@@ -64,7 +59,7 @@ retrieved with the BGP toolkit from Hurricane Electric along with sub-folders ma
 year and date of each measurement. Each unique set of files (or _snapshot_, see below) is matched 
 with a sub-path /yyyy/mm/dd/.
 
-### Typical content
+### Typical content of a snapshot
 
 A dataset for a given autonomous system consists of several _snapshots_ which are collections of 
 files computed during a single measurement of said AS from a single vantage point (or VP) using a 
@@ -129,6 +124,13 @@ failure).
   parsing a `.graph`, one can therefore ignore the _medium_ associated to any link pointing 
   towards a neighborhood comparable to `v`. As of October 12, 2020, the public code of `SAGE` no 
   longer searches a _medium_ for such links.
+
+* Various comments in the code, variable names or metrics denotes an _alias_ as the complete list 
+  of IPs that could be aliased with each others. This is kind of a language abuse: usually, in the 
+  scientific literature, the term _alias list_ is preferred, while an _alias pair_ (also fairly 
+  common) denotes two IPs that were aliased with each other. Therefore, when a `.metrics` file 
+  mentions the _maximum size of an alias_, it means of course the maximum amount of IPs that could 
+  be aliased with each others, i.e., the maximum amount of IPs found in a same _alias list_.
 
 ## Contact
 

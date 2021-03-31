@@ -1,6 +1,6 @@
 # Evaluation of graph isomorphism
 
-*By Jean-François Grailet (last updated: October 23, 2020)*
+*By Jean-François Grailet (last updated: March 31, 2021)*
 
 ## About
 
@@ -10,41 +10,73 @@ them respectively in the **Dataset/** and **src/** sub-folders at the root of th
 
 You can use the content of this folder in order to evaluate the isomorphism of graphs, i.e., 
 evaluate how similar two graphs **of a same target network** are. The purpose of the provided 
-scripts is to verify whether graphs of a same target network collected from different vantage 
-points (and on different dates) share similarities or not. We are in particular interested by 
-three metrics.
+scripts is to check to what extent graphs of a same target network collected from different 
+vantage points (and on different dates) are similar.
 
-* **Redundant edges ratio:** this metric expresses the amount of edges that exist in two given 
-  graphs with respect to the amount of edges that _can_ exist in both graphs, i.e., the vertices 
-  connected by an edge of the first graph also exist in the second graph. A high ratio of 
-  redundant edges mean that `SAGE` discovered the same links for all vertices that appears in 
-  both graphs despite the change of vantage point. A low ratio means that `SAGE` fails to 
-  recognize the same links despite that the target network is the same.
+## Quantifiying similarities between two measurements
 
-* **Common vertices ratio:** this metric expresses how many vertices present in the first graph 
-  also appears in the second graph, with respect to the total amount of vertices that exist in 
-  the first graph. A high ratio means that `SAGE` could discover the same vertices despite the 
-  change of vantage point.
+To compare graphs, one can first compare the vertices, i.e., the neighborhoods discovered by 
+`SAGE` in each snapshot (i.e., the data collected by `SAGE` for a single target network from a 
+single vantage point). In the data, neighborhoods are typically identified by one or several 
+router interfaces, with several router interfaces meaning the neighborhood was built with the 
+help of alias resolution (e.g., if it's a convergence point in load-balanced paths). It is 
+therefore possible to check if a neighborhood is present in two snapshots by checking if there 
+exists one vertice in each snapshot identified by the same router interface(s).
 
-* **Intersection of vertices:** when reviewing several graphs together (comparing the first 
-  graph of the bunch with all subsequent graphs), this metric expresses the ratio of vertices 
-  from the first graph that always reappear in the subsequent graphs. When compared with the 
-  common vertices ratio for each graph, this metric hints the amount of unique vertices that 
-  are discovered with each graph. A small intersection (expressed by a low ratio) with high 
-  common vertices ratios suggests that `SAGE` discovers consistently the same target network 
-  despite the change of vantage point, but gets a slightly different picture for each vantage 
-  point.
+It's worth reminding that in some cases, `SAGE` cannot build a neighborhood on the basis of 
+the last hops towards a set of subnets due to these last hops containing problematic hops such as 
+anonymous interfaces. For such cases, `SAGE` relies on _best effort_ strategies to build 
+neighborhoods, which are consequently named _best effort_ neighborhoods. It is still possible to 
+compare labels of _best effort_ neighborhoods, though there are less likely to always appear in 
+the same way depending on the vantage point. This is why it is recommended to quantify the 
+ratio of common vertices in two snapshots (i.e., the total of vertices appearing in both 
+snapshots w.r.t. to the total of vertices in the first snapshot) with and without _best effort_ 
+neighborhoods.
+
+After quantifying the common vertices, it becomes possible to check whether the graphs in two 
+snapshots provide comparable edges. I.e., if two snapshots feature neighborhoods/vertices 
+identified by the router interfaces `u` and `v`, if the first snapshot contains an edge 
+`u -> v`, then this edge should appear as well in the second snapshot.
+
+## Metrics
+
+The scripts and figures of this sub-repository use the following metrics.
+
+* **Redudant non-best effort neighborhoods ratio:** given two graphs (snapshots), this metric 
+  expresses how many neighborhoods (vertices), excluding _best effort_ neighborhoods, appear in 
+  both graphs, i.e., they are identified by the same router interfaces. This ratio is computed as 
+  the total of redundant vertices divided by the total of vertices found in the first graph.
+
+* **Redundant neighborhoods ratio:** this is the same metric as above, but including _best effort_ 
+  neighborhoods. This ratio is usually lower than the previous one due to _best effort_ 
+  neighborhoods being less likely to appear identically depending on the vantage points from 
+  where `SAGE` was run.
+
+* **Redundant edges ratio:** given two graphs (snapshots), this metric expresses the amount of 
+  edges that exist in both graphs with respect to the amount of edges that _can_ exist in both 
+  graphs, i.e., the vertices connected by an edge of the first graph also exist in the second 
+  graph. E.g., for an edge `u -> v` found in the first graph, `u` and `v` must also exist in 
+  the second graph to test whether the selected edge is redundant.
+
+* **Intersection of vertices:** given a set of graphs (snapshots) collected for a same target 
+  network but from different vantage points (and different dates), this metric expresses the 
+  ratio of vertices from the first graph that always reappear in the subsequent graphs. It is 
+  meant to evaluate how many neighborhoods from the first measurement always reappear in 
+  subsequent measurements despite the change of vantage point.
+
+## Scripts
 
 There are three scripts to review these metrics.
 
 * `CompareGraphs.py`: given a target Autonomous System (or AS) and a list of dates (provided in 
-  a text file), compares the graph obtained on the first date with each subsequent graph. The 
-  computed metrics are written in the console and plotted in a figure at the end.
+  a text file), compares the graph obtained on the first date with each graph computed on each 
+  subsequent date. The computed metrics are both written in the console and plotted in a PDF 
+  figure.
 
 * `CompareGraphPair.py`: given a target Autonomous System (or AS) and two dates in dd/mm/yyyy 
-  format, compares the two graphs produced on both dates to obtain the ratio of redundant edges 
-  and the ratio of common vertices. In addition, this script also writes a detailed description 
-  of the redundant edges in the console.
+  format, compares the two graphs produced on both dates by computing the previously described 
+  metrics. In addition, this script also writes a detailed description of the redundant edges in 
+  the console.
 
 * `IsomorphismFigures.sh`: if provided with a list of Autonomous Systems (ASes) in text format 
   as well as a list of dates (again in text format), this Shell script will run the Python script 
@@ -64,7 +96,7 @@ Here is the typical command you could use to generate figures for the ASes liste
   in your file system where you placed the data collected by `SAGE`.
 
 * `IsomorphismFigures.sh` will be relevant if and only if the graphs available for the listed ASes 
-  were produced on the same dates, just like for the two PlanetLab campaigns of `SAGE` which you 
+  were produced on the same dates, just like with the two PlanetLab campaigns of `SAGE` which you 
   will find in the **Dataset/** sub-folder located at the root of this repository. Consider using 
   `CompareGraphs.py` directly (thus, one AS at a time with differing dates) if the graphs which 
   you want to compare for a collection of ASes were not produced on the same dates.

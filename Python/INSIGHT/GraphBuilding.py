@@ -105,12 +105,13 @@ def bipartiteGraph(graphFileLines):
             nodesNeighborhoods.add(lineSplit[2])
         
         subnetName = ""
+        thirdParty = ""
         # Case of an unknown medium: creates an hypothetic subnet
         if lineSplit[3] == "(unknown":
             subnetName = "T" + str(hypotSubnetCount)
             hypotSubnets.add(subnetName)
             hypotSubnetCount += 1
-        # Case of a remote link: creates a special hypotnary subnet
+        # Case of a remote link: creates a special subnet vertex
         elif lineSplit[3] == "through":
             subnetName = "U" + str(remoteLinksCount)
             remoteLinks.add(subnetName)
@@ -125,12 +126,16 @@ def bipartiteGraph(graphFileLines):
                 hypotSubnetCount += 1
             elif subnetCIDR in subnetsReverse:
                 subnetName = subnetsReverse[subnetCIDR]
+                if len(lineSplit) == 7: # "(from ...)"
+                    thirdParty = lineSplit[6][:-1]
             else:
                 subnetName = "S" + str(subnetIDCount)
                 subnetsDict[subnetName] = subnetCIDR
                 subnetsReverse[subnetCIDR] = subnetName
                 nodesSubnets.add(subnetName)
                 subnetIDCount += 1
+                if len(lineSplit) == 7: # "(from ...)"
+                    thirdParty = lineSplit[6][:-1]
         # Not a valid line: skips to next iteration
         else:
             continue
@@ -138,6 +143,8 @@ def bipartiteGraph(graphFileLines):
         # Creates the edges
         formattedEdges.append([lineSplit[0], subnetName])
         formattedEdges.append([lineSplit[2], subnetName])
+        if len(thirdParty) > 0:
+            formattedEdges.append([thirdParty, subnetName])
     
     # The sets are turned into ordered lists to be able to draw the same figure upon re-run
     listBip1_1 = list(nodesNeighborhoods)
@@ -194,7 +201,117 @@ def completeBipartiteGraph(bipGraph, neighborhoods, subnetsVertices):
             if subnet.getCIDR() not in subnetsLinks:
                 sID = "S" + str(subnetIDCount)
                 bipCopy.add_node(sID)
-                bipCopy.add_edge(nID, sID)
+                bipCopy.add_edge(nID, sID) # Will also add degree-1, isolated neighborhoods
                 subnetIDCount += 1
     
     return bipCopy
+
+def formatForProjections(bipGraph):
+    '''
+    Function which builds a copy of a bipartite graph and removes all multi-hop nodes (U_X) and 
+    their incident edges from it. The purpose is to prepare the graph for top/bottom projections, 
+    as such projections should only feature one-hop relationships.
+    
+    :param bipGraph:         The bipartite graph to prepare (as built by bipartiteGraph() or 
+                             returned by completeBipartiteGraph())
+    '''
+    
+    # Creates a copy of the initial graph
+    bipCopy = bipGraph.copy()
+    
+    # Removes all U_X vertices
+    allVertices = list(bipCopy.nodes)
+    for vertex in allVertices:
+        if vertex.startswith("U"):
+            bipCopy.remove_node(vertex)
+    
+    return bipCopy
+
+def bipTopProjection(bipGraph, neighborhoods):
+    '''
+    Function which builds the projection of a bipartite graph on its neighborhoods (top nodes) and 
+    formats the resulting graph as a dictionary where each item corresponds to one neighborhood 
+    and its list of adjacent vertices (other neighborhoods).
+    
+    :param bipGraph:         The bipartite graph after omitting multi-hops vertices (i.e., output 
+                             formatForProjections())
+    :param neighborhoods:    The list of neighborhoods parsed in the same snapshot used to build 
+                             bipGraph
+    '''
+    
+    neighborhoodsLabels = []
+    bipNodes = list(bipGraph.nodes)
+    for neighborhood in neighborhoods:
+        nID = neighborhood.getLabelID()
+        if nID in bipNodes:
+            neighborhoodsLabels.append(nID)
+    topProj = nx.bipartite.projected_graph(bipGraph, neighborhoodsLabels)
+    
+    projDict = dict()
+    allVertices = list(topProj.nodes)
+    for vertex in allVertices:
+        incidentEdges = topProj.edges(vertex)
+        projDict[vertex] = []
+        for edge in incidentEdges:
+            other = edge[1]
+            if edge[1] == vertex:
+                other = edge[0]
+            projDict[vertex].append(other)
+        projDict[vertex].sort()
+    
+    return projDict
+
+def bipBotProjection(bipGraph, subnetsVertices):
+    '''
+    Function which builds the projection of a bipartite graph on its subnets (bottom nodes) and 
+    formats the resulting graph as a dictionary where each item corresponds to one subnet and its 
+    list of adjacent vertices (other subnets). Note that hypothetic subnets are included, since 
+    they model an existing links that could not be seen by subnet inference.
+    
+    :param bipGraph:         The bipartite graph after omitting multi-hops vertices (i.e., output 
+                             formatForProjections())
+    :param neighborhoods:    The list of subnets used as vertices
+    '''
+    
+    subnetsLabels = []
+    bipNodes = list(bipGraph.nodes)
+    for subnet in subnetsVertices:
+        if subnet in bipNodes:
+            subnetsLabels.append(subnet)
+    topProj = nx.bipartite.projected_graph(bipGraph, subnetsLabels)
+    
+    projDict = dict()
+    allVertices = list(topProj.nodes)
+    for vertex in allVertices:
+        incidentEdges = topProj.edges(vertex)
+        projDict[vertex] = []
+        for edge in incidentEdges:
+            other = edge[1]
+            if edge[1] == vertex:
+                other = edge[0]
+            projDict[vertex].append(other)
+        projDict[vertex].sort()
+    
+    return projDict
+
+def projectionToText(projDict):
+    '''
+    Utility function which turns a projection dictionary into a single string that can be flushed 
+    into an output file.
+    
+    :param projDict:      The dictionary of a projection as created by bipTopProjection()
+    '''
+    
+    finalStr = ""
+    for vertex in projDict:
+        neighborsList = projDict[vertex]
+        if len(neighborsList) == 0:
+            continue
+        neighborsStr = ""
+        for i in range(0, len(neighborsList)):
+            if i > 0:
+                neighborsStr += ", "
+            neighborsStr += neighborsList[i]
+        finalStr += vertex + ": " + neighborsStr + "\n"
+    
+    return finalStr

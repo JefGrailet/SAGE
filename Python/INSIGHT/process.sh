@@ -1,15 +1,16 @@
 #!/bin/bash
 
-datasetPath="/home/jefgrailet/Online repositories/SAGE/Dataset" # TODO: modify this !
-
-if [ $# -lt 1 ] && [ $# -gt 3 ]; then
+if [ $# -lt 1 ] || [ $# -gt 3 ]; then
     echo "Usage: ./process.sh [AS number] [[--dates=[dd-mm-yyyy separated with commas]]] [[--replace]]"
     exit 1
 fi
 
-# Modes for INSIGHT; no raw graph (i.e. directed graph of neighborhoods) generated for now
-nbModes=1
-modes[0]="bip"
+# Modes for INSIGHT; no raw graph (i.e. visual of the neighborhood-based DAG) generated for now
+nbModes=2
+modes[0]="Bip"
+modes[1]="BipProjTop"
+withTextDump[0]=true
+withTextDump[1]=false
 
 # Deals with arguments
 ASNumber=${1}
@@ -29,6 +30,7 @@ if [ $# -gt 1 ] && [ $# -le 3 ]; then
 fi
 
 # Checks there's a directory for this AS
+datasetPath="/home/jefgrailet/Online repositories/SAGE/Dataset" # TODO: change this !
 ASRoot=$datasetPath"/"$ASNumber
 if ! [ -d "$ASRoot" ]; then
     echo "Error: there is no directory (and therefore no data) for $ASNumber."
@@ -109,16 +111,24 @@ while [ $i -lt $nbDates ]; do
     if ! $folderExists; then
         mkdir -p ./Results/$ASNumber/${datesY[$i]}/${datesM[$i]}/${datesD[$i]}
     fi
+    
+    snapshotPrefix=$ASRoot"/"${datesY[$i]}"/"${datesM[$i]}"/"${datesD[$i]}
+    snapshotPrefix=$snapshotPrefix"/"$ASNumber"_"${datesD[$i]}"-"${datesM[$i]}
+    dateStr=${datesD[$i]}"-"${datesM[$i]}"-"${datesY[$i]}
+    echo "Processing snapshot for $ASNumber collected on $dateStr..."
+    
+    # Runs the different modes of INSIGHT on the selected snapshot
     j=0
     while [ $j -lt $nbModes ]; do
         outputFilePrefix=$fileNamePrefix"_"${modes[$j]}
-        snapshotPrefix=$ASRoot"/"${datesY[$i]}"/"${datesM[$i]}"/"${datesD[$i]}
-        snapshotPrefix=$snapshotPrefix"/"$ASNumber"_"${datesD[$i]}"-"${datesM[$i]}
-        dateStr=${datesD[$i]}"-"${datesM[$i]}"-"${datesY[$i]}
-        echo "Running INSIGHT on snapshot for $ASNumber collected on $dateStr..."
-        python INSIGHT.py ${modes[$j]} "$snapshotPrefix" $outputFilePrefix > $outputFilePrefix.txt
+        if ${withTextDump[$j]} ; then
+            python INSIGHT.py ${modes[$j]} "$snapshotPrefix" $outputFilePrefix > $outputFilePrefix.txt
+        else
+            python INSIGHT.py ${modes[$j]} "$snapshotPrefix" $outputFilePrefix
+        fi
         mv $outputFilePrefix* ./Results/$ASNumber/${datesY[$i]}/${datesM[$i]}/${datesD[$i]}/
         j=`expr $j + 1`
     done
+    
     i=`expr $i + 1`
 done

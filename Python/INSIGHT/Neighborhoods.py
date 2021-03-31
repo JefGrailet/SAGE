@@ -134,6 +134,9 @@ class Neighborhood:
             return True
         return False
     
+    def getLabelID(self):
+        return "N" + str(self.ID)
+    
     def getLabel(self):
         baseLabel = "N" + str(self.ID) + " - {" + self.label + "}"
         if self.type == self.TYPE_CLUSTER:

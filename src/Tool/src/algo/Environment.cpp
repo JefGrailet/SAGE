@@ -19,8 +19,8 @@ Mutex Environment::emergencyStopMutex(Mutex::ERROR_CHECKING_MUTEX);
 Environment::Environment(ostream *cOut, 
                          unsigned short protocol, 
                          InetAddress &localIP, 
-                         NetworkAddress &lan, 
-                         unsigned short mode): localIPAddress(localIP), LAN(lan)
+                         unsigned char lanMask, 
+                         unsigned short mode): localIPAddress(localIP)
 {
     IPDictionary = new IPLookUpTable();
     subnets = new list<Subnet*>();
@@ -29,7 +29,9 @@ Environment::Environment(ostream *cOut,
     consoleOut = cOut;
     externalLogs = false;
     isExternalLogOpened = false;
+    
     probingProtocol = protocol;
+    LANSubnetMask = lanMask;
     
     timeoutPeriod = TimeVal(2, TimeVal::HALF_A_SECOND); // 2,5s
     probeRegulatingPeriod = TimeVal(0, 250000); // 0,25s
