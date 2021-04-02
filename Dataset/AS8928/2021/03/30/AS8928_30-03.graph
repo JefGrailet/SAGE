@@ -1,0 +1,28 @@
+N1 - {170.178.155.3} (170.178.155.3 not among targets)
+N2 - {195.94.61.54} (195.94.61.54 not among targets)
+N3 - {4.68.37.118} (4.68.37.118 not among targets)
+N4 - {72.37.158.98} (72.37.158.98 not among targets)
+N5 - {89.149.184.122} (89.149.184.122 not among targets)
+N6 - {Echo, TTL=13, Pre-echoing=89.149.184.122}
+N7 - {89.202.168.146} (89.202.168.146 not among targets)
+N8 - {Echo, TTL=14, Pre-echoing=89.202.168.146}
+N9 - {193.17.171.106}
+N10 - {62.115.123.104} (62.115.123.104 not among targets)
+N11 - {194.190.254.42} (194.190.254.42 not among targets)
+N12 - {80.250.165.78} (80.250.165.78 not among targets)
+N13 - {89.149.130.214} (89.149.130.214 not among targets)
+
+N3 -> N4 through one intermediate hop
+N3 -> N5 (unknown medium)
+N3 -> N7 through one intermediate hop
+N5 -> N6 (unknown medium)
+N7 -> N8 (unknown medium)
+N7 -> N9 via 193.17.171.96/28
+N10 -> N11 through 2 intermediate hops
+N11 -> N12 (unknown medium)
+N12 -> N13 (unknown medium)
+
+N3 -> N4: 89.149.182.174
+N3 -> N7: 89.149.130.138
+N10 -> N11 (1): 80.239.194.255, 194.85.40.157
+N10 -> N11 (2): 80.239.194.255, 194.85.40.206

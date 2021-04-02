@@ -1,0 +1,36 @@
+N1 - {Echo, TTL=23, Pre-echoing=64.125.25.22, 216.119.33.226 (offset=2)}
+N2 - {Echo, TTL=23, Pre-echoing=216.119.33.226 (offset=1)}
+N3 - {Echo, TTL=23, Pre-echoing=64.125.30.231 (offset=3)}
+N4 - {Echo, TTL=23, Pre-echoing=64.125.25.22 (offset=3)}
+N5 - {170.178.155.3 | 1} (170.178.155.3 not among targets)
+N6 - {216.119.33.226 | 1} (216.119.33.226 not among targets)
+N7 - {170.178.155.3} (170.178.155.3 not among targets)
+N8 - {Echo, TTL=23, Pre-echoing=170.178.155.3}
+N9 - {154.54.10.238} (154.54.10.238 not among targets)
+N10 - {72.37.158.98} (72.37.158.98 not among targets)
+N11 - {195.94.61.54} (195.94.61.54 not among targets)
+N12 - {213.254.215.1} (213.254.215.1 not among targets)
+N13 - {89.149.184.122} (89.149.184.122 not among targets)
+N14 - {Echo, TTL=15, Pre-echoing=89.149.184.122}
+N15 - {89.202.168.146} (89.202.168.146 not among targets)
+N16 - {Echo, TTL=16, Pre-echoing=89.202.168.146}
+N17 - {193.17.171.106}
+N18 - {194.190.254.42} (194.190.254.42 not among targets)
+N19 - {80.250.165.78} (80.250.165.78 not among targets)
+N20 - {89.149.130.214} (89.149.130.214 not among targets)
+
+N7 -> N8 (unknown medium)
+N9 -> N10 through one intermediate hop
+N9 -> N11 through one intermediate hop
+N9 -> N12 (unknown medium)
+N9 -> N13 (unknown medium)
+N9 -> N15 through one intermediate hop
+N13 -> N14 (unknown medium)
+N15 -> N16 (unknown medium)
+N15 -> N17 via 193.17.171.96/28
+N18 -> N19 (unknown medium)
+N19 -> N20 (unknown medium)
+
+N9 -> N10: 89.149.182.174
+N9 -> N11: 89.149.187.9
+N9 -> N15: 89.149.130.138

@@ -1,0 +1,91 @@
+SAGE (Subnet AGgrEgation) v2.0 - Time at start: 21-03-2021 10:20:00
+
+--- Start of target pre-scanning ---
+Pre-scanning with initial timeout... done.
+Found a total of 1970 responsive IPs.
+Second opinion with twice the timeout (5sec : 0micsec)... done.
+Found a total of one additional reponsive IP.
+--- End of target pre-scanning (21-03-2021 10:30:29) ---
+Elapsed time: 10 minutes 29 seconds
+Total amount of probes: 27726
+Total amount of successful probes: 4575 (16.5008%)
+Total amount of discovered responsive IPs: 1971
+
+Filtered target IPs have been saved in an output file AS8928_21-03.ips (temporar).
+
+--- Start of target scanning ---
+Starting the estimation of distance of all target IPs (in TTL).
+To do this, 62 threads will be scheduled (up to 32 target IPs per thread).
+1590 out of 1971 IPs with an estimated TTL (80.6697%) need to be re-probed to improve trails.
+Starting re-probing target IPs with incomplete trails.
+Starting re-probing n°1.
+To do this, 8 threads will be scheduled (from 1 to 337 target IPs per thread).
+
+There are flickering IPs that could lead to the discovery of one alias.
+Now starting alias hints collection...
+Collecting hints for 89.149.184.122, 209.120.137.217... Done.
+Resolving... Done.
+--- End of target scanning (21-03-2021 11:13:22) ---
+Elapsed time: 42 minutes 53 seconds
+Total amount of probes: 20031
+Total amount of successful probes: 8689 (43.3778%)
+
+Updated IP dictionary has been saved in the output file AS8928_21-03.ips.
+
+--- Start of subnet inference ---
+Inferring subnets... Done.
+Post-processing the discovered subnets... Done.
+--- End of subnet inference (21-03-2021 11:13:22) ---
+Elapsed time: less than one second
+
+Inferred subnets has been saved in the output file AS8928_21-03.subnets.
+Alias hints (subnet inference) have been saved in the output file AS8928_21-03.hints.
+Fingerprints (subnet inference) have been saved in the output file AS8928_21-03.fingerprints.
+
+--- Start of neighborhood inference ---
+Collecting additional data to discover and locate neighborhoods.
+
+1023 IPs will be used as targets for traceroute-like probing, using 256 threads (up to 4 targets per thread).
+Probing the 1023 target IPs... Done.
+Building initial aggregates of subnets... Done.
+Discovered direct peer IP(s) for 10 aggregates.
+Discovered remote peer IP(s) for 5 aggregates.
+One aggregate doesn't have any peer.
+Building the vertices of the graph... Done.
+Building the edges of the graph... Done.
+--- End of neighborhood inference (21-03-2021 11:17:08) ---
+Elapsed time: 3 minutes 46 seconds
+Total amount of probes: 11408
+Total amount of successful probes: 6586 (57.7314%)
+
+Updated IP dictionary has been saved in the output file AS8928_21-03.ips.
+Alias hints (up to graph building) have been saved in the output file AS8928_21-03.hints.
+Fingerprints (up to graph building) have been saved in the output file AS8928_21-03.fingerprints.
+Additional traceroute data has been saved in the output file AS8928_21-03.peers.
+Neighborhoods have been saved in the output file AS8928_21-03.neighborhoods.
+Network graph been saved in the output file AS8928_21-03.graph.
+
+--- Start of full alias resolution ---
+Conducting alias resolution on N1 - {209.120.137.217}... Done.
+Conducting alias resolution on N2 - {Echo, TTL=20, Pre-echoing=64.125.25.22 (offset=3)}... Done.
+Conducting alias resolution on N4 - {89.149.128.5}... Done.
+Conducting alias resolution on N5 - {89.149.130.141}... Done.
+Conducting alias resolution on N6 - {195.94.61.54}... Done.
+Conducting alias resolution on N7 - {213.254.215.1}... Done.
+Conducting alias resolution on N8 - {89.149.184.122}... Done.
+Conducting alias resolution on N9 - {Echo, TTL=11, Pre-echoing=89.149.184.122}... Done.
+Conducting alias resolution on N10 - {89.202.168.146}... Done.
+Conducting alias resolution on N12 - {193.17.171.106}... Done.
+Conducting alias resolution on N13 - {170.178.155.3}... Done.
+Conducting alias resolution on N14 - {Echo, TTL=20, Pre-echoing=170.178.155.3}... Done.
+Conducting alias resolution on N15 - {89.149.180.234}... Done.
+Conducting alias resolution on N16 - {72.37.158.98}... Done.
+--- End of full alias resolution (21-03-2021 11:20:32) ---
+Elapsed time: 3 minutes 24 seconds
+Total amount of probes: 397
+Total amount of successful probes: 315 (79.3451%)
+
+Final alias hints have been saved in the output file AS8928_21-03.hints.
+Final fingerprints have been saved in the output file AS8928_21-03.fingerprints.
+Final aliases been saved in the output file AS8928_21-03.aliases-f.
+Network graph metrics been saved in the output file AS8928_21-03.metrics.
