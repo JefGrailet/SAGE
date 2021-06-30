@@ -1,6 +1,6 @@
 # Dataset
 
-*By Jean-François Grailet (last updated: March 31, 2021)*
+*By Jean-François Grailet (last updated: June 30, 2021)*
 
 ## About
 
@@ -26,6 +26,9 @@ A few remarks about this public dataset:
 
 * For the sake of reproducibility, we also provide in a **Scripts/** sub-repository the bash 
   scripts and the typical files we used to schedule and retrieve our measurements.
+
+* An additional `Miscellaneous.md` file provides various remarks about how the measurements were 
+  planned or performed.
 
 * Finally, a **Archives/** sub-repository provides older target files as well as scripts we used 
   when `SAGE` was still being deployed from the PlanetLab testbed.

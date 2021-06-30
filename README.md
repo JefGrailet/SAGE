@@ -1,10 +1,10 @@
 # SAGE (Subnet AGgrEgation)
 
-*By Jean-François Grailet (last updated: March 31, 2021)*
+*By Jean-François Grailet (last updated: June 30, 2021)*
 
 ## Overview
 
-`SAGE` is new topology discovery tool built on top of [`WISE`](https://github.com/JefGrailet/WISE) (a subnet inference tool) which relies on subnet aggregation and partial (Paris) `traceroute` measurements to build a directed graph modeling the hop-level of a target domain. In this graph, vertices model _neighborhoods_, i.e., network locations bordered by a set of subnets located at most one hop away from each other. Such neighborhoods are in practice individual routers or meshes of routers and can be elucidated through alias resolution. Neighborhoods are inferred then located w.r.t. each others using partial `traceroute` records towards a subset of interfaces of each inferred subnet. The edges in the graph model how neighborhoods appear to be connected, following the `traceroute` measurements, and are ideally matched with surrounding subnets, as subnets act as a connection medium between neighborhoods (and, _in fine_, routers). Graphs as built by `SAGE` can be translated into bipartite graphs to deepen the study of the measured networks.
+`SAGE` is a topology discovery tool built on top of [`WISE`](https://github.com/JefGrailet/WISE) (a subnet inference tool) which relies on subnet aggregation and partial (Paris) `traceroute` measurements to build a directed graph modeling the hop-level of a target domain. In this graph, vertices model _neighborhoods_, i.e., network locations bordered by a set of subnets located at most one hop away from each other. Such neighborhoods are in practice individual routers or meshes of routers and can be elucidated through alias resolution. Neighborhoods are inferred using subnet-level data first collected with `WISE`, then located w.r.t. each others using partial `traceroute` records towards a subset of interfaces of each inferred subnet. The edges in the graph model how neighborhoods appear to be connected, based on the `traceroute` data, and are mapped (when possible) with surrounding subnets, as subnets typically act as a connection medium between neighborhoods (and, _in fine_, routers). Graphs as built by `SAGE` can be translated into bipartite graphs to deepen the study of the measured networks.
 
 This repository provides all at once the source files (C/C++) of `SAGE`, a dataset and Python scripts to visualize or evaluate said data. The dataset consists of AS (for **A**utonomous **S**ystem) snapshots collected from both the [PlanetLab testbed](https://planet-lab.eu/) and the [EdgeNet cluster](https://edge-net.org/).
 
@@ -12,7 +12,7 @@ This repository provides all at once the source files (C/C++) of `SAGE`, a datas
 
 ### About the code
 
-Since it is built on top of `WISE`, which initially needed to be compatible with old environments (e.g. 32-bit machines from the [PlanetLab testbed](https://planet-lab.eu/) running with Fedora 8), `SAGE` is currently written in an _old-fashioned_ C++. In other words, it doesn't take advantage of the features of the language brought by C++11 and onwards. This said, after several campaigns run from the PlanetLab testbed towards all kinds of target networks without getting a suspicious crash, it is safe to assume `SAGE` is unlikely to mismanage memory. On top of that, it has been extensively tested with `valgrind` on a local network.
+Since it is built on top of `WISE`, which initially needed to be compatible with old environments (e.g. 32-bit machines from the [PlanetLab testbed](https://planet-lab.eu/) running with Fedora 8), `SAGE` is currently written in an _old-fashioned_ C++. In other words, it does not take advantage of the features of the language brought by C++11 and onwards. This said, after several campaigns run from the PlanetLab testbed towards all kinds of target networks without getting a suspicious crash, it is safe to assume `SAGE` is unlikely to mismanage memory. On top of that, it has been extensively tested with `valgrind` on a local network.
 
 ### Future updates
 

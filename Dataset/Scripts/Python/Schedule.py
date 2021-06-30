@@ -22,6 +22,15 @@ if __name__ == "__main__":
     # Not supposed to change: this script is designed for it (TODO: change this !)
     logsPath = "/home/jefgrailet/PhD/Campaigns/SAGE/Logs/History/"
     
+    # List of EdgeNet nodes known to be problematic (if existing)
+    avoidPath = logsPath + "NodesToAvoid.txt"
+    nodesToAvoid = set()
+    if os.path.isfile(avoidPath):
+        with open(avoidPath) as f:
+            listOfNodes = f.read().splitlines()
+        for i in range(0, len(listOfNodes)):
+            nodesToAvoid.add(listOfNodes[i])
+    
     ASesPath = str(sys.argv[1])
     schedulablePath = str(sys.argv[2])
     podsPath = str(sys.argv[3])
@@ -50,6 +59,7 @@ if __name__ == "__main__":
     for i in range(0, len(ASes)):
         logPath = logsPath + ASes[i] + ".txt"
         if not os.path.isfile(logPath): # No log yet: skips to next iteration
+            snapshotHistory.append(dict()) # Empty dictionary
             continue
         
         with open(logPath) as f:
@@ -155,6 +165,8 @@ if __name__ == "__main__":
         status = splitLine[1]
         if "," not in status and status == "Ready":
             readyNodes.add(nodeName)
+    if len(nodesToAvoid) > 0:
+        readyNodes = readyNodes - nodesToAvoid
     readyNodes = readyNodes - overloadedNodes
     readyNodes = readyNodes - nodesInUse
     

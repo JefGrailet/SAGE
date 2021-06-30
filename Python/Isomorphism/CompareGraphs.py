@@ -58,6 +58,20 @@ def getAdjacencyMatrix(lines, vertices):
     
     return matrix
 
+def getConvergencePointIPs(convPoint):
+    convPointIPs = set()
+    
+    IPs = convPoint[1:]
+    if "cluster" in convPoint:
+        IPs = IPs[:-11]
+    else:
+        IPs = IPs[:-1]
+    convIPs = IPs.split(", ")
+    for convIP in convIPs:
+        convPointIPs.add(convIP)
+    
+    return convPointIPs
+
 if __name__ == "__main__":
 
     if len(sys.argv) != 3:
@@ -80,7 +94,7 @@ if __name__ == "__main__":
         splitDate = datesRaw[i].split('/')
         dates.append(splitDate)
     
-    # TODO: change this ! (path to the dataset)
+    # Path of the dataset (TODO: change this !)
     datasetPrefix = "/home/jefgrailet/Online repositories/SAGE/Dataset/" + ASNumber + "/"
     
     # Path of the graph used as the reference for the comparison (first snapshot of the campaign)
@@ -100,9 +114,16 @@ if __name__ == "__main__":
     
     # Set of vertices that are common to all snapshots (w/o best effort)
     commonToAll = set()
+    refConvPoints = set()
+    refConvPointIPs = set()
     for n in refVertices:
         if " | " in n or "echoing" in n:
             continue
+        if "cluster" in n or ", " in n:
+            refConvPoints.add(n)
+            convIPs = getConvergencePointIPs(n)
+            for convIP in convIPs:
+                refConvPointIPs.add(convIP)
         commonToAll.add(n)
     totalNonBestEffort = len(commonToAll)
     
@@ -140,12 +161,27 @@ if __name__ == "__main__":
             elif n in cmpVertices:
                 commonWithBestEffort.add(n)
         
-        ratioWithBestEffort = (float(len(commonWithBestEffort)) / float(len(refVertices))) * 100
-        ratioVertices = (float(len(commonVertices)) / float(totalNonBestEffort)) * 100
+        commonConvPoints = 0
+        commonConvPointIPs = 0
+        for vertex in commonVertices:
+            if ", " or "cluster" in vertex:
+                if vertex in refConvPoints:
+                    commonConvPoints += 1
+                vIPs = getConvergencePointIPs(vertex)
+                for vIP in vIPs:
+                    if vIP in refConvPointIPs:
+                        commonConvPointIPs += 1
+        
+        ratioWithBestEffort = float(len(commonWithBestEffort)) / float(len(refVertices))
+        ratioVertices = float(len(commonVertices)) / float(totalNonBestEffort)
+        ratioConvPoints = float(commonConvPoints) / float(len(refConvPoints))
+        ratioConvPointIPs = float(commonConvPointIPs) / float(len(refConvPointIPs))
         
         print("--- Comparaison of snapshots for " + ASNumber + " (" + refDate + " and " + cmpDate + ") ---")
-        print("Common vertices (w/ best effort): " + str(len(commonWithBestEffort)) + " (" + str('%.2f' % ratioWithBestEffort) + '%)')
-        print("Common vertices (w/o best effort): " + str(len(commonVertices)) + " (" + str('%.2f' % ratioVertices) + '%)')
+        print("Common vertices (w/ best effort): " + str(len(commonWithBestEffort)) + " (" + str('%.2f' % (ratioWithBestEffort * 100)) + '%)')
+        print("Common vertices (w/o best effort): " + str(len(commonVertices)) + " (" + str('%.2f' % (ratioVertices * 100)) + '%)')
+        print("Common convergence points: " + str(commonConvPoints) + " (" + str('%.2f' % (ratioConvPoints * 100)) + "%)")
+        print("Common convergence point IPs: " + str(commonConvPointIPs) + " (" + str('%.2f' % (ratioConvPointIPs * 100)) + "%)")
         ratiosWithBestEffort.append(ratioWithBestEffort)
         ratiosCommonVertices.append(ratioVertices)
         
@@ -183,24 +219,30 @@ if __name__ == "__main__":
                     continue
         
         if totalEdges > 0:
-            ratioEdges = (float(len(commonEdges)) / float(totalEdges)) * 100
+            ratioEdges = float(len(commonEdges)) / float(totalEdges)
             ratiosCommonEdges.append(ratioEdges)
             print("Total of (in)direct links that can exist in both graphs:\t" + str(totalEdges))
-            print("Total of (in)direct links that exist in both graphs:\t\t" + str(len(commonEdges)) + "\t(" + str('%.2f' % ratioEdges) + "%)")
+            print("Total of (in)direct links that exist in both graphs:\t\t" + str(len(commonEdges)) + "\t(" + str('%.2f' % (ratioEdges * 100)) + "%)")
         else:
             ratiosCommonEdges.append(0)
             print("There is no common edge between both graphs.")
     
+    nbConvergencePoints = 0
+    for vertex in commonToAll:
+        if "(cluster)" in vertex or ", " in vertex:
+            nbConvergencePoints += 1
+    
     print("--- Summary for " + ASNumber + " ---")
-    ratioCommonToAll = (float(len(commonToAll)) / float(totalNonBestEffort)) * 100
-    print("Vertices (w/o best effort) found in all snapshots: " + str(len(commonToAll)) + " (" + str('%.2f' % ratioCommonToAll) + '%)')
+    ratioCommonToAll = float(len(commonToAll)) / float(totalNonBestEffort)
+    print("Vertices (w/o best effort) found in all snapshots: " + str(len(commonToAll)) + " (" + str('%.2f' % (ratioCommonToAll * 100)) + '%)')
     print("Ratios of common vertices (w.r.t. reference snapshot): " + str(ratiosCommonVertices))
     print("Ratios of common edges (w.r.t. reference snapshot): " + str(ratiosCommonEdges))
+    print("Convergence points in intersection (all snapshots): " + str(nbConvergencePoints))
     
     # Sizes for the ticks and labels of the plot
-    hfont = {'fontweight': 'bold', 'fontsize': 28}
-    hfont2 = {'fontsize': 26}
-    hfont3 = {'fontsize': 22}
+    hfont = {'fontweight': 'bold', 'fontsize': 34}
+    hfont2 = {'fontsize': 30}
+    hfont3 = {'fontsize': 26}
     
     # Bar chart stuff
     ind = np.arange(len(ratiosCommonEdges))
@@ -208,17 +250,17 @@ if __name__ == "__main__":
     padding = 0.2
 
     # Plots result
-    plt.figure(figsize=(13,9))
+    plt.figure(figsize=(17,11))
     plt.rcParams.update({'font.family': 'Times New Roman'})
     
     xAxis = range(0, len(ratiosCommonEdges), 1)
-    plt.plot(xAxis, ratiosCommonEdges, color='#000000', linewidth=3, marker='o', markersize=12, label="Edges")
-    plt.bar(ind - widthBar + padding, ratiosWithBestEffort, widthBar, color='#959595', label="Vertices (w/ BE)")
-    plt.bar(ind + padding, ratiosCommonVertices, widthBar, color='#555555', label="Vertices")
-    plt.axhline(y=ratioCommonToAll, linewidth=3, linestyle='--', color='#00CDFF', label="Intersection")
+    plt.plot(xAxis, ratiosCommonEdges, color='#000000', linewidth=3, marker='o', markersize=12, label="RER")
+    plt.bar(ind - widthBar + padding, ratiosWithBestEffort, widthBar, color='#959595', label="RVR (w/ BE)")
+    plt.bar(ind + padding, ratiosCommonVertices, widthBar, color='#555555', label="RVR")
+    plt.axhline(y=ratioCommonToAll, linewidth=3, linestyle='--', color='#00CDFF', label="IR")
     
     # Limits
-    plt.ylim([0, 105])
+    plt.ylim([0, 1.05])
     plt.xlim([-0.5, len(ratiosCommonEdges) - 0.5])
     
     # Axes aesthetics
@@ -240,7 +282,7 @@ if __name__ == "__main__":
     axis.tick_params(direction='inout', length=6, width=3)
     
     # Ticks and labels
-    plt.yticks(np.arange(0, 110, 10), **hfont2)
+    plt.yticks(np.arange(0, 1.1, 0.1), **hfont2)
     yaxis = axis.get_yaxis()
     yticks = yaxis.get_major_ticks()
     yticks[0].label1.set_visible(False)
@@ -250,7 +292,7 @@ if __name__ == "__main__":
         ticksForX.append(dates[i][0] + "/" + dates[i][1])
     plt.xticks(xAxis, ticksForX, **hfont3)
     
-    plt.ylabel('Redundancy ratio (%)', **hfont)
+    plt.ylabel('Redundancy ratio', **hfont)
     plt.xlabel('Snapshot (reference=' + dates[0][0] + '/' + dates[0][1] + ')', **hfont)
     
     plt.grid()
@@ -260,7 +302,7 @@ if __name__ == "__main__":
                ncol=4, 
                mode="expand", 
                borderaxespad=0.,
-               fontsize=23)
+               fontsize=36)
     
     firstDataset = '-'.join(dates[0])
     lastDataset = '-'.join(dates[len(dates) - 1])

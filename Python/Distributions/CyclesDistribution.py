@@ -10,9 +10,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 def getBipCycles(lines):
-    longuestCycle = 0
+    longestCycle = 0
     
-    # Locates the start of the cycles section and finds the length of the longuest non-bogus cycle
+    # Locates the start of the cycles section and finds the length of the longest non-bogus cycle
     count = 0
     startIndex = 0
     for i in range(0, len(lines)):
@@ -34,15 +34,15 @@ def getBipCycles(lines):
         if "(B)" not in lines[i]:
             # Cycle length is divided by two because subnets act as links, not hops
             cycleLength = int((lines[i].count(", ") + 1) / 2)
-            if cycleLength > longuestCycle:
-                longuestCycle = cycleLength
+            if cycleLength > longestCycle:
+                longestCycle = cycleLength
     
-    if startIndex == 0 or longuestCycle == 0:
+    if startIndex == 0 or longestCycle == 0:
         return None
     
     # Counts the cycles by hop count
     res = []
-    for i in range(0, longuestCycle + 1):
+    for i in range(0, longestCycle + 1):
         res.append(0)
     
     for i in range(startIndex, len(lines)):
@@ -69,9 +69,7 @@ if __name__ == "__main__":
     firstArg = str(sys.argv[1])
     data = [] # Will contain the snapshots to process as list of (AS, dd, mm, yyy) tuples
     outputLabel = "Cycles_distribution" # Default name for the output figure (as PDF)
-    
-    # TODO: change this ! (path to the dataset)
-    datasetPrefix = "/home/jefgrailet/Online repositories/SAGE/Python/INSIGHT/Results/"
+    datasetPrefix = "/home/jefgrailet/Online repositories/SAGE/Python/INSIGHT/Results/" # TODO: adapt this
     
     # Snapshots are given as a string (for EdgeNet snapshots with semi-random VPs)
     if len(sys.argv) == 2 or not os.path.isfile(firstArg):
@@ -123,9 +121,9 @@ if __name__ == "__main__":
                 data.append([ASes[i], dates[j][0], dates[j][1], dates[j][2]])
     
     # Will now process the snapshots
-    longuestCycle = 0
-    longuestCycleDate = ""
-    longuestCycleAS = ""
+    longestCycle = 0
+    longestCycleDate = ""
+    longestCycleAS = ""
     bipCycles = []
     for i in range(0, len(data)):
         bipFilePath = datasetPrefix + data[i][0] + "/" + data[i][3] + "/" + data[i][2] + "/"
@@ -144,20 +142,20 @@ if __name__ == "__main__":
         if curCycles == None:
             continue
         
-        if len(curCycles) > longuestCycle:
-            longuestCycle = len(curCycles)
-            longuestCycleDate = data[i][1] + "/" + data[i][2] + "/" + data[i][3]
-            longuestCycleAS = data[i][0]
+        if len(curCycles) > longestCycle:
+            longestCycle = len(curCycles)
+            longestCycleDate = data[i][1] + "/" + data[i][2] + "/" + data[i][3]
+            longestCycleAS = data[i][0]
         
         bipCycles.append(curCycles)
     
-    longuestCycleStr = "Longuest cycle (" + str(longuestCycle - 1) + " hops) found in "
-    longuestCycleStr += longuestCycleAS + " on " + longuestCycleDate + "."
-    print(longuestCycleStr)
+    longestCycleStr = "longest cycle (" + str(longestCycle - 1) + " hops) found in "
+    longestCycleStr += longestCycleAS + " on " + longestCycleDate + "."
+    print(longestCycleStr)
     
     # Computes final cycle length distribution
     finalCycles = []
-    for i in range(0, longuestCycle):
+    for i in range(0, longestCycle):
         finalCycles.append(0)
     
     totalCycles = 0
@@ -174,31 +172,41 @@ if __name__ == "__main__":
     for i in range(0, len(finalCycles)):
         ratiosCycles.append(float(finalCycles[i]) / float(totalCycles))
     
-    xAxis = np.arange(0, longuestCycle, 1)
+    xAxis = np.arange(0, longestCycle, 1)
     CDF = []
     CDF.append(0)
     for i in range(0, len(ratiosCycles) - 1):
         CDF.append(CDF[i] + ratiosCycles[i])
     
     # Plots result
-    hfont = {'fontname':'serif',
-             'fontweight':'bold',
-             'fontsize':26}
-
-    hfont2 = {'fontname':'serif',
-             'fontsize':22}
+    hfont = {'fontname': 'serif', 'fontweight': 'bold', 'fontsize': 34}
+    hfont2 = {'fontname': 'serif', 'fontsize': 26}
     
-    hfont3 = {'fontname':'serif',
-             'fontsize':16}
-    
-    hfont4 = {'fontname':'serif',
-             'fontsize':12}
-    
-    plt.figure(figsize=(13,9))
+    plt.figure(figsize=(17,11))
     
     plt.plot(xAxis, CDF, color='#000000', linewidth=3)
     plt.ylim([0, 1])
-    plt.xlim([1, longuestCycle - 1])
+    plt.xlim([1, longestCycle - 1])
+    
+    # Axes aesthetics
+    axis = plt.gca()
+    
+    # Removes right and to axes
+    axis.spines['right'].set_visible(False)
+    axis.spines['top'].set_visible(False)
+    
+    # Ensures ticks on remaining axes
+    axis.yaxis.set_ticks_position('left')
+    axis.xaxis.set_ticks_position('bottom')
+    
+    # Slightly moves the axes (towards left and bottom)
+    axis.spines['left'].set_position(('outward', 10))
+    axis.spines['bottom'].set_position(('outward', 10))
+    
+    # Makes ticks larger and thicker
+    axis.tick_params(direction='inout', length=6, width=3)
+    
+    # Ticks for the Y axis
     plt.yticks(np.arange(0, 1.1, 0.1), **hfont2)
     
     # Ticks for the X axis (log scale)
@@ -206,16 +214,15 @@ if __name__ == "__main__":
     tickDisplay = []
     tickValues.append(1)
     tickDisplay.append(1)
-    for i in range(2, longuestCycle):
+    for i in range(2, longestCycle):
+        if longestCycle > 25 and i % 5 != 0:
+            continue
         tickValues.append(i)
         tickDisplay.append(i)
     plt.xticks(tickValues, tickDisplay, **hfont2)
     
-    axis = plt.gca()
-    yaxis = axis.get_yaxis()
-    xaxis = axis.get_xaxis()
-    
     # Nit: hides the 0 from the ticks of y axis
+    yaxis = axis.get_yaxis()
     yticks = yaxis.get_major_ticks()
     yticks[0].label1.set_visible(False)
     

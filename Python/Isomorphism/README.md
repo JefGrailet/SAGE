@@ -1,6 +1,6 @@
 # Evaluation of graph isomorphism
 
-*By Jean-François Grailet (last updated: March 31, 2021)*
+*By Jean-François Grailet (last updated: June 30, 2021)*
 
 ## About
 
@@ -19,7 +19,7 @@ To compare graphs, one can first compare the vertices, i.e., the neighborhoods d
 `SAGE` in each snapshot (i.e., the data collected by `SAGE` for a single target network from a 
 single vantage point). In the data, neighborhoods are typically identified by one or several 
 router interfaces, with several router interfaces meaning the neighborhood was built with the 
-help of alias resolution (e.g., if it's a convergence point in load-balanced paths). It is 
+help of alias resolution (e.g., if it's a convergence point in load balanced paths). It is 
 therefore possible to check if a neighborhood is present in two snapshots by checking if there 
 exists one vertice in each snapshot identified by the same router interface(s).
 
@@ -42,27 +42,33 @@ identified by the router interfaces `u` and `v`, if the first snapshot contains 
 
 The scripts and figures of this sub-repository use the following metrics.
 
-* **Redudant non-best effort neighborhoods ratio:** given two graphs (snapshots), this metric 
-  expresses how many neighborhoods (vertices), excluding _best effort_ neighborhoods, appear in 
-  both graphs, i.e., they are identified by the same router interfaces. This ratio is computed as 
-  the total of redundant vertices divided by the total of vertices found in the first graph.
+* **Redudant vertex ratio (RVR):** given two graphs (snapshots), this metric expresses how many 
+  neighborhoods (vertices), excluding _best effort_ neighborhoods, appear in both graphs of a 
+  pair of snapshots, i.e., they are identified by the same router interfaces. This ratio is 
+  computed as the total number of redundant vertices divided by the total number of vertices found 
+  in the first graph. If this ratio is close to 1, this means both graphs provides similar 
+  neighborhoods.
 
-* **Redundant neighborhoods ratio:** this is the same metric as above, but including _best effort_ 
-  neighborhoods. This ratio is usually lower than the previous one due to _best effort_ 
-  neighborhoods being less likely to appear identically depending on the vantage points from 
-  where `SAGE` was run.
+* **Redundant vertex ratio with best effort (RVR w/ BE):** this is the same metric as above but 
+  including _best effort_ (BE) neighborhoods. This ratio is usually lower than the previous one 
+  due to _best effort_ neighborhoods being less likely to appear identically depending on the 
+  vantage point from where `SAGE` was run.
 
-* **Redundant edges ratio:** given two graphs (snapshots), this metric expresses the amount of 
-  edges that exist in both graphs with respect to the amount of edges that _can_ exist in both 
-  graphs, i.e., the vertices connected by an edge of the first graph also exist in the second 
-  graph. E.g., for an edge `u -> v` found in the first graph, `u` and `v` must also exist in 
-  the second graph to test whether the selected edge is redundant.
+* **Redundant edge ratio (RER):** given two graphs (snapshots), this metric expresses the number 
+  of edges that exist in both graphs with respect to the total number of edges that _can_ exist in 
+  both graphs, i.e., the vertices connected by an edge of the first graph also exist in the second 
+  graph. E.g., for an edge `u -> v` found in the first graph, `u` and `v` must also exist in the 
+  second graph to test whether the selected edge is redundant or not. If this ratio is close to 1, 
+  this means both graphs provide the same links for the neighborhoods they have in common. As a 
+  consequence, having both the RVR and the RER close to 1 for two given snapshots mean they 
+  captured the same topology.
 
-* **Intersection of vertices:** given a set of graphs (snapshots) collected for a same target 
-  network but from different vantage points (and different dates), this metric expresses the 
-  ratio of vertices from the first graph that always reappear in the subsequent graphs. It is 
-  meant to evaluate how many neighborhoods from the first measurement always reappear in 
-  subsequent measurements despite the change of vantage point.
+* **Intersection ratio (IR):** given a set of graphs (snapshots) collected for a same target 
+  network but from different vantage points (and different dates), this metric expresses the ratio 
+  of vertices from the first graph that always reappear in the subsequent graphs. It is meant to 
+  evaluate how many neighborhoods from the first measurement always reappear in subsequent 
+  measurements despite the change of vantage point. When this ratio is high, this means that 
+  a majority of the neighborhoods always appear in a snapshot regardless of the vantage point.
 
 ## Scripts
 

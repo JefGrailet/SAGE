@@ -93,7 +93,7 @@ if __name__ == "__main__":
         print("Dates must be in dd/mm/yyyy format.")
         sys.exit()
     
-    # TODO: change this ! (path to the dataset)
+    # Path of the dataset (TODO: change this !)
     datasetPrefix = "/home/jefgrailet/Online repositories/SAGE/Dataset/" + ASNumber + "/"
     
     # Path of the graph used as the reference for the comparison (first snapshot of the campaign)
@@ -161,12 +161,12 @@ if __name__ == "__main__":
                 similarVertices.add(cluster)
                 break
     
-    ratioWithBestEffort = (float(len(commonWithBestEffort)) / float(len(refVertices))) * 100
-    ratioVertices = (float(len(commonVertices)) / float(totalNonBestEffort)) * 100
-    ratioSimilar = (float(len(similarVertices)) / float(totalNonBestEffort)) * 100
-    summary += "Common vertices (w/ best effort): " + str(len(commonWithBestEffort)) + " (" + str('%.2f' % ratioWithBestEffort) + '%)\n'
-    summary += "Common vertices (w/o best effort): " + str(len(commonVertices)) + " (" + str('%.2f' % ratioVertices) + '%)\n'
-    summary += "Similar vertices (non-identical clusters): " + str(len(similarVertices)) + " (" + str('%.2f' % ratioSimilar) + '%)\n'
+    ratioWithBestEffort = float(len(commonWithBestEffort)) / float(len(refVertices))
+    ratioVertices = float(len(commonVertices)) / float(totalNonBestEffort)
+    ratioSimilar = float(len(similarVertices)) / float(totalNonBestEffort)
+    summary += "Common vertices (w/ best effort): " + str(len(commonWithBestEffort)) + " (" + str('%.2f' % (ratioWithBestEffort * 100)) + '%)\n'
+    summary += "Common vertices (w/o best effort): " + str(len(commonVertices)) + " (" + str('%.2f' % (ratioVertices * 100)) + '%)\n'
+    summary += "Similar vertices (non-identical clusters): " + str(len(similarVertices)) + " (" + str('%.2f' % (ratioSimilar * 100)) + '%)\n'
     
     # Builds a reverse dict. of the vertices
     reverseDict1 = dict()
@@ -200,11 +200,11 @@ if __name__ == "__main__":
                 continue
     
     if totalEdges > 0:
-        ratioEdges = (float(len(commonEdges)) / float(totalEdges)) * 100
-        ratioAllEdges = (float(len(commonEdges)) / float(allEdges)) * 100
+        ratioEdges = float(len(commonEdges)) / float(totalEdges)
+        ratioAllEdges = float(len(commonEdges)) / float(allEdges)
         summary += "Total of (in)direct links that can exist in both graphs:\t" + str(totalEdges) + "\n"
-        summary += "Total of (in)direct links that exist in both graphs:\t\t" + str(len(commonEdges)) + "\t(" + str('%.2f' % ratioEdges) + "%)\n"
-        summary += "Ratio w.r.t. the total of edges in reference graph:\t\t" + str('%.2f' % ratioAllEdges) + "%\n"
+        summary += "Total of (in)direct links that exist in both graphs:\t\t" + str(len(commonEdges)) + "\t(" + str('%.2f' % (ratioEdges * 100)) + "%)\n"
+        summary += "W.r.t. the total of edges in reference graph:\t\t" + str('%.2f' % (ratioAllEdges * 100)) + "%\n"
     else:
         summary += "There is no common edge between both graphs.\n"
     

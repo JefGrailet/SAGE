@@ -15,7 +15,7 @@ def directedGraph(graphFileLines):
     without using previously parsed data found in other files (e.g. .subnets, .neighborhoods).
     
     :param graphFileLines: The (raw) lines from a .graph file
-    :return: A directed graph as built by NetworkX
+    :return: A directed graph as built with NetworkX
     '''
     
     # Identifies the graph lines
@@ -55,7 +55,7 @@ def bipartiteGraph(graphFileLines):
     without using previously parsed data found in other files (e.g. .subnets, .neighborhoods).
     
     :param graphFileLines: The (raw) lines from a .graph file
-    :return: A directed graph as built by NetworkX, plus one dictionary providing the mappings 
+    :return: A bipartite graph as built with NetworkX, plus one dictionary providing the mappings 
              between the S_X vertices (subnets) and the corresponding subnets as CIDR's
     '''
     
@@ -173,15 +173,15 @@ def bipartiteGraph(graphFileLines):
 def completeBipartiteGraph(bipGraph, neighborhoods, subnetsVertices):
     '''
     Function which builds a copy of a bipartite graph previously built with bipartiteGraph() and 
-    complements it with subnets have a degree of one. Indeed, such subnets are not visible in the 
-    .graph file of a snapshot (which only lists subnets acting as links), but adding the 
+    complements it with subnets that have a degree of one. Indeed, such subnets are not visible in 
+    the .graph file of a snapshot (which only lists subnets acting as links), but adding the 
     corresponding edges is necessary to compute some metrics.
     
     :param bipGraph:         The initial bipartite graph (as built by bipartiteGraph())
     :param neighborhoods:    The list of neighborhoods parsed in the same snapshot used to build 
                              bipGraph
     :param subnetsVertices:  The mappings between S_X vertices (in bip graph) and subnets as CIDR's
-    :return:                 A copy of bipGraph that has been completed with degree-1 subnets
+    :return: A copy of bipGraph that has been completed with degree-1 subnets
     '''
     
     # Creates a copy of the initial graph
@@ -212,8 +212,8 @@ def formatForProjections(bipGraph):
     their incident edges from it. The purpose is to prepare the graph for top/bottom projections, 
     as such projections should only feature one-hop relationships.
     
-    :param bipGraph:         The bipartite graph to prepare (as built by bipartiteGraph() or 
-                             returned by completeBipartiteGraph())
+    :param bipGraph:  The bipartite graph to prepare (as built by bipartiteGraph() or returned 
+                      by completeBipartiteGraph())
     '''
     
     # Creates a copy of the initial graph
@@ -233,10 +233,10 @@ def bipTopProjection(bipGraph, neighborhoods):
     formats the resulting graph as a dictionary where each item corresponds to one neighborhood 
     and its list of adjacent vertices (other neighborhoods).
     
-    :param bipGraph:         The bipartite graph after omitting multi-hops vertices (i.e., output 
-                             formatForProjections())
-    :param neighborhoods:    The list of neighborhoods parsed in the same snapshot used to build 
-                             bipGraph
+    :param bipGraph:       The bipartite graph after omitting multi-hops vertices (i.e., output 
+                           formatForProjections())
+    :param neighborhoods:  The list of neighborhoods parsed in the same snapshot used to build 
+                           bipGraph
     '''
     
     neighborhoodsLabels = []
@@ -266,11 +266,11 @@ def bipBotProjection(bipGraph, subnetsVertices):
     Function which builds the projection of a bipartite graph on its subnets (bottom nodes) and 
     formats the resulting graph as a dictionary where each item corresponds to one subnet and its 
     list of adjacent vertices (other subnets). Note that hypothetic subnets are included, since 
-    they model an existing links that could not be seen by subnet inference.
+    they model existing links that could not be seen through subnet inference.
     
-    :param bipGraph:         The bipartite graph after omitting multi-hops vertices (i.e., output 
-                             formatForProjections())
-    :param neighborhoods:    The list of subnets used as vertices
+    :param bipGraph:       The bipartite graph after omitting multi-hops vertices (i.e., output 
+                           formatForProjections())
+    :param neighborhoods:  The list of subnets used as vertices
     '''
     
     subnetsLabels = []
@@ -299,7 +299,7 @@ def projectionToText(projDict):
     Utility function which turns a projection dictionary into a single string that can be flushed 
     into an output file.
     
-    :param projDict:      The dictionary of a projection as created by bipTopProjection()
+    :param projDict:  The dictionary of a projection as created by bipTopProjection()
     '''
     
     finalStr = ""
@@ -315,3 +315,106 @@ def projectionToText(projDict):
         finalStr += vertex + ": " + neighborsStr + "\n"
     
     return finalStr
+
+def doubleBipartiteGraph(postNeighborhoods, prune=False):
+    '''
+    Function which builds a double bipartite graph, using the post-neighborhood data (see the file 
+    PostNeighborhoods.py). The function features an optional "prune" boolean parameter which 
+    should be set to True to remove all degree-1 vertices. This option is used to produce visual 
+    renders of a graph, as drawing all degree-1 vertices considerably slows down the rendering in 
+    addition to making it difficult to read. Moreover, they add little information w.r.t. the 
+    topology, i.e., vertices with a degree > 1 tell more about the topology.
+    
+    :param postNeighborhoods:  The dictionary of post-neighborhoods (ID -> object)
+    :param prune:              The optional "pruning"; set to True to prune the degree-1 vertices 
+                               from the final graph (no pruning by default)
+    :return: A double bipartite graph as built with NetworkX
+    '''
+    
+    switches = []
+    routers = []
+    subnets = []
+    allEdges = []
+    switchCount = 1 # Same principle as in PostNeighborhoods.outputDoubleBipartite()
+    
+    # Routers/subnets (+ incident edges) enumeration depends on pruning
+    if prune:
+        degreeDict = dict()
+        routersWithL2 = set()
+        for ID in postNeighborhoods:
+            current = postNeighborhoods[ID]
+            L3SEdges = current.listEdgesL3S()
+            for i in range(0, len(L3SEdges)):
+                rID = L3SEdges[i][0]
+                sID = L3SEdges[i][1]
+                if rID not in degreeDict:
+                    degreeDict[rID] = 1 # No degree-0 by design
+                    if not current.isUniqueRouter():
+                        routersWithL2.add(rID)
+                else:
+                    degreeDict[rID] += 1
+                if sID not in degreeDict:
+                    degreeDict[sID] = 1 # No degree-0 by design
+                else:
+                    degreeDict[sID] += 1
+        
+        degreeOneVertices = set()
+        for vertex in degreeDict:
+            if degreeDict[vertex] == 1 and vertex not in routersWithL2:
+                degreeOneVertices.add(vertex)
+        
+        # Degree-1 vertices are now known, so routers/subnets can be listed for the final graph
+        alreadyKnown = set()
+        for ID in postNeighborhoods:
+            current = postNeighborhoods[ID]
+            L3SEdges = current.listEdgesL3S()
+            for i in range(0, len(L3SEdges)):
+                rID = L3SEdges[i][0]
+                sID = L3SEdges[i][1]
+                if sID in degreeOneVertices:
+                    continue
+                if rID in degreeOneVertices and rID not in routersWithL2:
+                    continue
+                if rID not in alreadyKnown:
+                    alreadyKnown.add(rID)
+                    routers.append(rID)
+                if sID not in alreadyKnown:
+                    alreadyKnown.add(sID)
+                    subnets.append(sID)
+                allEdges.append([rID, sID])
+    else:
+        alreadyKnown = set()
+        for ID in postNeighborhoods:
+            current = postNeighborhoods[ID]
+            L3SEdges = current.listEdgesL3S()
+            for i in range(0, len(L3SEdges)):
+                rID = L3SEdges[i][0]
+                sID = L3SEdges[i][1]
+                if rID not in alreadyKnown:
+                    alreadyKnown.add(rID)
+                    routers.append(rID)
+                if sID not in alreadyKnown:
+                    alreadyKnown.add(sID)
+                    subnets.append(sID)
+                allEdges.append([rID, sID])
+    
+    # Switches (no pruning here, because by design, always have a degree > 1)
+    for ID in postNeighborhoods:
+        current = postNeighborhoods[ID]
+        if not current.isUniqueRouter():
+            switches.append("E" + str(switchCount))
+            newEdges = current.listEdgesL2L3(switchCount)
+            for i in range(0, len(newEdges)):
+                allEdges.append(newEdges[i])
+            switchCount += 1
+    
+    # N.B.: there is no sorting here, because the post-neighborhood data is already sorted by 
+    # design (e.g., subnet IDs follow the order of insertion of subnets).
+    
+    # Creates the graph, adds all components to it and returns it
+    dBip = nx.Graph()
+    dBip.add_nodes_from(switches, bipartite=0)
+    dBip.add_nodes_from(routers, bipartite=1)
+    dBip.add_nodes_from(subnets, bipartite=2)
+    dBip.add_edges_from(allEdges)
+    return dBip

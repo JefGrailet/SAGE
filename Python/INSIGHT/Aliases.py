@@ -29,6 +29,12 @@ class Alias:
     def countInterfaces(self):
         return len(self.interfaces)
     
+    def isOrphan(self):
+        return len(self.interfaces) == 1
+    
+    def getInterfaces(self):
+        return self.interfaces
+    
     def hasInterface(self, IP):
         for i in range(0, len(self.interfaces)):
             if self.interfaces[i] == IP:
@@ -48,7 +54,7 @@ def parseAliases(lines):
     Function which turns a set of lines into Alias objects, returned as a list. The data contained 
     in each object is enough to later map aliases to neighborhoods.
     
-    :param lines: A list of lines describing subnets
+    :param lines: A list of lines describing the discovered alias pairs/lists
     :return: A list of Alias objects, in the same order as they appear in the input "lines" list
     '''
     curNeighborhood = 0

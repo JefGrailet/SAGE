@@ -1,0 +1,110 @@
+SAGE (Subnet AGgrEgation) v2.0 - Time at start: 03-05-2021 07:54:42
+
+--- Start of target pre-scanning ---
+Pre-scanning with initial timeout... done.
+Found a total of 14539 responsive IPs.
+Second opinion with twice the timeout (5sec : 0micsec)... done.
+Found a total of 12 additional responsive IPs.
+--- End of target pre-scanning (03-05-2021 12:05:27) ---
+Elapsed time: 4 hours 10 minutes 33 seconds
+Total amount of probes: 1035573
+Total amount of successful probes: 34495 (3.33101%)
+Total amount of discovered responsive IPs: 14551
+
+Filtered target IPs have been saved in an output file AS4637_03-05.ips (temporar).
+
+--- Start of target scanning ---
+Starting the estimation of distance of all target IPs (in TTL).
+To do this, 260 threads will be scheduled (up to 56 target IPs per thread).
+52 out of 176 IPs with an estimated TTL (29.5455%) need to be re-probed to improve trails.
+Starting re-probing target IPs with incomplete trails.
+Starting re-probing n°1.
+To do this, 5 threads will be scheduled (from 1 to 39 target IPs per thread).
+
+There are flickering IPs that could lead to the discovery of one alias.
+Now starting alias hints collection...
+Collecting hints for 125.252.104.195, 203.192.167.121... Done.
+Resolving... Done.
+--- End of target scanning (03-05-2021 13:13:56) ---
+Elapsed time: 1 hour 8 minutes 29 seconds
+Total amount of probes: 119227
+Total amount of successful probes: 2389 (2.00374%)
+
+Updated IP dictionary has been saved in the output file AS4637_03-05.ips.
+
+--- Start of subnet inference ---
+Inferring subnets... Done.
+Post-processing the discovered subnets... Done.
+--- End of subnet inference (03-05-2021 13:13:56) ---
+Elapsed time: less than one second
+
+Inferred subnets has been saved in the output file AS4637_03-05.subnets.
+Alias hints (subnet inference) have been saved in the output file AS4637_03-05.hints.
+Fingerprints (subnet inference) have been saved in the output file AS4637_03-05.fingerprints.
+
+--- Start of neighborhood inference ---
+Collecting additional data to discover and locate neighborhoods.
+
+90 IPs will be used as targets for traceroute-like probing, using 90 threads (one target per thread).
+Probing the 90 target IPs... Done.
+Building initial aggregates of subnets... Done.
+Discovered direct peer IP(s) for 9 aggregates.
+Discovered remote peer IP(s) for one aggregate.
+19 aggregates don't have any peer.
+
+There are aggregates of subnets with more than one peer and/or with miscellaneous IPs observed at the same distance.
+SAGE will conduct alias resolution to test whether these IPs belong to the same devices or not (peer disambiguation).
+
+Collecting hints for 202.84.153.26, 202.84.157.37... Done.
+Collecting hints for 202.84.252.50, 202.84.252.142... Done.
+One alias could be discovered.
+Building the vertices of the graph... Done.
+Building the edges of the graph... Done.
+--- End of neighborhood inference (03-05-2021 13:15:49) ---
+Elapsed time: 1 minute 53 seconds
+Total amount of probes: 661
+Total amount of successful probes: 149 (22.5416%)
+
+Updated IP dictionary has been saved in the output file AS4637_03-05.ips.
+Alias hints (up to graph building) have been saved in the output file AS4637_03-05.hints.
+Fingerprints (up to graph building) have been saved in the output file AS4637_03-05.fingerprints.
+Aliases discovered during graph building have been written in AS4637_03-05.aliases-2.
+Additional traceroute data has been saved in the output file AS4637_03-05.peers.
+Neighborhoods have been saved in the output file AS4637_03-05.neighborhoods.
+Network graph been saved in the output file AS4637_03-05.graph.
+
+--- Start of full alias resolution ---
+Conducting alias resolution on N2 - {10.138.0.2 | 6}... Done.
+Conducting alias resolution on N3 - {121.127.1.30}... Done.
+Conducting alias resolution on N5 - {134.159.67.52}... Done.
+Conducting alias resolution on N6 - {144.130.130.26}... Done.
+Conducting alias resolution on N7 - {144.130.130.27}... Done.
+Conducting alias resolution on N8 - {175.45.53.210}... Done.
+Conducting alias resolution on N9 - {202.84.153.38}... Done.
+Conducting alias resolution on N10 - {202.84.178.66}... Done.
+Conducting alias resolution on N11 - {202.84.249.14}... Done.
+Conducting alias resolution on N13 - {203.112.254.182}... Done.
+Conducting alias resolution on N14 - {203.192.167.121}... Done.
+Conducting alias resolution on N15 - {203.192.169.78}... Done.
+Conducting alias resolution on N16 - {64.125.20.106}... Done.
+Conducting alias resolution on N17 - {64.124.71.85}... Done.
+Conducting alias resolution on N18 - {134.159.48.6}... Done.
+Conducting alias resolution on N19 - {134.159.48.90}... Done.
+Conducting alias resolution on N20 - {134.159.48.98}... Done.
+Conducting alias resolution on N21 - {134.159.48.246}... Done.
+Conducting alias resolution on N22 - {134.159.51.1}... Done.
+Conducting alias resolution on N23 - {202.84.252.142}... Done.
+Conducting alias resolution on N24 - {134.159.48.66}... Done.
+Conducting alias resolution on N25 - {202.84.153.26, 202.84.157.37} (cluster)... Done.
+Conducting alias resolution on N26 - {202.147.17.14}... Done.
+Conducting alias resolution on N27 - {202.84.219.177}... Done.
+Conducting alias resolution on N28 - {203.192.168.190}... Done.
+--- End of full alias resolution (03-05-2021 13:19:02) ---
+Elapsed time: 3 minutes 12 seconds
+Total amount of probes: 298
+Total amount of successful probes: 225 (75.5034%)
+
+Final alias hints have been saved in the output file AS4637_03-05.hints.
+Final fingerprints have been saved in the output file AS4637_03-05.fingerprints.
+Final aliases been saved in the output file AS4637_03-05.aliases-f.
+Network graph metrics been saved in the output file AS4637_03-05.metrics.

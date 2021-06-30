@@ -1,0 +1,174 @@
+SAGE (Subnet AGgrEgation) v2.0 - Time at start: 15-04-2021 06:45:17
+
+--- Start of target pre-scanning ---
+Pre-scanning with initial timeout... done.
+Found a total of 20224 responsive IPs.
+Second opinion with twice the timeout (5sec : 0micsec)... done.
+Found a total of 74 additional responsive IPs.
+--- End of target pre-scanning (15-04-2021 07:28:08) ---
+Elapsed time: 42 minutes 50 seconds
+Total amount of probes: 174848
+Total amount of successful probes: 25679 (14.6865%)
+Total amount of discovered responsive IPs: 20298
+
+Filtered target IPs have been saved in an output file AS50673_15-04.ips (temporar).
+
+--- Start of target scanning ---
+Starting the estimation of distance of all target IPs (in TTL).
+To do this, 257 threads will be scheduled (up to 79 target IPs per thread).
+15439 out of 17476 IPs with an estimated TTL (88.344%) need to be re-probed to improve trails.
+Starting re-probing target IPs with incomplete trails.
+Starting re-probing n°1.
+To do this, 125 threads will be scheduled (from 4 to 461 target IPs per thread).
+
+There are flickering IPs that could lead to the discovery of 5 aliases.
+Now starting alias hints collection...
+Collecting hints for 5.39.218.135, 5.39.218.137, 5.39.218.224, 45.83.122.2, 45.83.122.5... Done.
+Collecting hints for 5.255.95.73, 5.255.95.75... Done.
+Collecting hints for 46.249.55.193, 46.249.55.195... Done.
+Collecting hints for 178.21.17.19, 178.21.17.25... Done.
+Collecting hints for 185.8.177.12, 185.53.160.134... Done.
+Resolving... Done.
+--- End of target scanning (15-04-2021 13:07:53) ---
+Elapsed time: 5 hours 39 minutes 45 seconds
+Total amount of probes: 423606
+Total amount of successful probes: 39351 (9.28953%)
+
+Updated IP dictionary has been saved in the output file AS50673_15-04.ips.
+
+--- Start of subnet inference ---
+Inferring subnets... Done.
+Post-processing the discovered subnets... Done.
+--- End of subnet inference (15-04-2021 13:07:55) ---
+Elapsed time: 2 seconds
+
+Inferred subnets has been saved in the output file AS50673_15-04.subnets.
+Alias hints (subnet inference) have been saved in the output file AS50673_15-04.hints.
+Fingerprints (subnet inference) have been saved in the output file AS50673_15-04.fingerprints.
+Aliases discovered during subnet discovery have been written in AS50673_15-04.aliases-1.
+
+--- Start of neighborhood inference ---
+Collecting additional data to discover and locate neighborhoods.
+
+6624 IPs will be used as targets for traceroute-like probing, using 256 threads (up to 26 targets per thread).
+Probing the 6624 target IPs... Done.
+Building initial aggregates of subnets... Done.
+Discovered direct peer IP(s) for 23 aggregates.
+Discovered remote peer IP(s) for 11 aggregates.
+67 aggregates don't have any peer.
+Peer IPs have been adjusted for 6 aggregates using previously discovered aliases.
+
+There are aggregates of subnets with more than one peer and/or with miscellaneous IPs observed at the same distance.
+SAGE will conduct alias resolution to test whether these IPs belong to the same devices or not (peer disambiguation).
+
+Collecting hints for 185.8.179.37, 185.8.179.38... Done.
+No alias could be discovered.
+Building the vertices of the graph... Done.
+Building the edges of the graph... Done.
+--- End of neighborhood inference (15-04-2021 13:41:55) ---
+Elapsed time: 33 minutes 59 seconds
+Total amount of probes: 9671
+Total amount of successful probes: 739 (7.6414%)
+
+Updated IP dictionary has been saved in the output file AS50673_15-04.ips.
+Alias hints (up to graph building) have been saved in the output file AS50673_15-04.hints.
+Fingerprints (up to graph building) have been saved in the output file AS50673_15-04.fingerprints.
+Additional traceroute data has been saved in the output file AS50673_15-04.peers.
+Neighborhoods have been saved in the output file AS50673_15-04.neighborhoods.
+Network graph been saved in the output file AS50673_15-04.graph.
+
+--- Start of full alias resolution ---
+Conducting alias resolution on N1 - {Echo, TTL=8, Pre-echoing=10.132.0.5 (offset=5)}... Done.
+Conducting alias resolution on N2 - {Echo, TTL=7, Pre-echoing=10.132.0.5 (offset=4)}... Done.
+Conducting alias resolution on N3 - {Echo, TTL=255, Pre-echoing=37.46.127.250}... Done.
+Conducting alias resolution on N5 - {Echo, TTL=255, Pre-echoing=128.127.110.194}... Done.
+Conducting alias resolution on N8 - {Echo, TTL=255, Pre-echoing=213.5.70.115}... Done.
+Conducting alias resolution on N9 - {Echo, TTL=255, Pre-echoing=213.5.70.178}... Done.
+Conducting alias resolution on N10 - {Echo, TTL=7, Pre-echoing=213.5.70.187}... Done.
+Conducting alias resolution on N11 - {Echo, TTL=7, Pre-echoing=213.5.70.189}... Done.
+Conducting alias resolution on N13 - {0.0.0.0 | 6}... Done.
+Conducting alias resolution on N14 - {5.178.67.6}... Done.
+Conducting alias resolution on N15 - {5.255.64.214}... Done.
+Conducting alias resolution on N16 - {5.255.66.205}... Done.
+Conducting alias resolution on N17 - {5.255.80.5}... Done.
+Conducting alias resolution on N18 - {5.255.80.9}... Done.
+Conducting alias resolution on N19 - {5.255.82.20}... Done.
+Conducting alias resolution on N20 - {5.255.94.238}... Done.
+Conducting alias resolution on N21 - {5.255.95.73, 5.255.95.75}... Done.
+Conducting alias resolution on N23 - {10.132.0.5 | 5}... Done.
+Conducting alias resolution on N24 - {31.186.174.47}... Done.
+Conducting alias resolution on N25 - {31.186.174.95}... Done.
+Conducting alias resolution on N26 - {46.243.152.3}... Done.
+Conducting alias resolution on N27 - {46.243.152.124}... Done.
+Conducting alias resolution on N28 - {46.243.189.82}... Done.
+Conducting alias resolution on N29 - {46.249.36.40}... Done.
+Conducting alias resolution on N30 - {46.249.55.193 | 2}... Done.
+Conducting alias resolution on N31 - {46.249.55.195 | 2}... Done.
+Conducting alias resolution on N32 - {46.249.60.202}... Done.
+Conducting alias resolution on N33 - {91.195.81.106}... Done.
+Conducting alias resolution on N34 - {91.205.212.20}... Done.
+Conducting alias resolution on N35 - {93.158.201.132}... Done.
+Conducting alias resolution on N36 - {93.158.217.97}... Done.
+Conducting alias resolution on N37 - {93.158.217.206 | 2}... Done.
+Conducting alias resolution on N38 - {103.196.240.15}... Done.
+Conducting alias resolution on N39 - {128.127.110.62 | 1}... Done.
+Conducting alias resolution on N41 - {178.21.17.173}... Done.
+Conducting alias resolution on N42 - {178.170.154.107}... Done.
+Conducting alias resolution on N43 - {185.1.95.60}... Done.
+Conducting alias resolution on N44 - {185.8.177.33}... Done.
+Conducting alias resolution on N46 - {185.8.179.37 | 2}... Done.
+Conducting alias resolution on N47 - {185.10.57.150 | 2}... Done.
+Conducting alias resolution on N48 - {185.10.57.163 | 2}... Done.
+Conducting alias resolution on N49 - {185.53.160.134}... Done.
+Conducting alias resolution on N50 - {185.53.163.41}... Done.
+Conducting alias resolution on N51 - {185.116.166.4}... Done.
+Conducting alias resolution on N52 - {185.145.27.82}... Done.
+Conducting alias resolution on N53 - {185.178.232.194}... Done.
+Conducting alias resolution on N54 - {185.181.165.200}... Done.
+Conducting alias resolution on N55 - {185.252.77.69}... Done.
+Conducting alias resolution on N56 - {185.252.79.223}... Done.
+Conducting alias resolution on N57 - {188.72.68.149}... Done.
+Conducting alias resolution on N58 - {188.120.32.148}... Done.
+Conducting alias resolution on N59 - {188.120.44.202}... Done.
+Conducting alias resolution on N60 - {188.120.47.188}... Done.
+Conducting alias resolution on N61 - {178.21.17.19}... Done.
+Conducting alias resolution on N62 - {Echo, TTL=7, Pre-echoing=178.21.17.19}... Done.
+Conducting alias resolution on N63 - {93.158.217.147}... Done.
+Conducting alias resolution on N64 - {185.8.179.40}... Done.
+Conducting alias resolution on N65 - {Echo, TTL=7, Pre-echoing=185.8.179.40 (offset=1)}... Done.
+Conducting alias resolution on N66 - {185.8.179.19}... Done.
+Conducting alias resolution on N67 - {Echo, TTL=7, Pre-echoing=185.8.179.19}... Done.
+Conducting alias resolution on N68 - {185.8.176.28}... Done.
+Conducting alias resolution on N69 - {185.53.160.207}... Done.
+Conducting alias resolution on N70 - {185.8.179.37}... Done.
+Conducting alias resolution on N71 - {Echo, TTL=255, Pre-echoing=178.21.16.203, 178.21.16.205}... Done.
+Conducting alias resolution on N72 - {46.249.55.193, 46.249.55.195}... Done.
+Conducting alias resolution on N73 - {Echo, TTL=255, Pre-echoing=46.243.193.99, 46.243.193.103}... Done.
+Conducting alias resolution on N81 - {46.243.153.30}... Done.
+Conducting alias resolution on N82 - {188.120.35.142}... Done.
+Conducting alias resolution on N83 - {188.120.47.180}... Done.
+Conducting alias resolution on N85 - {188.120.47.28}... Done.
+Conducting alias resolution on N87 - {185.8.179.39}... Done.
+Conducting alias resolution on N88 - {Echo, TTL=255, Pre-echoing=185.53.160.143}... Done.
+Conducting alias resolution on N89 - {185.8.177.45}... Done.
+Conducting alias resolution on N90 - {185.8.179.27}... Done.
+Conducting alias resolution on N91 - {5.39.223.245}... Done.
+Conducting alias resolution on N92 - {5.39.218.135}... Done.
+Conducting alias resolution on N93 - {5.39.218.137}... Done.
+Conducting alias resolution on N94 - {5.39.218.224}... Done.
+Conducting alias resolution on N95 - {45.83.122.2}... Done.
+Conducting alias resolution on N96 - {45.83.122.5}... Done.
+Conducting alias resolution on N97 - {178.21.17.2}... Done.
+Conducting alias resolution on N98 - {5.178.67.25}... Done.
+Conducting alias resolution on N99 - {185.8.179.38}... Done.
+Conducting alias resolution on N100 - {178.21.17.25}... Done.
+Conducting alias resolution on N101 - {46.249.36.43}... Done.
+--- End of full alias resolution (15-04-2021 14:05:37) ---
+Elapsed time: 23 minutes 41 seconds
+Total amount of probes: 9219
+Total amount of successful probes: 8520 (92.4178%)
+
+Final alias hints have been saved in the output file AS50673_15-04.hints.
+Final fingerprints have been saved in the output file AS50673_15-04.fingerprints.
+Final aliases been saved in the output file AS50673_15-04.aliases-f.
+Network graph metrics been saved in the output file AS50673_15-04.metrics.

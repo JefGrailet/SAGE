@@ -1,6 +1,6 @@
 # INSIGHT - A Python library to model and study networks
 
-*By Jean-François Grailet (last updated: March 31, 2021)*
+*By Jean-François Grailet (last updated: June 30, 2021)*
 
 ## About
 
@@ -90,10 +90,24 @@ by typing `./process.sh` without arguments in your terminal.
   can get quite big and is usually much larger than the projection on neighborhoods of the same 
   graph.
 
+* `DoubleBip`: translates a neighborhood-based directed acyclic graph as built by `SAGE`, 
+  completed by the alias resolution data captured during its final algorithmic step, into a double 
+  (hypothetical) Layer-2 - router - subnet bipartite graph. The first two parties (hypothetical 
+  Layer-2 - router) account for the inner components of neighborhoods. The subnets (third party) 
+  are used exactly in the same manner as in simple bipartite graphs, except they connect 
+  (inferred) routers rather than neighborhoods. This formalism was designed to study the router 
+  degree and assess the potential presence of Layer-2 equipment within large networks. It 
+  currently only outputs the graph itself (as two files, suffixed in `.dbip-mappings` for the 
+  vertices and `.dbip-graph` for the edges), a figure plotting the distributions of different 
+  definitions of the router degree (suffixed in `_router_degrees.pdf`) and a figure illustrating 
+  the clustering coefficients of (inferred) routers in function of their degree in the double 
+  bipartite graph.
+
 **Remark about graph visuals:** while `INSIGHT` can usually process a data snapshot quickly, the 
 rendering of a graph (directed or bipartite) can take some time, especially with large networks. 
-If such renders do not interest you, consider modifying the main script `INSIGHT.py` or not using 
-the `Raw` mode.
+Starting from Spring 2021, `INSIGHT` allows one to set a limit (optional command line parameter) 
+for the total number of vertices in a graph that can be rendered. E.g., if this limit is set to 
+10,000, then a graph featuring around 15,000 vertices will not be rendered.
 
 ## Changes history
 
@@ -107,6 +121,17 @@ the `Raw` mode.
   (`BipProjBot`) of a neighborhood - subnet bipartite graph, said projections being given as text 
   files listing vertices and their respective adjacencies. Projections on neighborhoods have been 
   computed for all the available snapshots too.
+
+* **June 30, 2021:** second major update `INSIGHT`. In addition to many new figures/results 
+  generated for snapshots collected during Spring 2021 (until late May), this update brings the 
+  `DoubleBip` mode, which allows one to turn a `SAGE` snapshot into a double bipartite graph where 
+  the three parties are respectively (hypothetical) Layer-2 devices, routers and subnets. The 
+  first two parties, i.e. the virtual Layer-2 equipment with routers, replace the neighborhoods 
+  modeled in the simple bipartite formalism. This additional formalism is meant to study the 
+  router degree (i.e., how many routers a given router is adjacent too), and in particular, 
+  assess the potential presence of Layer-2 equipment. This mode involves using the (final) alias 
+  resolution data captured by `SAGE`. It is still work in progress, as the alias resolution data 
+  should ideally be post-processed to infer routers more accurately.
 
 ## Contact
 

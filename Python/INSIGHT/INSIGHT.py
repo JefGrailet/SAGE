@@ -16,20 +16,24 @@ import matplotlib.pyplot as plt
 import Subnets
 import Neighborhoods
 import Aliases
+import PostNeighborhoods # Double bipartite graphs
 import GraphBuilding
 import GraphDrawing
 import FigureFactory
 
 if __name__ == "__main__":
 
-    if len(sys.argv) != 4:
-        print("Use this command: python INSIGHT.py [mode] [files prefix path] [output file name]")
+    if len(sys.argv) != 4 and len(sys.argv) != 5:
+        print("Use this command: python INSIGHT.py [mode] [files prefix path] [output file name] [[max to render]]")
         sys.exit()
     
     mode = str(sys.argv[1])
     filesPrefix = str(sys.argv[2])
     outputFileName = str(sys.argv[3])
     mode = mode.casefold()
+    maxToRender = 0
+    if len(sys.argv) == 5:
+        maxToRender = int(sys.argv[4])
     
     # Removes the extension from outputFileName (if any)
     if "." in outputFileName:
@@ -41,7 +45,8 @@ if __name__ == "__main__":
     paths.append(filesPrefix + ".subnets")
     paths.append(filesPrefix + ".neighborhoods")
     paths.append(filesPrefix + ".graph")
-    paths.append(filesPrefix + ".aliases-f")
+    paths.append(filesPrefix + ".aliases-f") # Relevant for double bipartite
+    paths.append(filesPrefix + ".fingerprints") # Relevant for double bipartite
     
     # Checks existence of each file
     for iPath in paths:
@@ -69,14 +74,23 @@ if __name__ == "__main__":
     # The "mode" is used to select what kind of graph the script will build and/or analyze.
     # Currently available modes are:
     # * Raw: builds a simple graph which the vertices model neighborhoods while the edges show 
-    #   how these neighborhoods are located w.r.t. each others.
+    #   how these neighborhoods are located w.r.t. each others, using the raw neighborhood-based 
+    #   DAG built by SAGE.
     # * Bip: builds a simple bipartite graph where the first party contains the neighborhoods 
     #   while the second party consists of the subnets that connect them. A variety of figures are 
-    #   generated on the basis of this bipartite graph.
+    #   generated on the basis of this bipartite graph, which are completed by a visual render of 
+    #   the final graph (unless the number of vertices exceed a provided limit).
     # * BipTopProj: builds a simple bipartite just like in "Bip" mode, then projects it on top 
     #   vertices (neighborhoods) and writes the result to an output text file.
     # * BipBotProj: builds a simple bipartite just like in "Bip" mode, then projects it on bottom 
     #   vertices (subnets) and writes the result to an output text file.
+    # * DoubleBip: builds a double bipartite graph, i.e., two interconnected bipartite graphs 
+    #   where one connects (virtual) Layer-2 equipment with (inferred) routers while the second 
+    #   one connects the same routers with subnets. This model is designed to represent more 
+    #   realistically the key components of a network topology, as a neighborhood (see Bip mode) 
+    #   can hide either a single router, either a mesh involving Layer-2 equipment. In addition to 
+    #   a visual render of the graph (unless the number of vertices exceed a provided limit), this 
+    #   mode outputs figures to evaluate the degree and local density of routers.
     
     if mode == "raw":
         directed = GraphBuilding.directedGraph(filesAsLines[2])
@@ -85,6 +99,12 @@ if __name__ == "__main__":
     elif mode == "bip":
         bip, subnetsVertices = GraphBuilding.bipartiteGraph(filesAsLines[2])
         bipComplete = GraphBuilding.completeBipartiteGraph(bip, neighborhoods, subnetsVertices)
+        
+        # Names of the output files
+        outCDFs = outputFileName + "_degree_CDFs"
+        outClustering = outputFileName + "_top_local_density"
+        outCyclesPDF = outputFileName + "_cycles"
+        outGraph = outputFileName + "_graph"
         
         print("--- About the graph ---")
         nodes = list(bip.nodes)
@@ -122,8 +142,6 @@ if __name__ == "__main__":
         for i in range(0, len(listMappings)):
             print("S" + str(i+1) + " = " + listMappings[i])
         
-        outCDFs = outputFileName + "_degree_CDFs"
-        outClustering = outputFileName + "_top_local_density"
         neighborhoodsByDegree, subnetsByDegree = FigureFactory.degreeCDFsBip(bipComplete, outCDFs)
         FigureFactory.topClusteringByDegreeBip(bipComplete, outClustering)
         maxTopDegree = 0
@@ -171,7 +189,6 @@ if __name__ == "__main__":
         
         # Cycles
         print("\n--- Base cycles ---")
-        outCyclesPDF = outputFileName + "_cycles"
         cycles = FigureFactory.cyclesDistributionBip(bip, subnetsVertices, outCyclesPDF)
         
         if cycles != None:
@@ -194,8 +211,12 @@ if __name__ == "__main__":
         else:
             print("No cycle could be found.")
         
-        # Comment the next line if you do not want the visual render (can take some time)
-        GraphDrawing.drawBipartiteGraph(bip, outputFileName + "_graph")
+        # Rendering the graph
+        nbVerticesToRender = len(list(bip.nodes()))
+        if maxToRender != 0 and nbVerticesToRender > maxToRender:
+            print("\nGraph to render has more vertices (= " + str(nbVerticesToRender) + ") than allowed (= " + str(maxToRender) + ").")
+        else:
+            GraphDrawing.drawBipartiteGraph(bip, outGraph)
     elif mode == "bipprojtop":
         bip, subnetsVertices = GraphBuilding.bipartiteGraph(filesAsLines[2])
         forProjs = GraphBuilding.formatForProjections(bip)
@@ -213,6 +234,77 @@ if __name__ == "__main__":
         botProjFile = open(outputFileName + ".txt", "w")
         botProjFile.write(GraphBuilding.projectionToText(botProj))
         botProjFile.close()
+    elif mode == "doublebip":
+        post, IDsToCIDRs, CIDRsToIDs = PostNeighborhoods.postProcess(neighborhoods)
+        PostNeighborhoods.connectNeighborhoods(post, CIDRsToIDs, filesAsLines[2])
+        PostNeighborhoods.outputDoubleBipartite(post, IDsToCIDRs, outputFileName)
+        
+        # Names of the output files
+        outDegrees = outputFileName + "_router_degrees"
+        outClustering = outputFileName + "_router_local_density"
+        outGraph = outputFileName + "_graph"
+        
+        # Computes a figure to compare the different degrees
+        degrees = FigureFactory.routerDegreeDoubleBip(post, outDegrees)
+        
+        # Reviews the degrees
+        maxDegrees = [0, 0, 0, 0] # 0 = exp, 1 = min, 2 = max, 3 = mix
+        for i in range(0, 4):
+            for curDegree in degrees[i]:
+                if curDegree > maxDegrees[i]:
+                    maxDegrees[i] = curDegree
+        
+        # router-exp
+        print("--- Neighborhood degree (router-exp) ---")
+        for i in range(1, maxDegrees[0] + 1):
+            if i not in degrees[0]:
+                continue
+            degreeStr = "Degree " + str(i) + ": "
+            if len(degrees[0][i]) > 10:
+                degreeStr += str(len(degrees[0][i])) + " neighborhoods"
+            else:
+                neighborhoodsToShow = degrees[0][i]
+                neighborhoodsToShow.sort()
+                for j in range(0, len(neighborhoodsToShow)):
+                    if j > 0:
+                        degreeStr += ", "
+                    degreeStr += "N" + str(neighborhoodsToShow[j])
+            print(degreeStr)
+        
+        # router-min, router-max, router-mix
+        labels = ["\n--- Router degree with default L2 (router-min) ---", 
+                  "\n--- Router degree without L2 (router-max) ---", 
+                  "\n--- Router degree with conditional L2 (router-mix) ---"]
+        for i in range(1, 4):
+            print(labels[i - 1])
+            for j in range(1, maxDegrees[i] + 1):
+                if j not in degrees[i]:
+                    continue
+                degreeStr = "Degree " + str(j) + ": "
+                if len(degrees[i][j]) > 10:
+                    degreeStr += str(len(degrees[i][j])) + " routers"
+                else:
+                    routersToShow = degrees[i][j]
+                    routersToShow.sort()
+                    for k in range(0, len(routersToShow)):
+                        if k > 0:
+                            degreeStr += ", "
+                        degreeStr += routersToShow[k]
+                print(degreeStr)
+        
+        dBipComplete = GraphBuilding.doubleBipartiteGraph(post)
+        FigureFactory.routerClusteringDoubleBip(dBipComplete, outClustering)
+        
+        # Rendering the graph
+        dBipToRender = GraphBuilding.doubleBipartiteGraph(post, True)
+        nbVerticesToRender = len(list(dBipToRender.nodes()))
+        if maxToRender != 0 and nbVerticesToRender > maxToRender:
+            print("\nGraph to render has more vertices (= " + str(nbVerticesToRender) + ") than allowed (= " + str(maxToRender) + ").")
+        else:
+            GraphDrawing.drawDoubleBipartiteGraph(dBipToRender, outGraph)
+        
     else:
-        print(mode)
-        print("Unknown mode (available modes: Raw, Bip, BipProjTop, BipProjBot).")
+        errMsg = "Unknown mode "
+        errMsg += "\"" + mode + "\""
+        errMsg += " (available modes: Raw, Bip, BipProjTop, BipProjBot, DoubleBip)."
+        print(errMsg)

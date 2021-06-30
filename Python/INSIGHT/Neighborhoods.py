@@ -101,6 +101,12 @@ class Neighborhood:
         self.peers = []
         self.aliases = []
     
+    def getID(self):
+        return self.ID
+    
+    def getLabel(self):
+        return self.label
+    
     def addSubnet(self, subnetLine):
         if isinstance(subnetLine, str):
             self.neighbors.append(NeighborSubnet(subnetLine))
@@ -184,6 +190,15 @@ class Neighborhood:
         for i in range(0, len(self.aliases)):
             asString += self.aliases[i].toString() + "\n"
         return asString
+    
+    def isSingleRouter(self):
+        return len(self.aliases) == 1
+    
+    def isAnonymousRouter(self): # Can happen with best effort neighborhoods
+        return len(self.aliases) == 0
+    
+    def getAliases(self):
+        return self.aliases
 
 def parseNeighborhoods(lines, subnetsDict):
     '''
@@ -196,6 +211,7 @@ def parseNeighborhoods(lines, subnetsDict):
     '''
     curNeighborhood = None
     neighborhoods = []
+    alreadySeen = set() # Prevents subnet duplicates (can happen in clusters due to a small bug)
     passedSubnets = False
     ignoreEverything = False
     for i in range(0, len(lines)):
@@ -228,6 +244,13 @@ def parseNeighborhoods(lines, subnetsDict):
             if passedSubnets:
                 curNeighborhood.addPeer(lines[i])
             else:
+                prefix = lines[i]
+                if " " in prefix:
+                    splitLine = prefix.split(" ")
+                    prefix = splitLine[0]
+                if prefix in alreadySeen:
+                    continue
+                alreadySeen.add(prefix)
                 curNeighborhood.addSubnet(lines[i])
         # Neighborhood label (see constructor for how it handles it)
         else:

@@ -17,10 +17,6 @@ import numpy as np
 # Bipartite metrics
 from networkx.algorithms import bipartite
 
-# Needed to complete graphs to get clustering coefficients
-import Neighborhoods
-import Subnets
-
 def collectionsToCDF(collections):
     '''
     Utility function which transforms a dictionary of collections (mapping a vertex of a graph 
@@ -60,45 +56,18 @@ def collectionsToCDF(collections):
     # Returns the resulting CDF
     return CDF
 
-def coeffsToCDF(coefficients):
+def toCCDF(CDF):
     '''
-    Utility function which transforms a dictionary of floating point coefficients (mapping a 
-    vertex of a graph with its coefficient) into a CDF.
+    Utility function which transforms a CDF into a CCDF.
     
-    :param clustering:  A dictionary of coefficients (vertex -> coefficient)
-    :return:            The sorted coefficients and the corresponding CDF of the coefficients, 
-                        both returned as lists
+    :param CDF:  A list of coefficients corresponding to some CDF
+    :return:     The coefficients corresponding to the CCDF
     '''
     
-    # Makes a dictionary of coefficients, counts amount of vertices by coefficient
-    verticesByCoefficient = dict()
-    for vertex in coefficients:
-        coeff = coefficients[vertex]
-        if coeff in verticesByCoefficient:
-            verticesByCoefficient[coeff] += 1
-        else:
-            verticesByCoefficient[coeff] = 1
-    
-    # Sorts the coefficients (equivalent to the x axis)
-    sortedCoeffs = []
-    for coeff in verticesByCoefficient:
-        sortedCoeffs.append(coeff)
-    sortedCoeffs.sort()
-    
-    # Computes the CDF itself (equivalent to the y axis)
-    CDF = []
-    nbVertices = 0
-    for i in range(0, len(sortedCoeffs)):
-        nbVertices += verticesByCoefficient[sortedCoeffs[i]]
-        CDF.append(verticesByCoefficient[sortedCoeffs[i]])
-        if i == 0:
-            continue
-        CDF[i] += CDF[i-1]
+    CCDF = []
     for i in range(0, len(CDF)):
-        CDF[i] = float(CDF[i]) / nbVertices
-    
-    # Returns the results
-    return sortedCoeffs, CDF
+        CCDF.append(1 - CDF[i])
+    return CCDF
 
 def getNbInterfacesOf(CIDR):
     '''
@@ -299,14 +268,11 @@ def topClusteringByDegreeBip(bipGraph, outputFileName):
     # Isolates the neighborhoods as vertices (N_X)
     allVertices = list(bipGraph.nodes)
     neighborhoods = []
-    subnets = []
     for vertex in allVertices:
         if len(bipGraph.edges(vertex)) == 0:
             continue # Ignores isolated vertices
         if vertex.startswith("N"):
             neighborhoods.append(vertex)
-        elif vertex.startswith("S"):
-            subnets.append(vertex)
     
     # Gets their clustering
     topClustering = bipartite.clustering(bipGraph, nodes=neighborhoods, mode="min")
@@ -396,6 +362,7 @@ def cyclesDistributionBip(bipGraph, subnetsVertices, outputFileName):
                              is required to know how many interfaces a subnet can cover (and 
                              therefore, what is its maximum degree)
     :param outputFileName:   Filename for the PDF that will contain the figure
+    :return:  The cycles discovered by NetworkX, sorted
     '''
     
     # Processes the given outputFileName
@@ -580,3 +547,287 @@ def cyclesDistributionBip(bipGraph, subnetsVertices, outputFileName):
     # Sorts the cycles before returning them
     cycles.sort()
     return cycles
+
+def routerDegreeDoubleBip(postNeighborhoods, outputFileName, thresholdL2=8):
+    '''
+    Function which reviews the degree(s) of routers found in a double bipartite graph and plots 
+    the distribution(s) as CDFs. It differs from functions used for bipartite graphs because it 
+    relies on the post-neighborhood dictionary rather than a graph built with NetworkX.
+    
+    :param postNeighborhoods:  The post-neighborhood data
+    :param outputFileName:     Filename for the PDF that will contain the figure
+    :param thresholdL2:        Threshold value for the "mix" router degree (i.e., maximum number 
+                               of routers in the neighborhood for which no L2 equipment can be a 
+                               fair possibility)
+    :return:  The four different router degrees as a list of four dictionaries ([0] = router-exp, 
+              [1] = router-min, [2] = router-max, [3] = router-mix)
+    '''
+    
+    # Processes the given outputFileName
+    nameSplit = outputFileName.split(".")
+    if len(nameSplit) > 2:
+        print("File name is incorrectly formatted (shouldn't have \".\" except for extension).")
+        return None
+    finalOutputFileName = nameSplit[0]
+    
+    # Gets subnet degree (to compute the final degree of neighborhoods)
+    subnetDegrees = dict()
+    for ID in postNeighborhoods:
+        current = postNeighborhoods[ID]
+        L3SEdges = current.listEdgesL3S()
+        for i in range(0, len(L3SEdges)):
+            sID = L3SEdges[i][1]
+            if sID not in subnetDegrees:
+                subnetDegrees[sID] = 1 # No degree-0 by design
+            else:
+                subnetDegrees[sID] += 1
+    
+    # Computes neighborhood degrees and (base) router degrees (i.e., without considering L2)
+    neighborhoodsByDegree = dict()
+    routersByExpDegree = dict()
+    peerRouters = dict() # Peer routers = adjacent routers in the neighborhood (for router-max)
+    baseRouterDegrees = dict()
+    for ID in postNeighborhoods:
+        practicalDegree = 0
+        current = postNeighborhoods[ID]
+        L3SEdges = current.listEdgesL3S()
+        routersList = []
+        # Computes the practical degree of the neighborhood + base degree of each router
+        for i in range(0, len(L3SEdges)):
+            rID = L3SEdges[i][0]
+            sID = L3SEdges[i][1]
+            if rID not in baseRouterDegrees:
+                baseRouterDegrees[rID] = 0
+                peerRouters[rID] = current.getNbRouters() - 1 # -1 to not count itself
+                routersList.append(rID)
+            baseRouterDegrees[rID] += subnetDegrees[sID]
+            practicalDegree += subnetDegrees[sID] # -1 to only account for known routers
+        # Records the neighborhood degree
+        if practicalDegree not in neighborhoodsByDegree:
+            neighborhoodsByDegree[practicalDegree] = [ID]
+        else:
+            neighborhoodsByDegree[practicalDegree].append(ID)
+        # Records the "experienced degree" (i.e., for each router, degree of parent neighborhood)
+        if practicalDegree not in routersByExpDegree:
+            routersByExpDegree[practicalDegree] = []
+        for i in range(0, len(routersList)):
+            routersByExpDegree[practicalDegree].append(routersList[i])
+    
+    # "router-exp" for "experienced degree" (consequence of the neighborhood)
+    routerExpCCDF = toCCDF(collectionsToCDF(routersByExpDegree))
+    
+    # Computes the min/max/mix router degree for each router
+    routersByMinDegree = dict()
+    routersByMaxDegree = dict()
+    routersByMixDegree = dict()
+    for router in baseRouterDegrees:
+        neighboringRouters = peerRouters[router]
+        minDegree = maxDegree = mixDegree = baseRouterDegrees[router]
+        
+        if neighboringRouters > 0:
+            minDegree += 1
+            maxDegree += neighboringRouters
+            if neighboringRouters > thresholdL2:
+                mixDegree += 1
+            else:
+                mixDegree += neighboringRouters
+        
+        if minDegree not in routersByMinDegree:
+            routersByMinDegree[minDegree] = [router]
+        else:
+            routersByMinDegree[minDegree].append(router)
+        if maxDegree not in routersByMaxDegree:
+            routersByMaxDegree[maxDegree] = [router]
+        else:
+            routersByMaxDegree[maxDegree].append(router)
+        if mixDegree not in routersByMixDegree:
+            routersByMixDegree[mixDegree] = [router]
+        else:
+            routersByMixDegree[mixDegree].append(router)
+    
+    routerMinCCDF = toCCDF(collectionsToCDF(routersByMinDegree))
+    routerMaxCCDF = toCCDF(collectionsToCDF(routersByMaxDegree))
+    routerMixCCDF = toCCDF(collectionsToCDF(routersByMixDegree))
+    
+    # Sizes for the ticks and labels of the plot
+    hfont = {'fontsize': 30}
+    hfont2 = {'fontsize': 26}
+    
+    # Stats plotting
+    plt.figure(figsize=(17,11))
+    
+    # CCDF's of: router-exp (neighborhood degree), router-min, router-max, router-mix
+    xAxisTot = range(0, len(routerExpCCDF), 1)
+    xAxisMin = range(0, len(routerMinCCDF), 1)
+    xAxisMax = range(0, len(routerMaxCCDF), 1)
+    xAxisMix = range(0, len(routerMixCCDF), 1)
+    plt.loglog(xAxisTot, routerExpCCDF, color='#0000FF', marker='o', linewidth=3, label="router-exp")
+    plt.loglog(xAxisMin, routerMinCCDF, color='#FF0000', marker='^', linewidth=1, label="router-min")
+    plt.loglog(xAxisMax, routerMaxCCDF, color='#3B7A57', marker='s', linewidth=1, label="router-max")
+    plt.loglog(xAxisMix, routerMixCCDF, color='#AA0000', marker='v', linewidth=1, label="router-mix")
+    
+    # N.B.: by design, max neighborhood degree is always greater or equal than max router degree
+    
+    # Computes the smallest power of 10 (+ ticks for the X axis) greater than the max degree
+    limitX = 1
+    xTicks = [limitX]
+    maxNeighborhoodDegree = len(routerExpCCDF) - 1
+    while limitX < maxNeighborhoodDegree:
+        limitX *= 10
+        xTicks.append(limitX)
+    
+    # Computes the smallest power of 10 smaller than the differences in the router-exp CCDF
+    minDiff = routerExpCCDF[0]
+    for i in range(1, len(routerExpCCDF)):
+        if routerExpCCDF[i-1] == routerExpCCDF[i]:
+            continue
+        newDiff = routerExpCCDF[i-1] - routerExpCCDF[i]
+        if newDiff < minDiff:
+            minDiff = newDiff
+    limitY = 0.1
+    while minDiff < limitY:
+        limitY /= 10
+    
+    # Limits
+    plt.ylim([limitY, 1.0])
+    plt.xlim([1, limitX])
+    
+    # Axes aesthetics
+    axis = plt.gca()
+    
+    # Removes right and to axes
+    axis.spines['right'].set_visible(False)
+    axis.spines['top'].set_visible(False)
+    
+    # Ensures ticks on remaining axes
+    axis.yaxis.set_ticks_position('left')
+    axis.xaxis.set_ticks_position('bottom')
+    
+    # Slightly moves the axes (towards left and bottom)
+    axis.spines['left'].set_position(('outward', 10))
+    axis.spines['bottom'].set_position(('outward', 10))
+    
+    # Makes ticks larger and thicker
+    axis.tick_params(direction='inout', length=6, width=3)
+    
+    # Ticks and labels
+    plt.yticks(fontsize=26)
+    plt.xticks(xTicks, **hfont2)
+    plt.grid()
+    plt.ylabel('CCDF', **hfont)
+    plt.xlabel('Degree', **hfont)
+    
+    # Legends
+    plt.legend(bbox_to_anchor=(0, 1.02, 1.0, .102), 
+               loc=2,
+               ncol=4, 
+               mode="expand", 
+               borderaxespad=0.,
+               fontsize=24)
+    
+    # Adjusts final figure and saves it
+    plt.savefig(outputFileName + ".pdf")
+    plt.clf()
+    return [neighborhoodsByDegree, routersByMinDegree, routersByMaxDegree, routersByMixDegree]
+
+def routerClusteringDoubleBip(dBipGraph, outputFileName):
+    '''
+    Function which computes the clustering of routers in a double bipartite model (where L2 is 
+    assumed to be always present) and plots the resulting coefficients in a scatter plot with a 
+    logarithmic scale. The provided double bipartite graph must be a complete one (i.e., it must 
+    not be pruned from degree-1 vertices, especially degree-1 subnets).
+    
+    :param dBipGraph:       The double bipartite graph as built with NetworkX (must be complete)
+    :param outputFileName:  Filename for the PDF that will contain the figure
+    '''
+    
+    # Processes the given outputFileName
+    nameSplit = outputFileName.split(".")
+    if len(nameSplit) > 2:
+        print("File name is incorrectly formatted (shouldn't have \".\" except for extension).")
+        return None
+    finalOutputFileName = nameSplit[0]
+    
+    # Isolates the routers as vertices (R_X or I_X)
+    allVertices = list(dBipGraph.nodes)
+    routers = []
+    for vertex in allVertices:
+        if len(dBipGraph.edges(vertex)) == 0:
+            continue # Ignores isolated vertices
+        if vertex.startswith("R") or vertex.startswith("I"):
+            routers.append(vertex)
+    
+    # Gets their clustering
+    clustering = bipartite.clustering(dBipGraph, nodes=routers, mode="min")
+    
+    # Computes a dictionary of routers by degree (router-min)
+    routersByDegree = dict()
+    maxRouterDegree = 0
+    for vertex in routers:
+        curDegree = len(dBipGraph.edges(vertex))
+        if curDegree in routersByDegree:
+            routersByDegree[curDegree].append(vertex)
+        else:
+            routersByDegree[curDegree] = [vertex]
+        if curDegree > maxRouterDegree:
+            maxRouterDegree = curDegree
+    
+    # Creates the lists corresponding to the X and Y axis of the figures
+    coeffs = [] # Y axis
+    degrees = [] # X axis
+    for i in range(0, maxRouterDegree + 1):
+        if i not in routersByDegree:
+            continue
+        curDegreeList = routersByDegree[i]
+        for j in range(0, len(curDegreeList)):
+            degrees.append(i)
+            coeffs.append(clustering[curDegreeList[j]])
+    
+    # Sizes for the ticks and labels of the plot
+    hfont = {'fontsize': 28}
+    hfont2 = {'fontsize': 24}
+    
+    # Stats plotting
+    plt.figure(figsize=(13,9))
+    plt.scatter(degrees, coeffs, color='#0000FF', marker='x', linewidth=2)
+    plt.xscale('log')
+    
+    # Gets the smallest power of then that is higher than the maximum degree
+    limitX = 1
+    xTicks = [limitX]
+    while limitX < maxRouterDegree:
+        limitX *= 10
+        xTicks.append(limitX)
+    
+    # Limits
+    plt.ylim([0, 1.05]) # + 0.5 so the top markers can be seen more easily
+    plt.xlim([1, limitX])
+    
+    # Axes aesthetics
+    axis = plt.gca()
+    
+    # Removes right and to axes
+    axis.spines['right'].set_visible(False)
+    axis.spines['top'].set_visible(False)
+    
+    # Ensures ticks on remaining axes
+    axis.yaxis.set_ticks_position('left')
+    axis.xaxis.set_ticks_position('bottom')
+    
+    # Slightly moves the axes (towards left and bottom)
+    axis.spines['left'].set_position(('outward', 10))
+    axis.spines['bottom'].set_position(('outward', 10))
+    
+    # Makes ticks larger and thicker
+    axis.tick_params(direction='inout', length=6, width=3)
+    
+    # Ticks and labels
+    plt.yticks(np.arange(0, 1.1, 0.1), **hfont2)
+    plt.xticks(xTicks, **hfont2)
+    plt.grid()
+    plt.ylabel('Clustering (router)', **hfont)
+    plt.xlabel('Router degree (in graph)', **hfont)
+    
+    # Saves the figure
+    plt.savefig(outputFileName + ".pdf")
+    plt.clf()

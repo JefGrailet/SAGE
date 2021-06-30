@@ -88,9 +88,7 @@ if __name__ == "__main__":
     firstArg = str(sys.argv[1])
     data = [] # Will contain the snapshots to process as list of (AS, dd, mm, yyy) tuples
     outputLabel = "Neighborhood_degrees" # Default name for the output figure (as PDF)
-    
-    # TODO: change this ! (path to the dataset)
-    datasetPrefix = "/home/jefgrailet/Online repositories/SAGE/Python/INSIGHT/Results/"
+    datasetPrefix = "/home/jefgrailet/Online repositories/SAGE/Python/INSIGHT/Results/" # TODO: adapt this
     
     # Snapshots are given as a string (for EdgeNet snapshots with semi-random VPs)
     if len(sys.argv) == 2 or not os.path.isfile(firstArg):
@@ -251,27 +249,45 @@ if __name__ == "__main__":
     for i in range(0, len(ratiosProjDegrees)):
         projCDF.append(projCDF[i] + ratiosProjDegrees[i])
     
+    bipCCDF = []
+    projCCDF = []
+    for i in range(0, len(bipCDF)):
+        bipCCDF.append(1 - bipCDF[i])
+    for i in range(0, len(projCDF)):
+        projCCDF.append(1 - projCDF[i])
+    
     # Plots result
-    hfont = {'fontname':'serif',
-             'fontweight':'bold',
-             'fontsize':26}
-
-    hfont2 = {'fontname':'serif',
-             'fontsize':22}
+    hfont = {'fontweight': 'bold', 'fontsize': 36}
+    hfont2 = {'fontsize': 30}
     
-    hfont3 = {'fontname':'serif',
-             'fontsize':16}
+    plt.figure(figsize=(17,11))
+    plt.rc('font', family='Times New Roman')
     
-    hfont4 = {'fontname':'serif',
-             'fontsize':12}
-    
-    plt.figure(figsize=(13,9))
-    
-    plt.semilogx(xAxisBip, bipCDF, color='#000000', linestyle=":", linewidth=3, label="Degree in bipartite graph")
-    plt.semilogx(xAxisProj, projCDF, color='#000000', linewidth=3, label="Degree in projection")
-    plt.ylim([0, 1])
+    plt.loglog(xAxisBip, bipCCDF, color='#000000', linestyle=":", linewidth=3, label="Degree in bipartite graph")
+    plt.loglog(xAxisProj, projCCDF, color='#000000', linewidth=3, label="Degree in projection")
+    plt.ylim([0.000001, 1])
     plt.xlim([1, largestDegreeOverall])
-    plt.yticks(np.arange(0, 1.1, 0.1), **hfont2)
+    
+    # Axes aesthetics
+    axis = plt.gca()
+    
+    # Removes right and to axes
+    axis.spines['right'].set_visible(False)
+    axis.spines['top'].set_visible(False)
+    
+    # Ensures ticks on remaining axes
+    axis.yaxis.set_ticks_position('left')
+    axis.xaxis.set_ticks_position('bottom')
+    
+    # Slightly moves the axes (towards left and bottom)
+    axis.spines['left'].set_position(('outward', 10))
+    axis.spines['bottom'].set_position(('outward', 10))
+    
+    # Makes ticks larger and thicker
+    axis.tick_params(direction='inout', length=6, width=3)
+    
+    # Ticks for the Y axis (just sets the font)
+    plt.yticks(**hfont2)
     
     # Ticks for the X axis (log scale)
     tickValues = []
@@ -293,20 +309,8 @@ if __name__ == "__main__":
             tickDisplay.append(i)
     plt.xticks(tickValues, tickDisplay, **hfont2)
     
-    axis = plt.gca()
-    yaxis = axis.get_yaxis()
-    xaxis = axis.get_xaxis()
-    
-    # Nit: hides minor ticks that automatically appear
-    xticks = xaxis.get_minor_ticks()
-    for i in range(0, len(xticks)):
-        xticks[i].label1.set_visible(False)
-    
-    # Nit: hides the 0 from the ticks of y axis
-    yticks = yaxis.get_major_ticks()
-    yticks[0].label1.set_visible(False)
-    
-    plt.ylabel('CDFs of degrees', **hfont)
+    # Labels and legend
+    plt.ylabel('Neighborhood CCDF', **hfont)
     plt.xlabel('Neighborhood degree', **hfont)
     plt.grid()
     
@@ -315,7 +319,7 @@ if __name__ == "__main__":
                ncol=4, 
                mode="expand", 
                borderaxespad=0.,
-               fontsize=23)
+               fontsize=32)
 
     plt.savefig(outputLabel + ".pdf")
     plt.clf()

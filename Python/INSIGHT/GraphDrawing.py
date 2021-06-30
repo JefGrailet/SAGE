@@ -53,13 +53,13 @@ def drawDirectedGraph(directedGraph, outputFileName):
     nx.draw_networkx_nodes(directedGraph, 
                            pos,
                            nodelist=list(vertices),
-                           node_color='b',
+                           node_color='blue',
                            node_size=500,
                            alpha=0.8)
     nx.draw_networkx_nodes(directedGraph, 
                            pos,
                            nodelist=list(miscellaneous),
-                           node_color='g',
+                           node_color='green',
                            node_size=500,
                            alpha=0.6)
     
@@ -90,10 +90,10 @@ def drawBipartiteGraph(bipGraph, outputFileName):
     finalOutputFileName = nameSplit[0]
     
     # Lists the vertices/edges of the graph per type to colour them properly
-    listBip1_1 = []
-    listBip2_1 = []
-    listBip2_2 = []
-    listBip2_3 = []
+    listVertices1_1 = []
+    listVertices2_1 = []
+    listVertices2_2 = []
+    listVertices2_3 = []
     oneHopEdges = []
     multiHopsEdges = []
     
@@ -102,13 +102,13 @@ def drawBipartiteGraph(bipGraph, outputFileName):
     
     for vertex in vertices:
         if vertex.startswith("N"):
-            listBip1_1.append(vertex)
+            listVertices1_1.append(vertex)
         elif vertex.startswith("S"):
-            listBip2_1.append(vertex)
+            listVertices2_1.append(vertex)
         elif vertex.startswith("T"):
-            listBip2_2.append(vertex)
+            listVertices2_2.append(vertex)
         else:
-            listBip2_3.append(vertex)
+            listVertices2_3.append(vertex)
     
     for edge in edges:
         if edge[1].startswith("U"):
@@ -129,38 +129,148 @@ def drawBipartiteGraph(bipGraph, outputFileName):
     pos = nx.spring_layout(bipGraph, seed=np.random.RandomState(223973))
     plt.figure(figsize=(dimension, dimension))
     
-    # Draws nodes (blue = neighborhoods, red = subnets, hypothetic sub = light red green = remote)
+    # Draws nodes (blue = neighborhoods, red = subnets, hypothetic sub = light red, green = remote)
     nx.draw_networkx_nodes(bipGraph, 
                            pos,
-                           nodelist=listBip1_1,
-                           node_color='b',
+                           nodelist=listVertices1_1,
+                           node_color='blue',
                            node_size=500,
                            alpha=0.8)
     nx.draw_networkx_nodes(bipGraph, 
                            pos,
-                           nodelist=listBip2_1,
-                           node_color='r',
+                           nodelist=listVertices2_1,
+                           node_color='red',
                            node_size=500,
                            alpha=0.8)
     nx.draw_networkx_nodes(bipGraph, 
                            pos,
-                           nodelist=listBip2_2,
+                           nodelist=listVertices2_2,
                            node_color='lightcoral',
                            node_size=500,
                            alpha=0.8)
     nx.draw_networkx_nodes(bipGraph, 
                            pos,
-                           nodelist=listBip2_3,
-                           node_color='g',
+                           nodelist=listVertices2_3,
+                           node_color='green',
                            node_size=500,
                            alpha=0.6)
     
     # Draws edges
     nx.draw_networkx_edges(bipGraph, pos, edgelist=oneHopEdges)
-    nx.draw_networkx_edges(bipGraph, pos, edgelist=multiHopsEdges, edge_color='g')
+    nx.draw_networkx_edges(bipGraph, pos, edgelist=multiHopsEdges, edge_color='green')
     
     # Adds labels
     nx.draw_networkx_labels(bipGraph, pos)
+    
+    # Saves the result with the given output file name (may overwrite an existing file)
+    plt.savefig(finalOutputFileName + ".pdf")
+    return
+
+def drawDoubleBipartiteGraph(dBipGraph, outputFileName):
+    '''
+    Function which draws a provided double bipartite graph (Layer-2/Layer-3/Subnet).
+    
+    :param dbipGraph:      The double bipartite graph as built with NetworkX
+    :param outputFileName: Filename for the PDF that will contain the figure
+    '''
+    
+    # Processes the given outputFileName
+    nameSplit = outputFileName.split(".")
+    if len(nameSplit) > 2:
+        print("File name is incorrectly formatted (shouldn't have \".\" except for extension).")
+        return
+    finalOutputFileName = nameSplit[0]
+    
+    # Lists the vertices/edges of the graph per type to colour them properly
+    listVertices0_1 = [] # Hypothetical switches
+    listVertices1_1 = [] # Inferred routers (alias pairs/lists)
+    listVertices1_2 = [] # Hypothetical routers
+    listVertices2_1 = [] # Inferred subnets
+    listVertices2_2 = [] # Hypothetical subnets
+    listVertices2_3 = [] # "Fake" subnets / remote links (completed with multiHopsEdges)
+    regularEdges = [] # Not always one hop here (router - switch =/= one hop)
+    multiHopsEdges = []
+    
+    vertices = dBipGraph.nodes()
+    edges = dBipGraph.edges()
+    
+    for vertex in vertices:
+        if vertex.startswith("E"):
+            listVertices0_1.append(vertex)
+        elif vertex.startswith("R"):
+            listVertices1_1.append(vertex)
+        elif vertex.startswith("I"):
+            listVertices1_2.append(vertex)
+        elif vertex.startswith("S"):
+            listVertices2_1.append(vertex)
+        elif vertex.startswith("T"):
+            listVertices2_2.append(vertex)
+        else:
+            listVertices2_3.append(vertex)
+    
+    for edge in edges:
+        if edge[1].startswith("U"):
+            multiHopsEdges.append(edge)
+        else:
+            regularEdges.append(edge)
+    
+    # Chosen dimensions are arbitrary
+    dimension = 75
+    if len(vertices) > 4000:
+        dimension = 300
+    elif len(vertices) > 2000:
+        dimension = 225
+    elif len(vertices) > 1000:
+        dimension = 150
+    
+    # The use of a specific seed allows to get the same Figure upon re-run
+    pos = nx.spring_layout(dBipGraph, seed=np.random.RandomState(223973))
+    plt.figure(figsize=(dimension, dimension))
+    
+    # Draws nodes (yellow = switch, blue = router, red = subnet, green = remote link)
+    nx.draw_networkx_nodes(dBipGraph, 
+                           pos,
+                           nodelist=listVertices0_1,
+                           node_color='yellow',
+                           node_size=500,
+                           alpha=0.8)
+    nx.draw_networkx_nodes(dBipGraph, 
+                           pos,
+                           nodelist=listVertices1_1,
+                           node_color='blue',
+                           node_size=500,
+                           alpha=0.8)
+    nx.draw_networkx_nodes(dBipGraph, 
+                           pos,
+                           nodelist=listVertices1_2,
+                           node_color='cornflowerblue',
+                           node_size=500,
+                           alpha=0.8)
+    nx.draw_networkx_nodes(dBipGraph, 
+                           pos,
+                           nodelist=listVertices2_1,
+                           node_color='red',
+                           node_size=500,
+                           alpha=0.8)
+    nx.draw_networkx_nodes(dBipGraph, 
+                           pos,
+                           nodelist=listVertices2_2,
+                           node_color='lightcoral',
+                           node_size=500,
+                           alpha=0.8)
+    nx.draw_networkx_nodes(dBipGraph, 
+                           pos,
+                           nodelist=listVertices2_3,
+                           node_color='green',
+                           node_size=500,
+                           alpha=0.6)
+    
+    # Draws edges
+    nx.draw_networkx_edges(dBipGraph, pos, edgelist=regularEdges)
+    nx.draw_networkx_edges(dBipGraph, pos, edgelist=multiHopsEdges, edge_color='green')
+    
+    # Adds labels
+    nx.draw_networkx_labels(dBipGraph, pos)
     
     # Saves the result with the given output file name (may overwrite an existing file)
     plt.savefig(finalOutputFileName + ".pdf")

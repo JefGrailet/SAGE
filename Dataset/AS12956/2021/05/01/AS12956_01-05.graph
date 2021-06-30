@@ -1,0 +1,16 @@
+N1 - {10.140.0.2 | 10} (10.140.0.2 not among targets)
+N2 - {64.233.175.116 | 1} (64.233.175.116 not among targets)
+N3 - {64.233.175.116 | 2} (64.233.175.116 not among targets)
+N4 - {213.140.62.28 | 2}
+N5 - {64.233.175.116} (64.233.175.116 not among targets)
+N6 - {Echo, TTL=6, Pre-echoing=64.233.175.116 (offset=2)}
+N7 - {Echo, TTL=7, Pre-echoing=64.233.175.116 (offset=3)}
+N8 - {Echo, TTL=5, Pre-echoing=64.233.175.116 (offset=1)}
+
+N5 -> N6 through 2 intermediate hops
+N5 -> N7 through 3 intermediate hops
+N5 -> N8 through one intermediate hop
+
+N5 -> N6: Anonymous, Anonymous
+N5 -> N7: Anonymous, Anonymous, Anonymous
+N5 -> N8: Anonymous

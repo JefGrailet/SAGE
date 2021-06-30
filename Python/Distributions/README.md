@@ -1,6 +1,6 @@
 # Distributions of graph properties
 
-*By Jean-François Grailet (last updated: March 31, 2021)*
+*By Jean-François Grailet (last updated: June 30, 2021)*
 
 ## About
 
@@ -27,7 +27,9 @@ Here are some details about the available files and scripts.
 * `NeighborhoodDegrees.py` allows to visualize the distribution of the degree of neighborhoods in 
   both bipartite graphs and projections on neighborhoods built by `INSIGHT`. As a consequence, it 
   can be used to compare the degree of neighborhoods depending on the formalism being used (i.e., 
-  in a neighborhood - subnet bipartite graph or in a hop-level graph).
+  in a neighborhood - subnet bipartite graph or in a hop-level graph). The distributions are 
+  plotted as CCDFs (**C**omplementary **C**umulative **D**istribution **F**unctions) with log-log 
+  scale.
 
 * `process.sh` automates the selection of network snapshots to feed them to any of the Python 
   scripts included in this sub-repository. It receives an AS number or a text file listing ASes 
@@ -35,7 +37,7 @@ Here are some details about the available files and scripts.
   name the output figure. An example of use of this script is given below.
 
 ```sh
-./process.sh Examples_ASes 01-12-2019,01-12-2020 Cycles_2020
+./process.sh Examples_ASes 01-12-2019,01-01-2021 Cycles_2020
 ```
 
 ## Important remarks

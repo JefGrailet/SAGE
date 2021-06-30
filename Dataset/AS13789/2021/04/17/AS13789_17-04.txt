@@ -1,0 +1,306 @@
+SAGE (Subnet AGgrEgation) v2.0 - Time at start: 17-04-2021 07:49:27
+
+--- Start of target pre-scanning ---
+Pre-scanning with initial timeout... done.
+Found a total of 7896 responsive IPs.
+Second opinion with twice the timeout (5sec : 0micsec)... done.
+Found a total of 2 additional responsive IPs.
+--- End of target pre-scanning (17-04-2021 08:35:17) ---
+Elapsed time: 45 minutes 50 seconds
+Total amount of probes: 181032
+Total amount of successful probes: 15965 (8.81888%)
+Total amount of discovered responsive IPs: 7898
+
+Filtered target IPs have been saved in an output file AS13789_17-04.ips (temporar).
+
+--- Start of target scanning ---
+Starting the estimation of distance of all target IPs (in TTL).
+To do this, 247 threads will be scheduled (up to 32 target IPs per thread).
+1352 out of 7734 IPs with an estimated TTL (17.4813%) need to be re-probed to improve trails.
+Starting re-probing target IPs with incomplete trails.
+Starting re-probing n°1.
+To do this, 25 threads will be scheduled (from 6 to 161 target IPs per thread).
+
+There are flickering IPs that could lead to the discovery of 11 aliases.
+Now starting alias hints collection...
+Collecting hints for 4.14.96.134, 75.98.70.2... Done.
+Collecting hints for 63.144.128.30, 205.171.134.42... Done.
+Collecting hints for 64.95.46.178, 64.95.46.182... Done.
+Collecting hints for 72.26.212.236, 216.52.13.18, 216.52.13.22... Done.
+Collecting hints for 75.98.32.8, 75.98.32.11, 75.98.33.42... Done.
+Collecting hints for 104.153.107.254, 162.248.95.254... Done.
+Collecting hints for 140.222.235.101, 140.222.235.103... Done.
+Collecting hints for 216.52.95.20, 216.52.95.86... Done.
+Collecting hints for 216.52.95.46, 216.52.95.109... Done.
+Collecting hints for 216.52.95.107, 216.52.95.108... Done.
+Collecting hints for 216.109.72.186, 216.109.72.190... Done.
+Resolving... Done.
+--- End of target scanning (17-04-2021 09:12:27) ---
+Elapsed time: 37 minutes 10 seconds
+Total amount of probes: 44571
+Total amount of successful probes: 34587 (77.5998%)
+
+Updated IP dictionary has been saved in the output file AS13789_17-04.ips.
+
+--- Start of subnet inference ---
+Inferring subnets... Done.
+Post-processing the discovered subnets... Done.
+--- End of subnet inference (17-04-2021 09:12:29) ---
+Elapsed time: 2 seconds
+
+Inferred subnets has been saved in the output file AS13789_17-04.subnets.
+Alias hints (subnet inference) have been saved in the output file AS13789_17-04.hints.
+Fingerprints (subnet inference) have been saved in the output file AS13789_17-04.fingerprints.
+Aliases discovered during subnet discovery have been written in AS13789_17-04.aliases-1.
+
+--- Start of neighborhood inference ---
+Collecting additional data to discover and locate neighborhoods.
+
+3422 IPs will be used as targets for traceroute-like probing, using 256 threads (up to 14 targets per thread).
+Probing the 3422 target IPs... Done.
+Building initial aggregates of subnets... Done.
+Discovered direct peer IP(s) for 132 aggregates.
+Discovered remote peer IP(s) for 25 aggregates.
+182 aggregates don't have any peer.
+Peer IPs have been adjusted for 10 aggregates using previously discovered aliases.
+
+There are aggregates of subnets with more than one peer and/or with miscellaneous IPs observed at the same distance.
+SAGE will conduct alias resolution to test whether these IPs belong to the same devices or not (peer disambiguation).
+
+Collecting hints for 4.30.176.170, 64.95.158.218, 64.95.159.18, 64.95.159.101, 72.14.233.11, 74.201.138.2, 74.201.138.6, 128.177.168.190, 209.85.241.122, 209.85.249.137, 209.85.250.147, 209.85.254.95, 213.248.66.102, 216.239.40.188, 216.239.57.76, 216.239.59.162, 216.239.63.174... Done.
+Collecting hints for 4.68.71.229, 64.95.158.234, 64.125.29.161, 74.201.136.66, 74.201.215.44, 74.201.215.46... Done.
+Collecting hints for 62.115.120.67, 80.239.195.50, 209.191.128.173... Done.
+Collecting hints for 63.251.20.212, 63.251.20.218, 64.95.158.74, 64.125.29.208, 64.125.29.212, 66.150.121.22, 70.42.74.44, 74.91.116.167, 74.91.116.216, 74.91.123.32, 74.91.123.89, 74.91.123.211, 108.170.243.166, 108.170.243.199, 108.170.243.227, 108.170.244.8, 162.248.95.177, 192.223.24.14, 192.223.24.60, 209.85.253.99, 216.52.95.20, 216.52.95.23, 216.52.95.46, 216.52.95.47, 216.52.95.82, 216.52.95.86, 216.52.95.110... Done.
+Collecting hints for 63.251.28.69, 63.251.28.70, 63.251.28.121, 63.251.28.160, 207.239.12.50... Done.
+Collecting hints for 64.94.0.5, 64.94.0.93... Done.
+Collecting hints for 72.52.92.46, 207.200.176.73, 216.66.23.6... Done.
+Collecting hints for 74.201.136.18, 74.201.136.22... Done.
+Collecting hints for 74.217.236.61, 213.248.81.146... Done.
+Collecting hints for 216.52.95.44, 216.52.95.107... Done.
+Collecting hints for 216.52.191.45, 216.52.191.110... Done.
+9 aliases could be discovered.
+
+Identified 3 aggregates with blindspots (previously unidentified peers).
+Building the vertices of the graph... Done.
+Building the edges of the graph... Done.
+--- End of neighborhood inference (17-04-2021 09:23:24) ---
+Elapsed time: 10 minutes 55 seconds
+Total amount of probes: 7482
+Total amount of successful probes: 5196 (69.4467%)
+
+Updated IP dictionary has been saved in the output file AS13789_17-04.ips.
+Alias hints (up to graph building) have been saved in the output file AS13789_17-04.hints.
+Fingerprints (up to graph building) have been saved in the output file AS13789_17-04.fingerprints.
+Aliases discovered during graph building have been written in AS13789_17-04.aliases-2.
+Additional traceroute data has been saved in the output file AS13789_17-04.peers.
+Neighborhoods have been saved in the output file AS13789_17-04.neighborhoods.
+Network graph been saved in the output file AS13789_17-04.graph.
+
+--- Start of full alias resolution ---
+Conducting alias resolution on N2 - {Echo, TTL=255, Pre-echoing=63.251.28.33, 63.251.28.43, 63.251.28.44, 63.251.28.45, 63.251.28.55}... Done.
+Conducting alias resolution on N4 - {Echo, TTL=16, Pre-echoing=89.187.100.122 (offset=1)}... Done.
+Conducting alias resolution on N8 - {Echo, TTL=10, Pre-echoing=142.250.232.219, 172.253.78.231 (offset=1)}... Done.
+Conducting alias resolution on N9 - {Echo, TTL=10, Pre-echoing=72.14.233.11 (offset=2)}... Done.
+Conducting alias resolution on N17 - {4.14.96.134}... Done.
+Conducting alias resolution on N18 - {4.15.151.218}... Done.
+Conducting alias resolution on N19 - {4.26.23.230}... Done.
+Conducting alias resolution on N20 - {4.35.20.214}... Done.
+Conducting alias resolution on N21 - {12.125.246.78}... Done.
+Conducting alias resolution on N22 - {63.144.128.30}... Done.
+Conducting alias resolution on N27 - {64.94.189.211}... Done.
+Conducting alias resolution on N28 - {64.94.190.234 | 1}... Done.
+Conducting alias resolution on N29 - {64.95.40.151 | 1}... Done.
+Conducting alias resolution on N30 - {70.42.217.10 | 1}... Done.
+Conducting alias resolution on N32 - {74.201.136.10 | 1}... Done.
+Conducting alias resolution on N33 - {74.201.136.14 | 1}... Done.
+Conducting alias resolution on N36 - {74.201.152.98 | 2}... Done.
+Conducting alias resolution on N49 - {74.201.176.30 | 1}... Done.
+Conducting alias resolution on N54 - {74.201.176.36 | 1}... Done.
+Conducting alias resolution on N57 - {74.201.176.43 | 1}... Done.
+Conducting alias resolution on N61 - {74.201.176.49 | 1}... Done.
+Conducting alias resolution on N64 - {74.201.176.54 | 1}... Done.
+Conducting alias resolution on N67 - {74.201.176.59 | 1}... Done.
+Conducting alias resolution on N70 - {74.201.176.63 | 1}... Done.
+Conducting alias resolution on N71 - {74.201.176.64 | 1}... Done.
+Conducting alias resolution on N74 - {74.201.176.69 | 1}... Done.
+Conducting alias resolution on N75 - {74.201.176.71 | 1}... Done.
+Conducting alias resolution on N81 - {74.201.176.82 | 1}... Done.
+Conducting alias resolution on N90 - {74.201.176.116 | 1}... Done.
+Conducting alias resolution on N91 - {74.201.176.119 | 1}... Done.
+Conducting alias resolution on N92 - {74.201.176.123 | 1}... Done.
+Conducting alias resolution on N103 - {74.201.204.99 | 1}... Done.
+Conducting alias resolution on N132 - {74.201.226.139 | 1}... Done.
+Conducting alias resolution on N137 - {74.201.237.236 | 1}... Done.
+Conducting alias resolution on N140 - {74.217.54.236 | 1}... Done.
+Conducting alias resolution on N143 - {108.179.3.254}... Done.
+Conducting alias resolution on N144 - {140.222.235.103}... Done.
+Conducting alias resolution on N145 - {142.250.232.215 | 1}... Done.
+Conducting alias resolution on N147 - {152.179.31.142}... Done.
+Conducting alias resolution on N148 - {156.154.251.97}... Done.
+Conducting alias resolution on N149 - {160.72.248.142}... Done.
+Conducting alias resolution on N150 - {172.253.78.229 | 1}... Done.
+Conducting alias resolution on N152 - {204.2.241.106}... Done.
+Conducting alias resolution on N154 - {209.73.209.164 | 1}... Done.
+Conducting alias resolution on N160 - {216.52.95.44 | 2}... Done.
+Conducting alias resolution on N161 - {216.52.95.107 | 1}... Done.
+Conducting alias resolution on N164 - {216.109.72.190}... Done.
+Conducting alias resolution on N165 - {207.239.12.50, 63.251.28.69 (B), 63.251.28.70 (B), 63.251.28.121 (B), 63.251.28.160 (B)} (cluster)... Done.
+Conducting alias resolution on N166 - {Echo, TTL=255, Pre-echoing=63.251.28.69, 63.251.28.70, 63.251.28.121}... Done.
+Conducting alias resolution on N167 - {Echo, TTL=255, Pre-echoing=63.251.28.160}... Done.
+Conducting alias resolution on N169 - {80.239.195.50, 209.191.128.173} (cluster)... Done.
+Conducting alias resolution on N171 - {209.191.128.172}... Done.
+Conducting alias resolution on N172 - {216.223.63.74}... Done.
+Conducting alias resolution on N173 - {209.120.153.130}... Done.
+Conducting alias resolution on N174 - {Echo, TTL=12, Pre-echoing=209.120.153.130}... Done.
+Conducting alias resolution on N175 - {216.52.162.70}... Done.
+Conducting alias resolution on N176 - {Echo, TTL=18, Pre-echoing=216.52.162.70 (offset=1)}... Done.
+Conducting alias resolution on N177 - {8.49.79.174}... Done.
+Conducting alias resolution on N178 - {Echo, TTL=16, Pre-echoing=74.217.227.241}... Done.
+Conducting alias resolution on N179 - {Echo, TTL=17, Pre-echoing=74.217.227.241}... Done.
+Conducting alias resolution on N181 - {216.239.59.162}... Done.
+Conducting alias resolution on N182 - {4.28.187.206}... Done.
+Conducting alias resolution on N183 - {64.74.240.194}... Done.
+Conducting alias resolution on N184 - {Echo, TTL=16, Pre-echoing=64.94.179.189}... Done.
+Conducting alias resolution on N185 - {4.69.214.37}... Done.
+Conducting alias resolution on N186 - {4.59.19.18}... Done.
+Conducting alias resolution on N187 - {Echo, TTL=255, Pre-echoing=74.201.176.22}... Done.
+Conducting alias resolution on N189 - {4.15.151.242}... Done.
+Conducting alias resolution on N190 - {64.74.252.254}... Done.
+Conducting alias resolution on N191 - {128.177.70.66}... Done.
+Conducting alias resolution on N192 - {64.94.0.4}... Done.
+Conducting alias resolution on N193 - {107.150.129.65}... Done.
+Conducting alias resolution on N194 - {213.248.81.146}... Done.
+Conducting alias resolution on N195 - {64.94.0.91}... Done.
+Conducting alias resolution on N196 - {64.94.0.93, 64.94.0.5 (B)} (cluster)... Done.
+Conducting alias resolution on N197 - {107.150.129.54}... Done.
+Conducting alias resolution on N198 - {64.95.159.101}... Done.
+Conducting alias resolution on N199 - {64.95.159.18}... Done.
+Conducting alias resolution on N201 - {216.52.95.46, 216.52.95.109}... Done.
+Conducting alias resolution on N203 - {Echo, TTL=14, Pre-echoing=216.52.95.46, 216.52.95.109}... Done.
+Conducting alias resolution on N205 - {64.74.245.14}... Done.
+Conducting alias resolution on N206 - {74.201.131.193}... Done.
+Conducting alias resolution on N207 - {74.201.138.18}... Done.
+Conducting alias resolution on N208 - {74.201.150.227}... Done.
+Conducting alias resolution on N209 - {162.248.95.254}... Done.
+Conducting alias resolution on N210 - {74.201.136.18}... Done.
+Conducting alias resolution on N211 - {Echo, TTL=15, Pre-echoing=74.201.136.18, 74.201.136.22}... Done.
+Conducting alias resolution on N212 - {64.74.243.196}... Done.
+Conducting alias resolution on N213 - {74.201.136.94}... Done.
+Conducting alias resolution on N214 - {74.201.136.151}... Done.
+Conducting alias resolution on N215 - {74.201.136.202}... Done.
+Conducting alias resolution on N216 - {74.201.254.254}... Done.
+Conducting alias resolution on N217 - {74.217.54.97}... Done.
+Conducting alias resolution on N218 - {74.201.136.10}... Done.
+Conducting alias resolution on N221 - {64.74.240.226}... Done.
+Conducting alias resolution on N222 - {64.74.245.245}... Done.
+Conducting alias resolution on N223 - {64.94.177.2}... Done.
+Conducting alias resolution on N224 - {64.94.177.18}... Done.
+Conducting alias resolution on N225 - {64.95.46.178}... Done.
+Conducting alias resolution on N226 - {64.95.46.182}... Done.
+Conducting alias resolution on N227 - {70.42.41.251}... Done.
+Conducting alias resolution on N228 - {70.42.45.22}... Done.
+Conducting alias resolution on N229 - {74.201.138.76}... Done.
+Conducting alias resolution on N230 - {74.201.139.206}... Done.
+Conducting alias resolution on N231 - {74.201.164.10}... Done.
+Conducting alias resolution on N232 - {74.201.179.41}... Done.
+Conducting alias resolution on N233 - {74.201.195.90}... Done.
+Conducting alias resolution on N234 - {74.201.198.18}... Done.
+Conducting alias resolution on N235 - {74.201.254.49}... Done.
+Conducting alias resolution on N236 - {74.217.50.17}... Done.
+Conducting alias resolution on N237 - {74.217.55.163}... Done.
+Conducting alias resolution on N238 - {74.201.164.150}... Done.
+Conducting alias resolution on N239 - {45.92.192.123}... Done.
+Conducting alias resolution on N240 - {64.95.158.234, 74.201.136.66} (cluster)... Done.
+Conducting alias resolution on N241 - {72.26.212.10}... Done.
+Conducting alias resolution on N242 - {72.26.212.14}... Done.
+Conducting alias resolution on N243 - {72.26.212.177}... Done.
+Conducting alias resolution on N244 - {74.201.137.65}... Done.
+Conducting alias resolution on N245 - {173.231.161.206}... Done.
+Conducting alias resolution on N246 - {64.95.158.74, 216.52.95.23, 216.52.95.86} (cluster)... Done.
+Conducting alias resolution on N247 - {75.98.62.230}... Done.
+Conducting alias resolution on N248 - {173.231.161.146}... Done.
+Conducting alias resolution on N249 - {74.201.138.6}... Done.
+Conducting alias resolution on N250 - {Echo, TTL=15, Pre-echoing=74.201.138.6}... Done.
+Conducting alias resolution on N252 - {74.201.136.74}... Done.
+Conducting alias resolution on N253 - {74.201.248.65}... Done.
+Conducting alias resolution on N254 - {74.201.254.102}... Done.
+Conducting alias resolution on N255 - {74.201.136.14}... Done.
+Conducting alias resolution on N256 - {63.251.17.50}... Done.
+Conducting alias resolution on N257 - {64.74.240.234}... Done.
+Conducting alias resolution on N258 - {64.94.177.10}... Done.
+Conducting alias resolution on N259 - {74.201.164.154}... Done.
+Conducting alias resolution on N260 - {74.217.51.11}... Done.
+Conducting alias resolution on N261 - {Echo, TTL=16, Pre-echoing=74.217.51.11}... Done.
+Conducting alias resolution on N263 - {74.201.138.86}... Done.
+Conducting alias resolution on N264 - {70.42.41.50}... Done.
+Conducting alias resolution on N265 - {64.95.158.218}... Done.
+Conducting alias resolution on N266 - {74.201.152.98}... Done.
+Conducting alias resolution on N268 - {Echo, TTL=17, Pre-echoing=74.201.152.98 (offset=1)}... Done.
+Conducting alias resolution on N270 - {216.52.95.44, 216.52.95.107, 216.52.95.108} (cluster)... Done.
+Conducting alias resolution on N272 - {Echo, TTL=15, Pre-echoing=216.52.95.44 (offset=1)}... Done.
+Conducting alias resolution on N273 - {64.94.177.198}... Done.
+Conducting alias resolution on N274 - {70.42.39.148}... Done.
+Conducting alias resolution on N275 - {216.52.95.20, 216.52.95.82} (cluster)... Done.
+Conducting alias resolution on N276 - {64.74.240.214}... Done.
+Conducting alias resolution on N277 - {216.52.93.94}... Done.
+Conducting alias resolution on N278 - {74.201.138.2}... Done.
+Conducting alias resolution on N279 - {Echo, TTL=16, Pre-echoing=74.201.152.62}... Done.
+Conducting alias resolution on N280 - {Echo, TTL=15, Pre-echoing=74.201.138.2}... Done.
+Conducting alias resolution on N281 - {70.42.41.26}... Done.
+Conducting alias resolution on N282 - {70.42.45.122}... Done.
+Conducting alias resolution on N283 - {74.201.254.110}... Done.
+Conducting alias resolution on N284 - {74.217.49.134}... Done.
+Conducting alias resolution on N285 - {74.217.49.170}... Done.
+Conducting alias resolution on N286 - {74.217.49.178}... Done.
+Conducting alias resolution on N287 - {74.217.50.26}... Done.
+Conducting alias resolution on N288 - {74.201.254.86}... Done.
+Conducting alias resolution on N289 - {Echo, TTL=16, Pre-echoing=74.201.254.86}... Done.
+Conducting alias resolution on N291 - {74.217.51.26}... Done.
+Conducting alias resolution on N292 - {75.98.40.42}... Done.
+Conducting alias resolution on N293 - {75.98.62.226}... Done.
+Conducting alias resolution on N294 - {Echo, TTL=16, Pre-echoing=75.98.62.226 (offset=1)}... Done.
+Conducting alias resolution on N295 - {74.201.254.226}... Done.
+Conducting alias resolution on N296 - {63.71.3.45}... Done.
+Conducting alias resolution on N297 - {64.74.242.94}... Done.
+Conducting alias resolution on N298 - {64.74.254.70}... Done.
+Conducting alias resolution on N299 - {74.201.138.81}... Done.
+Conducting alias resolution on N300 - {74.201.129.182}... Done.
+Conducting alias resolution on N301 - {74.201.129.250}... Done.
+Conducting alias resolution on N302 - {216.52.93.54}... Done.
+Conducting alias resolution on N303 - {Echo, TTL=17, Pre-echoing=216.52.93.54 (offset=1)}... Done.
+Conducting alias resolution on N304 - {216.52.95.47, 216.52.95.110} (cluster)... Done.
+Conducting alias resolution on N305 - {74.201.138.22}... Done.
+Conducting alias resolution on N306 - {104.153.107.254}... Done.
+Conducting alias resolution on N307 - {74.201.136.22}... Done.
+Conducting alias resolution on N308 - {70.42.47.34}... Done.
+Conducting alias resolution on N309 - {216.52.95.45}... Done.
+Conducting alias resolution on N310 - {209.208.185.225}... Done.
+Conducting alias resolution on N311 - {64.94.137.42}... Done.
+Conducting alias resolution on N312 - {75.98.32.8}... Done.
+Conducting alias resolution on N313 - {75.98.33.42}... Done.
+Conducting alias resolution on N314 - {75.98.32.11}... Done.
+Conducting alias resolution on N316 - {74.10.143.127}... Done.
+Conducting alias resolution on N317 - {64.199.250.2}... Done.
+Conducting alias resolution on N318 - {Echo, TTL=19, Pre-echoing=64.199.250.2}... Done.
+Conducting alias resolution on N320 - {216.52.13.18}... Done.
+Conducting alias resolution on N321 - {72.26.212.225}... Done.
+Conducting alias resolution on N322 - {103.137.13.119}... Done.
+Conducting alias resolution on N323 - {74.201.72.2}... Done.
+Conducting alias resolution on N324 - {144.121.35.108}... Done.
+Conducting alias resolution on N325 - {160.72.109.186}... Done.
+Conducting alias resolution on N326 - {103.137.13.185}... Done.
+Conducting alias resolution on N327 - {167.160.91.2}... Done.
+Conducting alias resolution on N328 - {216.66.23.6}... Done.
+Conducting alias resolution on N329 - {207.200.176.73}... Done.
+Conducting alias resolution on N330 - {216.52.191.45}... Done.
+Conducting alias resolution on N331 - {216.52.13.22}... Done.
+Conducting alias resolution on N332 - {72.26.212.236}... Done.
+--- End of full alias resolution (17-04-2021 09:47:52) ---
+Elapsed time: 24 minutes 28 seconds
+Total amount of probes: 5010
+Total amount of successful probes: 3955 (78.9421%)
+
+Final alias hints have been saved in the output file AS13789_17-04.hints.
+Final fingerprints have been saved in the output file AS13789_17-04.fingerprints.
+Final aliases been saved in the output file AS13789_17-04.aliases-f.
+Network graph metrics been saved in the output file AS13789_17-04.metrics.

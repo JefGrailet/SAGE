@@ -1,0 +1,22 @@
+N1 - {Echo, TTL=10, Pre-echoing=10.152.0.3 (offset=7)}
+N2 - {Echo, TTL=15, Pre-echoing=10.152.0.3 (offset=12)}
+N3 - {Echo, TTL=14, Pre-echoing=190.98.133.81, 190.98.133.84}
+N4 - {Echo, TTL=14, Pre-echoing=190.98.133.157}
+N5 - {Echo, TTL=255, Pre-echoing=190.98.133.162}
+N6 - {Echo, TTL=255, Pre-echoing=190.98.134.133}
+N7 - {10.152.0.3 | 12} (10.152.0.3 not among targets)
+N8 - {10.152.0.3 | 13} (10.152.0.3 not among targets)
+N9 - {84.16.12.129 | 3}
+N10 - {63.217.59.14} (63.217.59.14 not among targets)
+N11 - {84.16.13.247}
+N12 - {190.98.155.41}
+N13 - {149.11.104.99} (149.11.104.99 not among targets)
+N14 - {185.153.170.244}
+N15 - {185.153.170.236}
+
+N10 -> N11 through one intermediate hop
+N11 -> N12 via 190.98.155.40/29 (from N12)
+N13 -> N14 via 185.153.170.240/29
+N14 -> N15 via 185.153.170.232/29
+
+N10 -> N11: 5.53.6.186
