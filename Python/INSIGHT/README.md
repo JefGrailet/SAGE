@@ -1,6 +1,6 @@
 # INSIGHT - A Python library to model and study networks
 
-*By Jean-François Grailet (last updated: June 30, 2021)*
+*By Jean-François Grailet (last updated: November 28, 2021)*
 
 ## About
 
@@ -90,18 +90,19 @@ by typing `./process.sh` without arguments in your terminal.
   can get quite big and is usually much larger than the projection on neighborhoods of the same 
   graph.
 
-* `DoubleBip`: translates a neighborhood-based directed acyclic graph as built by `SAGE`, 
-  completed by the alias resolution data captured during its final algorithmic step, into a double 
-  (hypothetical) Layer-2 - router - subnet bipartite graph. The first two parties (hypothetical 
-  Layer-2 - router) account for the inner components of neighborhoods. The subnets (third party) 
+* `Trip`: translates a neighborhood-based directed acyclic graph as built by `SAGE`, completed by 
+  the alias resolution data captured during its final algorithmic step, into a (hypothetical) 
+  Layer-2 - router - subnet tripartite graph. The first two parties (hypothetical Layer-2 - 
+  router) account for the inner components of neighborhoods. The subnets (third party) 
   are used exactly in the same manner as in simple bipartite graphs, except they connect 
   (inferred) routers rather than neighborhoods. This formalism was designed to study the router 
   degree and assess the potential presence of Layer-2 equipment within large networks. It 
-  currently only outputs the graph itself (as two files, suffixed in `.dbip-mappings` for the 
-  vertices and `.dbip-graph` for the edges), a figure plotting the distributions of different 
+  currently only outputs the graph itself (as two files, suffixed in `.trip-mappings` for the 
+  vertices and `.trip-graph` for the edges), a figure plotting the distributions of different 
   definitions of the router degree (suffixed in `_router_degrees.pdf`) and a figure illustrating 
-  the clustering coefficients of (inferred) routers in function of their degree in the double 
-  bipartite graph.
+  the clustering coefficients of (inferred) routers in function of their degree in the tripartite 
+  graph. It is worth noting that tripartite graphs built by `INSIGHT` currently do not include 
+  edges connecting (hypothetical) Layer-2 devices with subnets.
 
 **Remark about graph visuals:** while `INSIGHT` can usually process a data snapshot quickly, the 
 rendering of a graph (directed or bipartite) can take some time, especially with large networks. 
@@ -132,6 +133,11 @@ for the total number of vertices in a graph that can be rendered. E.g., if this 
   assess the potential presence of Layer-2 equipment. This mode involves using the (final) alias 
   resolution data captured by `SAGE`. It is still work in progress, as the alias resolution data 
   should ideally be post-processed to infer routers more accurately.
+
+* **November 28, 2021:** terminology change: double bipartite graphs are now called tripartite 
+  graphs. This change has been applied to both the source files of `INSIGHT` and the names of the 
+  files produced by the `Trip` mode (formerly `DoubleBip`) which are located within the `Results/` 
+  sub-folder.
 
 ## Contact
 

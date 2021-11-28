@@ -3,11 +3,11 @@
 '''
 This module provides a class to model "post-neighborhoods", i.e., neighborhoods that were 
 post-processed with alias resolution data captured during the final stage of SAGE. It is involved 
-in the construction of double bipartite graphs (Layer-2/Layer-3/Subnet-level). Several additional 
+in the construction of tripartite graphs (Layer-2/Layer-3/Subnet-level). Several additional 
 functions are also provided to take advantage of post-neighborhoods to discover the edges of a 
-corresponding double bipartite graph and output them as text files.
+corresponding tripartite graph and output them as text files.
 
-(double bipartite graphs only)
+(tripartite graphs only)
 '''
 
 import Routers
@@ -23,10 +23,10 @@ class PostNeighborhood:
           contra-pivot interfaces.
         * Router objects including IP interfaces that identify the initial neighborhoods are also 
           listed in a special dictionary, involved in the final steps of the construction of the 
-          double bipartite graph (i.e., following the edges of the parent DAG to connect 
-          neighborhoods with their peers). Remark: by design, with SAGE, there should be only one 
-          entry router, but temporar failures during the final alias resolution step can change 
-          the results (final step does not take advantage of alias transivity heuristic for now).
+          tripartite graph (i.e., following the edges of the parent DAG to connect neighborhoods 
+          with their peers). Remark: by design, with SAGE, there should be only one entry router, 
+          but temporar failures during the final alias resolution step can change the results 
+          (final step does not take advantage of alias transivity heuristic for now).
         * The constructor is not responsible for telling whether the (post-)neighborhood consists 
           of a single device or not. It's up to the function that actually post-processes a 
           neighborhood and creates the associated Router objects.
@@ -336,8 +336,8 @@ def connectNeighborhoods(postNeighborhoods, CIDRsToIDs, graphFileLines):
     content of the associated .graph file to include the connections between routers and subnets 
     that correspond to the direct/indirect links of the DAG, as well as the remote links (in the 
     form of special subnets, much like neighborhood - subnet bipartite graphs). In the end, all 
-    vertices and edges that should constitute a double bipartite model (Layer-2/Layer-3/Subnet) 
-    are known and can be written in some output file(s).
+    vertices and edges that should constitute a tripartite model (Layer-2/Layer-3/Subnet) are 
+    known and can be written in some output file(s).
     
     :param postNeighborhoods:  The dictionary of post-neighborhoods (ID -> object) produced by the 
                                postProcess() function
@@ -427,20 +427,20 @@ def connectNeighborhoods(postNeighborhoods, CIDRsToIDs, graphFileLines):
         else:
             continue
 
-def outputDoubleBipartite(postNeighborhoods, IDsToCIDRs, outputFilePrefix):
+def outputTripartite(postNeighborhoods, IDsToCIDRs, outputFilePrefix):
     '''
-    This last procedure simply writes the double bipartite components produced by the 
-    postProcess() function and the connectNeighborhoods() procedure into two text output files.
-    The first file (.dbip-graph) describes the edges while the second file (.dbip-mappings) 
-    provides the mapping between each subnet/router ID in the graph and the data collected by SAGE 
-    (e.g., for each subnet label, provides the associated subnet as a CIDR/IPv4 block).
+    This last procedure simply writes the tripartite components produced by the postProcess() 
+    function and the connectNeighborhoods() procedure into two text output files. The first file 
+    (.trip-graph) describes the edges while the second file (.trip-mappings) provides the mapping 
+    between each subnet/router ID in the graph and the data collected by SAGE (e.g., for each 
+    subnet label, provides the associated subnet as a CIDR/IPv4 block).
     
     :param postNeighborhoods:  The dictionary of post-neighborhoods (ID -> object) produced by the 
                                postProcess() function and completed by connectNeighborhoods()
     :param IDsToCIDRs:         The mappings between subnet labels and the corresponding subnets 
                                (as CIDR/IPv4 blocks), as returned by postProcess()
     :param outputFilePrefix:   A string prefix for the output files; if denoted as [p], the 
-                               resulting files will be [p].dbip-graph and [p].dbip-mappings
+                               resulting files will be [p].trip-graph and [p].trip-mappings
     '''
     
     # Outputs graph file
@@ -461,7 +461,7 @@ def outputDoubleBipartite(postNeighborhoods, IDsToCIDRs, outputFilePrefix):
     for ID in postNeighborhoods:
         graphString += postNeighborhoods[ID].L3SToString()
     
-    graphFile = open(outputFilePrefix + ".dbip-graph", "w")
+    graphFile = open(outputFilePrefix + ".trip-graph", "w")
     graphFile.write(graphString)
     graphFile.close()
     
@@ -487,6 +487,6 @@ def outputDoubleBipartite(postNeighborhoods, IDsToCIDRs, outputFilePrefix):
     for ID in IDsToCIDRs: # Should be in order too (follows order of insertion)
         mappingsString += ID + " - " + IDsToCIDRs[ID] + "\n"
     
-    mappingsFile = open(outputFilePrefix + ".dbip-mappings", "w")
+    mappingsFile = open(outputFilePrefix + ".trip-mappings", "w")
     mappingsFile.write(mappingsString)
     mappingsFile.close()

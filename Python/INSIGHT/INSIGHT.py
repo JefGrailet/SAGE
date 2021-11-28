@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import Subnets
 import Neighborhoods
 import Aliases
-import PostNeighborhoods # Double bipartite graphs
+import PostNeighborhoods # Tripartite graphs
 import GraphBuilding
 import GraphDrawing
 import FigureFactory
@@ -45,8 +45,7 @@ if __name__ == "__main__":
     paths.append(filesPrefix + ".subnets")
     paths.append(filesPrefix + ".neighborhoods")
     paths.append(filesPrefix + ".graph")
-    paths.append(filesPrefix + ".aliases-f") # Relevant for double bipartite
-    paths.append(filesPrefix + ".fingerprints") # Relevant for double bipartite
+    paths.append(filesPrefix + ".aliases-f") # Relevant for tripartite
     
     # Checks existence of each file
     for iPath in paths:
@@ -84,13 +83,14 @@ if __name__ == "__main__":
     #   vertices (neighborhoods) and writes the result to an output text file.
     # * BipBotProj: builds a simple bipartite just like in "Bip" mode, then projects it on bottom 
     #   vertices (subnets) and writes the result to an output text file.
-    # * DoubleBip: builds a double bipartite graph, i.e., two interconnected bipartite graphs 
-    #   where one connects (virtual) Layer-2 equipment with (inferred) routers while the second 
-    #   one connects the same routers with subnets. This model is designed to represent more 
-    #   realistically the key components of a network topology, as a neighborhood (see Bip mode) 
-    #   can hide either a single router, either a mesh involving Layer-2 equipment. In addition to 
-    #   a visual render of the graph (unless the number of vertices exceed a provided limit), this 
-    #   mode outputs figures to evaluate the degree and local density of routers.
+    # * Trip: builds a tripartite graph, i.e., where (virtual) Layer-2 equipment can be connected 
+    #   with (inferred) routers and where the same routers can be connected with subnets as well. 
+    #   For now, connections between Layer-2 equipment and subnets are ignored. This model is 
+    #   designed to represent more realistically the key components of a network topology, as a 
+    #   neighborhood (see Bip mode) can hide either a single router, either a mesh involving 
+    #   Layer-2 equipment. In addition to a visual render of the graph (unless the number of 
+    #   vertices exceed a provided limit), this mode outputs figures to evaluate the degree and 
+    #   local density of routers.
     
     if mode == "raw":
         directed = GraphBuilding.directedGraph(filesAsLines[2])
@@ -234,10 +234,10 @@ if __name__ == "__main__":
         botProjFile = open(outputFileName + ".txt", "w")
         botProjFile.write(GraphBuilding.projectionToText(botProj))
         botProjFile.close()
-    elif mode == "doublebip":
+    elif mode == "trip":
         post, IDsToCIDRs, CIDRsToIDs = PostNeighborhoods.postProcess(neighborhoods)
         PostNeighborhoods.connectNeighborhoods(post, CIDRsToIDs, filesAsLines[2])
-        PostNeighborhoods.outputDoubleBipartite(post, IDsToCIDRs, outputFileName)
+        PostNeighborhoods.outputTripartite(post, IDsToCIDRs, outputFileName)
         
         # Names of the output files
         outDegrees = outputFileName + "_router_degrees"
@@ -245,7 +245,7 @@ if __name__ == "__main__":
         outGraph = outputFileName + "_graph"
         
         # Computes a figure to compare the different degrees
-        degrees = FigureFactory.routerDegreeDoubleBip(post, outDegrees)
+        degrees = FigureFactory.routerDegreeTrip(post, outDegrees)
         
         # Reviews the degrees
         maxDegrees = [0, 0, 0, 0] # 0 = exp, 1 = min, 2 = max, 3 = mix
@@ -292,19 +292,19 @@ if __name__ == "__main__":
                         degreeStr += routersToShow[k]
                 print(degreeStr)
         
-        dBipComplete = GraphBuilding.doubleBipartiteGraph(post)
-        FigureFactory.routerClusteringDoubleBip(dBipComplete, outClustering)
+        tripComplete = GraphBuilding.tripartiteGraph(post)
+        FigureFactory.routerClusteringTrip(tripComplete, outClustering)
         
         # Rendering the graph
-        dBipToRender = GraphBuilding.doubleBipartiteGraph(post, True)
-        nbVerticesToRender = len(list(dBipToRender.nodes()))
+        tripToRender = GraphBuilding.tripartiteGraph(post, True)
+        nbVerticesToRender = len(list(tripToRender.nodes()))
         if maxToRender != 0 and nbVerticesToRender > maxToRender:
             print("\nGraph to render has more vertices (= " + str(nbVerticesToRender) + ") than allowed (= " + str(maxToRender) + ").")
         else:
-            GraphDrawing.drawDoubleBipartiteGraph(dBipToRender, outGraph)
+            GraphDrawing.drawTripartiteGraph(tripToRender, outGraph)
         
     else:
         errMsg = "Unknown mode "
         errMsg += "\"" + mode + "\""
-        errMsg += " (available modes: Raw, Bip, BipProjTop, BipProjBot, DoubleBip)."
+        errMsg += " (available modes: Raw, Bip, BipProjTop, BipProjBot, Trip)."
         print(errMsg)

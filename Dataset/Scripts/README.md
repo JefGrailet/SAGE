@@ -77,10 +77,10 @@ computation of a new scheduling (i.e., exclusive pairs of target AS, EdgeNet nod
 ## Bash scripts
 
 **Remarks:**
--scripts are listed in lexicographical order, not in the order in which they should be used.
--all scripts can be used without argument; tasks such as listing target ASes are automated.
--some scripts provided optional arguments; check them to learn about it.
--`diagnostic.sh` and `evaluate.sh` are designed to verify scheduling/pods while leaving pods untouched.
+1. scripts are listed in lexicographical order, not in the order in which they should be used.
+2. all scripts can be used without argument; tasks such as listing target ASes are automated.
+3. some scripts provided optional arguments; check them to learn about it.
+4. `diagnostic.sh` and `evaluate.sh` are designed to verify scheduling/pods while leaving pods untouched.
 
 * `clean.sh`: deletes currently running pods regardless of their state. Pods to delete can be selected via an optional argument.
 * `collect.sh`: checks the current pods, collects the available snapshots and deletes pods that have finished their lifecycle (failed or successful).

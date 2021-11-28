@@ -316,9 +316,9 @@ def projectionToText(projDict):
     
     return finalStr
 
-def doubleBipartiteGraph(postNeighborhoods, prune=False):
+def tripartiteGraph(postNeighborhoods, prune=False):
     '''
-    Function which builds a double bipartite graph, using the post-neighborhood data (see the file 
+    Function which builds a tripartite graph, using the post-neighborhood data (see the file 
     PostNeighborhoods.py). The function features an optional "prune" boolean parameter which 
     should be set to True to remove all degree-1 vertices. This option is used to produce visual 
     renders of a graph, as drawing all degree-1 vertices considerably slows down the rendering in 
@@ -328,14 +328,14 @@ def doubleBipartiteGraph(postNeighborhoods, prune=False):
     :param postNeighborhoods:  The dictionary of post-neighborhoods (ID -> object)
     :param prune:              The optional "pruning"; set to True to prune the degree-1 vertices 
                                from the final graph (no pruning by default)
-    :return: A double bipartite graph as built with NetworkX
+    :return: A tripartite graph as built with NetworkX
     '''
     
     switches = []
     routers = []
     subnets = []
     allEdges = []
-    switchCount = 1 # Same principle as in PostNeighborhoods.outputDoubleBipartite()
+    switchCount = 1 # Same principle as in PostNeighborhoods.outputTripartite()
     
     # Routers/subnets (+ incident edges) enumeration depends on pruning
     if prune:
@@ -412,9 +412,9 @@ def doubleBipartiteGraph(postNeighborhoods, prune=False):
     # design (e.g., subnet IDs follow the order of insertion of subnets).
     
     # Creates the graph, adds all components to it and returns it
-    dBip = nx.Graph()
-    dBip.add_nodes_from(switches, bipartite=0)
-    dBip.add_nodes_from(routers, bipartite=1)
-    dBip.add_nodes_from(subnets, bipartite=2)
-    dBip.add_edges_from(allEdges)
-    return dBip
+    trip = nx.Graph()
+    trip.add_nodes_from(switches, bipartite=0)
+    trip.add_nodes_from(routers, bipartite=1)
+    trip.add_nodes_from(subnets, bipartite=2)
+    trip.add_edges_from(allEdges)
+    return trip

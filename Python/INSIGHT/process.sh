@@ -9,7 +9,7 @@ fi
 nbModes=3
 modes[0]="Bip"
 modes[1]="BipProjTop"
-modes[2]="DoubleBip"
+modes[2]="Trip"
 withTextDump[0]=true
 withTextDump[1]=false
 withTextDump[2]=true

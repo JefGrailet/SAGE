@@ -318,7 +318,7 @@ def topClusteringByDegreeBip(bipGraph, outputFileName):
         xTicks.append(limitX)
     
     # Limits
-    plt.ylim([0, 1.05]) # + 0.5 so the top markers can be seen more easily
+    plt.ylim([-0.05, 1.05]) # +/- 0.05 so the top/bottom markers can be seen more easily
     plt.xlim([1, limitX])
     
     # Axes aesthetics
@@ -548,10 +548,10 @@ def cyclesDistributionBip(bipGraph, subnetsVertices, outputFileName):
     cycles.sort()
     return cycles
 
-def routerDegreeDoubleBip(postNeighborhoods, outputFileName, thresholdL2=8):
+def routerDegreeTrip(postNeighborhoods, outputFileName, thresholdL2=8):
     '''
-    Function which reviews the degree(s) of routers found in a double bipartite graph and plots 
-    the distribution(s) as CDFs. It differs from functions used for bipartite graphs because it 
+    Function which reviews the degree(s) of routers found in a tripartite graph and plots the 
+    distribution(s) as CDFs. It differs from functions used for bipartite graphs because it 
     relies on the post-neighborhood dictionary rather than a graph built with NetworkX.
     
     :param postNeighborhoods:  The post-neighborhood data
@@ -730,14 +730,14 @@ def routerDegreeDoubleBip(postNeighborhoods, outputFileName, thresholdL2=8):
     plt.clf()
     return [neighborhoodsByDegree, routersByMinDegree, routersByMaxDegree, routersByMixDegree]
 
-def routerClusteringDoubleBip(dBipGraph, outputFileName):
+def routerClusteringTrip(tripGraph, outputFileName):
     '''
-    Function which computes the clustering of routers in a double bipartite model (where L2 is 
-    assumed to be always present) and plots the resulting coefficients in a scatter plot with a 
-    logarithmic scale. The provided double bipartite graph must be a complete one (i.e., it must 
-    not be pruned from degree-1 vertices, especially degree-1 subnets).
+    Function which computes the clustering of routers in a tripartite model (where L2 is assumed 
+    to be always present) and plots the resulting coefficients in a scatter plot with a 
+    logarithmic scale. The provided tripartite graph must be a complete one (i.e., it must not be 
+    pruned from degree-1 vertices, especially degree-1 subnets).
     
-    :param dBipGraph:       The double bipartite graph as built with NetworkX (must be complete)
+    :param tripGraph:       The tripartite graph as built with NetworkX (must be complete)
     :param outputFileName:  Filename for the PDF that will contain the figure
     '''
     
@@ -749,22 +749,22 @@ def routerClusteringDoubleBip(dBipGraph, outputFileName):
     finalOutputFileName = nameSplit[0]
     
     # Isolates the routers as vertices (R_X or I_X)
-    allVertices = list(dBipGraph.nodes)
+    allVertices = list(tripGraph.nodes)
     routers = []
     for vertex in allVertices:
-        if len(dBipGraph.edges(vertex)) == 0:
+        if len(tripGraph.edges(vertex)) == 0:
             continue # Ignores isolated vertices
         if vertex.startswith("R") or vertex.startswith("I"):
             routers.append(vertex)
     
     # Gets their clustering
-    clustering = bipartite.clustering(dBipGraph, nodes=routers, mode="min")
+    clustering = bipartite.clustering(tripGraph, nodes=routers, mode="min")
     
     # Computes a dictionary of routers by degree (router-min)
     routersByDegree = dict()
     maxRouterDegree = 0
     for vertex in routers:
-        curDegree = len(dBipGraph.edges(vertex))
+        curDegree = len(tripGraph.edges(vertex))
         if curDegree in routersByDegree:
             routersByDegree[curDegree].append(vertex)
         else:
@@ -800,7 +800,7 @@ def routerClusteringDoubleBip(dBipGraph, outputFileName):
         xTicks.append(limitX)
     
     # Limits
-    plt.ylim([0, 1.05]) # + 0.5 so the top markers can be seen more easily
+    plt.ylim([-0.05, 1.05]) # +/- 0.05 so the top/bottom markers can be seen more easily
     plt.xlim([1, limitX])
     
     # Axes aesthetics

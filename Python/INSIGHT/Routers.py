@@ -1,10 +1,10 @@
 #! /usr/bin/env python
 
 '''
-This module provides a class to model routers in a double bipartite graph, i.e., combination of an 
-alias pair/list with the subnets this router is supposed to be connected with.
+This module provides a class to model routers in a tripartite graph, i.e., combination of an alias 
+pair/list with the subnets this router is supposed to be connected with.
 
-(double bipartite graphs only)
+(tripartite graphs only)
 '''
 
 class Router:
@@ -72,3 +72,5 @@ class Router:
         for i in range(0, len(self.nSubnets)):
             edges.append([labelStr, self.nSubnets[i]])
         return edges
+
+# TODO: function to build a router if multi-counter several + "cheat" with the Alias constructor

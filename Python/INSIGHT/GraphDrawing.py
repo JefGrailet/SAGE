@@ -166,11 +166,11 @@ def drawBipartiteGraph(bipGraph, outputFileName):
     plt.savefig(finalOutputFileName + ".pdf")
     return
 
-def drawDoubleBipartiteGraph(dBipGraph, outputFileName):
+def drawTripartiteGraph(tripGraph, outputFileName):
     '''
-    Function which draws a provided double bipartite graph (Layer-2/Layer-3/Subnet).
+    Function which draws a provided tripartite graph (Layer-2/Layer-3/Subnet).
     
-    :param dbipGraph:      The double bipartite graph as built with NetworkX
+    :param tripGraph:      The tripartite graph as built with NetworkX
     :param outputFileName: Filename for the PDF that will contain the figure
     '''
     
@@ -191,8 +191,8 @@ def drawDoubleBipartiteGraph(dBipGraph, outputFileName):
     regularEdges = [] # Not always one hop here (router - switch =/= one hop)
     multiHopsEdges = []
     
-    vertices = dBipGraph.nodes()
-    edges = dBipGraph.edges()
+    vertices = tripGraph.nodes()
+    edges = tripGraph.edges()
     
     for vertex in vertices:
         if vertex.startswith("E"):
@@ -224,41 +224,41 @@ def drawDoubleBipartiteGraph(dBipGraph, outputFileName):
         dimension = 150
     
     # The use of a specific seed allows to get the same Figure upon re-run
-    pos = nx.spring_layout(dBipGraph, seed=np.random.RandomState(223973))
+    pos = nx.spring_layout(tripGraph, seed=np.random.RandomState(223973))
     plt.figure(figsize=(dimension, dimension))
     
     # Draws nodes (yellow = switch, blue = router, red = subnet, green = remote link)
-    nx.draw_networkx_nodes(dBipGraph, 
+    nx.draw_networkx_nodes(tripGraph, 
                            pos,
                            nodelist=listVertices0_1,
                            node_color='yellow',
                            node_size=500,
                            alpha=0.8)
-    nx.draw_networkx_nodes(dBipGraph, 
+    nx.draw_networkx_nodes(tripGraph, 
                            pos,
                            nodelist=listVertices1_1,
                            node_color='blue',
                            node_size=500,
                            alpha=0.8)
-    nx.draw_networkx_nodes(dBipGraph, 
+    nx.draw_networkx_nodes(tripGraph, 
                            pos,
                            nodelist=listVertices1_2,
                            node_color='cornflowerblue',
                            node_size=500,
                            alpha=0.8)
-    nx.draw_networkx_nodes(dBipGraph, 
+    nx.draw_networkx_nodes(tripGraph, 
                            pos,
                            nodelist=listVertices2_1,
                            node_color='red',
                            node_size=500,
                            alpha=0.8)
-    nx.draw_networkx_nodes(dBipGraph, 
+    nx.draw_networkx_nodes(tripGraph, 
                            pos,
                            nodelist=listVertices2_2,
                            node_color='lightcoral',
                            node_size=500,
                            alpha=0.8)
-    nx.draw_networkx_nodes(dBipGraph, 
+    nx.draw_networkx_nodes(tripGraph, 
                            pos,
                            nodelist=listVertices2_3,
                            node_color='green',
@@ -266,11 +266,11 @@ def drawDoubleBipartiteGraph(dBipGraph, outputFileName):
                            alpha=0.6)
     
     # Draws edges
-    nx.draw_networkx_edges(dBipGraph, pos, edgelist=regularEdges)
-    nx.draw_networkx_edges(dBipGraph, pos, edgelist=multiHopsEdges, edge_color='green')
+    nx.draw_networkx_edges(tripGraph, pos, edgelist=regularEdges)
+    nx.draw_networkx_edges(tripGraph, pos, edgelist=multiHopsEdges, edge_color='green')
     
     # Adds labels
-    nx.draw_networkx_labels(dBipGraph, pos)
+    nx.draw_networkx_labels(tripGraph, pos)
     
     # Saves the result with the given output file name (may overwrite an existing file)
     plt.savefig(finalOutputFileName + ".pdf")
