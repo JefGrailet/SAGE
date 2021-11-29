@@ -1,0 +1,485 @@
+SAGE (Subnet AGgrEgation) v2.0 - Time at start: 02-06-2021 08:26:30
+
+--- Start of target pre-scanning ---
+Pre-scanning with initial timeout... done.
+Found a total of 149043 responsive IPs.
+Second opinion with twice the timeout (2sec : 0micsec)... done.
+Found a total of 742 additional responsive IPs.
+--- End of target pre-scanning (02-06-2021 15:45:26) ---
+Elapsed time: 7 hours 18 minutes 28 seconds
+Total amount of probes: 4625869
+Total amount of successful probes: 234621 (5.07193%)
+Total amount of discovered responsive IPs: 149785
+
+Filtered target IPs have been saved in an output file AS3257_02-06.ips (temporar).
+
+--- Start of target scanning ---
+Starting the estimation of distance of all target IPs (in TTL).
+To do this, 257 threads will be scheduled (up to 585 target IPs per thread).
+26713 out of 30966 IPs with an estimated TTL (86.2656%) need to be re-probed to improve trails.
+Starting re-probing target IPs with incomplete trails.
+Starting re-probing n°1.
+To do this, 256 threads will be scheduled (from 1 to 497 target IPs per thread).
+
+There are flickering IPs that could lead to the discovery of 13 aliases.
+Now starting alias hints collection...
+Collecting hints for 23.226.130.18, 173.205.81.193... Done.
+Collecting hints for 46.19.52.28, 84.233.248.249... Done.
+Collecting hints for 70.39.146.12, 198.46.80.85... Done.
+Collecting hints for 89.149.132.190, 141.136.106.150... Done.
+Collecting hints for 89.149.186.149, 213.200.118.210, 213.200.118.214... Done.
+Collecting hints for 89.149.186.242, 213.254.230.206... Done.
+Collecting hints for 89.202.65.190, 149.235.16.109, 149.235.16.229... Done.
+Collecting hints for 89.202.210.102, 194.158.26.17... Done.
+Collecting hints for 104.193.140.56, 104.193.140.71... Done.
+Collecting hints for 149.235.24.193, 213.161.83.187... Done.
+Collecting hints for 154.14.72.190, 154.14.118.147... Done.
+Collecting hints for 154.54.39.82, 154.54.61.54... Done.
+Collecting hints for 161.129.64.249, 173.205.82.157, 173.205.82.166, 173.205.82.168, 173.205.82.197, 173.205.82.207, 173.205.82.245... Done.
+Resolving... Done.
+--- End of target scanning (02-06-2021 22:03:08) ---
+Elapsed time: 6 hours 17 minutes 41 seconds
+Total amount of probes: 1599010
+Total amount of successful probes: 111094 (6.94767%)
+
+Updated IP dictionary has been saved in the output file AS3257_02-06.ips.
+
+--- Start of subnet inference ---
+Inferring subnets... Done.
+Post-processing the discovered subnets... Done.
+--- End of subnet inference (02-06-2021 22:03:13) ---
+Elapsed time: 5 seconds
+
+Inferred subnets has been saved in the output file AS3257_02-06.subnets.
+Alias hints (subnet inference) have been saved in the output file AS3257_02-06.hints.
+Fingerprints (subnet inference) have been saved in the output file AS3257_02-06.fingerprints.
+
+--- Start of neighborhood inference ---
+Collecting additional data to discover and locate neighborhoods.
+
+8005 IPs will be used as targets for traceroute-like probing, using 256 threads (up to 32 targets per thread).
+Probing the 8005 target IPs... Done.
+Building initial aggregates of subnets... Done.
+Discovered direct peer IP(s) for 163 aggregates.
+Discovered remote peer IP(s) for 34 aggregates.
+820 aggregates don't have any peer.
+
+There are aggregates of subnets with more than one peer and/or with miscellaneous IPs observed at the same distance.
+SAGE will conduct alias resolution to test whether these IPs belong to the same devices or not (peer disambiguation).
+
+Collecting hints for 64.147.115.6, 70.39.228.83, 70.39.228.94... Done.
+Collecting hints for 70.39.147.156, 70.39.150.213, 70.39.150.249, 70.39.151.74, 198.46.80.85... Done.
+Collecting hints for 70.39.188.2, 70.39.188.6, 70.39.189.204, 70.39.189.207, 70.39.189.211, 220.242.7.217... Done.
+Collecting hints for 84.233.248.249, 84.233.248.250... Done.
+Collecting hints for 89.149.133.178, 213.200.114.145... Done.
+Collecting hints for 89.149.134.90, 89.149.143.253... Done.
+Collecting hints for 89.149.141.102, 89.149.183.37, 213.200.124.169... Done.
+Collecting hints for 89.149.143.114, 213.200.113.58... Done.
+Collecting hints for 89.149.182.38, 89.149.183.117... Done.
+Collecting hints for 130.117.51.73, 130.117.51.137, 154.54.39.82, 154.54.57.153, 154.54.58.185, 154.54.61.54, 195.2.26.26... Done.
+Collecting hints for 141.136.107.189, 213.200.112.238... Done.
+Collecting hints for 149.235.16.230, 149.235.16.238... Done.
+3 aliases could be discovered.
+Building the vertices of the graph... Done.
+Building the edges of the graph... Done.
+--- End of neighborhood inference (02-06-2021 22:30:22) ---
+Elapsed time: 27 minutes 9 seconds
+Total amount of probes: 45286
+Total amount of successful probes: 2293 (5.06337%)
+
+Updated IP dictionary has been saved in the output file AS3257_02-06.ips.
+Alias hints (up to graph building) have been saved in the output file AS3257_02-06.hints.
+Fingerprints (up to graph building) have been saved in the output file AS3257_02-06.fingerprints.
+Aliases discovered during graph building have been written in AS3257_02-06.aliases-2.
+Additional traceroute data has been saved in the output file AS3257_02-06.peers.
+Neighborhoods have been saved in the output file AS3257_02-06.neighborhoods.
+Network graph been saved in the output file AS3257_02-06.graph.
+
+--- Start of full alias resolution ---
+Conducting alias resolution on N2 - {Echo, TTL=10, Pre-echoing=10.132.0.5 (offset=7)}... Done.
+Conducting alias resolution on N3 - {Echo, TTL=12, Pre-echoing=10.132.0.5 (offset=9)}... Done.
+Conducting alias resolution on N4 - {Echo, TTL=11, Pre-echoing=10.132.0.5 (offset=8)}... Done.
+Conducting alias resolution on N7 - {Echo, TTL=9, Pre-echoing=46.19.55.41}... Done.
+Conducting alias resolution on N8 - {Echo, TTL=255, Pre-echoing=46.19.55.48}... Done.
+Conducting alias resolution on N13 - {Echo, TTL=12, Pre-echoing=66.54.132.23 (offset=7)}... Done.
+Conducting alias resolution on N14 - {Echo, TTL=255, Pre-echoing=66.54.132.39}... Done.
+Conducting alias resolution on N16 - {Echo, TTL=255, Pre-echoing=66.54.132.115 (offset=5)}... Done.
+Conducting alias resolution on N19 - {Echo, TTL=26, Pre-echoing=66.54.132.219}... Done.
+Conducting alias resolution on N32 - {Echo, TTL=18, Pre-echoing=219.158.98.253 (offset=1)}... Done.
+Conducting alias resolution on N35 - {Echo, TTL=255, Pre-echoing=69.174.98.65, 69.174.98.66, 69.174.98.75}... Done.
+Conducting alias resolution on N36 - {Echo, TTL=8, Pre-echoing=10.132.0.5 (offset=5)}... Done.
+Conducting alias resolution on N41 - {Echo, TTL=7, Pre-echoing=89.149.138.74 (offset=1)}... Done.
+Conducting alias resolution on N47 - {Echo, TTL=9, Pre-echoing=194.62.61.129}... Done.
+Conducting alias resolution on N48 - {Echo, TTL=10, Pre-echoing=194.62.61.131}... Done.
+Conducting alias resolution on N54 - {Echo, TTL=10, Pre-echoing=194.62.62.72}... Done.
+Conducting alias resolution on N56 - {Echo, TTL=9, Pre-echoing=194.62.62.76, 194.62.62.77}... Done.
+Conducting alias resolution on N68 - {Echo, TTL=10, Pre-echoing=194.62.63.28}... Done.
+Conducting alias resolution on N69 - {Echo, TTL=9, Pre-echoing=194.62.63.36}... Done.
+Conducting alias resolution on N84 - {Echo, TTL=7, Pre-echoing=198.144.120.203}... Done.
+Conducting alias resolution on N85 - {Echo, TTL=7, Pre-echoing=198.144.120.204}... Done.
+Conducting alias resolution on N86 - {Echo, TTL=4, Pre-echoing=198.144.120.207}... Done.
+Conducting alias resolution on N87 - {Echo, TTL=7, Pre-echoing=198.144.120.208}... Done.
+Conducting alias resolution on N89 - {0.0.0.0 | 6}... Done.
+Conducting alias resolution on N90 - {0.0.0.0 | 8}... Done.
+Conducting alias resolution on N91 - {0.0.0.0 | 9}... Done.
+Conducting alias resolution on N92 - {0.0.0.0 | 10}... Done.
+Conducting alias resolution on N93 - {0.0.0.0 | 11}... Done.
+Conducting alias resolution on N95 - {9.8.52.251}... Done.
+Conducting alias resolution on N96 - {9.8.54.35}... Done.
+Conducting alias resolution on N97 - {10.132.0.5 | 5}... Done.
+Conducting alias resolution on N99 - {10.132.0.5 | 7}... Done.
+Conducting alias resolution on N100 - {10.132.0.5 | 8}... Done.
+Conducting alias resolution on N102 - {10.132.0.5 | 10}... Done.
+Conducting alias resolution on N104 - {12.122.149.49 | 1}... Done.
+Conducting alias resolution on N105 - {12.249.200.182}... Done.
+Conducting alias resolution on N106 - {23.203.152.207}... Done.
+Conducting alias resolution on N107 - {23.203.152.244}... Done.
+Conducting alias resolution on N108 - {23.226.130.18}... Done.
+Conducting alias resolution on N109 - {38.88.2.6}... Done.
+Conducting alias resolution on N110 - {38.142.221.210 | 3}... Done.
+Conducting alias resolution on N111 - {46.19.49.103}... Done.
+Conducting alias resolution on N112 - {47.246.114.197}... Done.
+Conducting alias resolution on N113 - {47.246.115.5 | 1}... Done.
+Conducting alias resolution on N114 - {50.205.79.154}... Done.
+Conducting alias resolution on N115 - {58.40.30.170}... Done.
+Conducting alias resolution on N116 - {58.40.146.130 | 1}... Done.
+Conducting alias resolution on N117 - {61.14.33.168}... Done.
+Conducting alias resolution on N118 - {63.216.242.46 | 3}... Done.
+Conducting alias resolution on N119 - {64.124.191.99}... Done.
+Conducting alias resolution on N120 - {64.125.20.81}... Done.
+Conducting alias resolution on N123 - {66.54.132.46 | 2}... Done.
+Conducting alias resolution on N124 - {66.54.132.107 | 1}... Done.
+Conducting alias resolution on N129 - {66.54.132.151 | 3}... Done.
+Conducting alias resolution on N131 - {66.54.132.179 | 6}... Done.
+Conducting alias resolution on N132 - {66.54.132.182 | 1}... Done.
+Conducting alias resolution on N133 - {66.54.132.211 | 3}... Done.
+Conducting alias resolution on N135 - {69.7.231.239}... Done.
+Conducting alias resolution on N137 - {69.22.164.178 | 2}... Done.
+Conducting alias resolution on N141 - {69.191.240.72}... Done.
+Conducting alias resolution on N143 - {70.39.147.140}... Done.
+Conducting alias resolution on N155 - {74.116.248.134}... Done.
+Conducting alias resolution on N156 - {79.141.38.74}... Done.
+Conducting alias resolution on N157 - {79.141.44.22}... Done.
+Conducting alias resolution on N158 - {81.31.15.169 | 2}... Done.
+Conducting alias resolution on N159 - {84.233.147.185}... Done.
+Conducting alias resolution on N254 - {87.119.97.142 | 1}... Done.
+Conducting alias resolution on N302 - {89.30.2.23}... Done.
+Conducting alias resolution on N303 - {89.149.130.38}... Done.
+Conducting alias resolution on N304 - {89.149.130.141}... Done.
+Conducting alias resolution on N306 - {89.149.134.177}... Done.
+Conducting alias resolution on N307 - {89.149.135.233}... Done.
+Conducting alias resolution on N308 - {89.149.136.78}... Done.
+Conducting alias resolution on N309 - {89.149.137.105}... Done.
+Conducting alias resolution on N310 - {89.149.137.189}... Done.
+Conducting alias resolution on N311 - {89.149.138.2}... Done.
+Conducting alias resolution on N312 - {89.149.138.18}... Done.
+Conducting alias resolution on N313 - {89.149.141.178}... Done.
+Conducting alias resolution on N314 - {89.149.143.165}... Done.
+Conducting alias resolution on N315 - {89.149.181.54}... Done.
+Conducting alias resolution on N316 - {89.149.181.138}... Done.
+Conducting alias resolution on N317 - {89.149.181.233}... Done.
+Conducting alias resolution on N318 - {89.149.182.30}... Done.
+Conducting alias resolution on N319 - {89.149.182.129}... Done.
+Conducting alias resolution on N320 - {89.149.182.222}... Done.
+Conducting alias resolution on N321 - {89.149.183.194}... Done.
+Conducting alias resolution on N322 - {89.149.184.165}... Done.
+Conducting alias resolution on N323 - {89.149.184.222}... Done.
+Conducting alias resolution on N324 - {89.149.186.46}... Done.
+Conducting alias resolution on N325 - {89.149.186.106}... Done.
+Conducting alias resolution on N326 - {89.149.187.66}... Done.
+Conducting alias resolution on N327 - {89.149.187.206}... Done.
+Conducting alias resolution on N329 - {89.202.210.102}... Done.
+Conducting alias resolution on N331 - {92.60.249.218}... Done.
+Conducting alias resolution on N332 - {98.124.175.46 | 1}... Done.
+Conducting alias resolution on N333 - {104.193.140.11}... Done.
+Conducting alias resolution on N334 - {104.193.140.18}... Done.
+Conducting alias resolution on N335 - {104.193.140.19}... Done.
+Conducting alias resolution on N336 - {104.193.140.25}... Done.
+Conducting alias resolution on N337 - {104.193.140.28}... Done.
+Conducting alias resolution on N338 - {104.193.140.48}... Done.
+Conducting alias resolution on N339 - {104.193.140.56}... Done.
+Conducting alias resolution on N340 - {104.193.140.65}... Done.
+Conducting alias resolution on N341 - {104.193.140.69}... Done.
+Conducting alias resolution on N342 - {104.193.140.80}... Done.
+Conducting alias resolution on N343 - {108.170.252.169}... Done.
+Conducting alias resolution on N344 - {116.51.17.58}... Done.
+Conducting alias resolution on N346 - {120.196.6.26}... Done.
+Conducting alias resolution on N347 - {125.18.131.186}... Done.
+Conducting alias resolution on N348 - {139.159.51.78}... Done.
+Conducting alias resolution on N352 - {149.235.0.230}... Done.
+Conducting alias resolution on N355 - {150.105.126.67 | 1}... Done.
+Conducting alias resolution on N356 - {154.14.10.130}... Done.
+Conducting alias resolution on N357 - {154.14.42.118}... Done.
+Conducting alias resolution on N358 - {154.14.43.18}... Done.
+Conducting alias resolution on N359 - {154.14.106.33}... Done.
+Conducting alias resolution on N360 - {154.14.151.106}... Done.
+Conducting alias resolution on N361 - {154.14.195.9}... Done.
+Conducting alias resolution on N364 - {169.50.118.197}... Done.
+Conducting alias resolution on N365 - {170.194.152.10}... Done.
+Conducting alias resolution on N366 - {171.182.191.2}... Done.
+Conducting alias resolution on N367 - {173.205.92.249 | 1}... Done.
+Conducting alias resolution on N456 - {185.132.228.62}... Done.
+Conducting alias resolution on N457 - {192.0.26.2}... Done.
+Conducting alias resolution on N483 - {194.33.53.4}... Done.
+Conducting alias resolution on N484 - {194.158.26.13}... Done.
+Conducting alias resolution on N485 - {194.158.26.178}... Done.
+Conducting alias resolution on N496 - {195.81.185.26}... Done.
+Conducting alias resolution on N497 - {195.81.185.250}... Done.
+Conducting alias resolution on N499 - {195.81.187.131 | 1}... Done.
+Conducting alias resolution on N602 - {198.144.120.213 | 1}... Done.
+Conducting alias resolution on N603 - {198.232.118.46}... Done.
+Conducting alias resolution on N604 - {199.250.196.136}... Done.
+Conducting alias resolution on N605 - {203.227.231.62}... Done.
+Conducting alias resolution on N606 - {204.237.133.7}... Done.
+Conducting alias resolution on N607 - {208.78.38.3}... Done.
+Conducting alias resolution on N608 - {209.216.25.202}... Done.
+Conducting alias resolution on N609 - {211.95.80.141}... Done.
+Conducting alias resolution on N610 - {212.222.25.138}... Done.
+Conducting alias resolution on N675 - {213.61.8.130 | 3}... Done.
+Conducting alias resolution on N676 - {213.61.8.130 | 5}... Done.
+Conducting alias resolution on N678 - {213.200.112.105}... Done.
+Conducting alias resolution on N679 - {213.200.115.78}... Done.
+Conducting alias resolution on N680 - {213.200.115.161}... Done.
+Conducting alias resolution on N681 - {213.200.117.14}... Done.
+Conducting alias resolution on N682 - {213.200.117.170}... Done.
+Conducting alias resolution on N683 - {213.200.118.210}... Done.
+Conducting alias resolution on N684 - {213.200.120.18}... Done.
+Conducting alias resolution on N685 - {213.200.120.242}... Done.
+Conducting alias resolution on N686 - {213.200.121.109}... Done.
+Conducting alias resolution on N687 - {213.200.121.234}... Done.
+Conducting alias resolution on N688 - {213.200.125.97}... Done.
+Conducting alias resolution on N689 - {213.200.126.249}... Done.
+Conducting alias resolution on N777 - {213.251.62.46 | 2}... Done.
+Conducting alias resolution on N778 - {213.254.214.17}... Done.
+Conducting alias resolution on N779 - {213.254.214.158}... Done.
+Conducting alias resolution on N780 - {213.254.230.14}... Done.
+Conducting alias resolution on N781 - {213.254.231.129}... Done.
+Conducting alias resolution on N782 - {213.254.231.138}... Done.
+Conducting alias resolution on N783 - {216.37.64.249 | 1}... Done.
+Conducting alias resolution on N784 - {219.158.5.5}... Done.
+Conducting alias resolution on N785 - {220.242.7.161}... Done.
+Conducting alias resolution on N786 - {222.187.3.182}... Done.
+Conducting alias resolution on N787 - {38.104.36.218}... Done.
+Conducting alias resolution on N788 - {Echo, TTL=18, Pre-echoing=38.104.36.218 (offset=2)}... Done.
+Conducting alias resolution on N789 - {219.142.2.158}... Done.
+Conducting alias resolution on N791 - {162.219.99.14}... Done.
+Conducting alias resolution on N793 - {161.129.64.249}... Done.
+Conducting alias resolution on N795 - {89.149.183.117}... Done.
+Conducting alias resolution on N797 - {154.14.41.2}... Done.
+Conducting alias resolution on N798 - {89.202.175.250}... Done.
+Conducting alias resolution on N800 - {89.149.136.54}... Done.
+Conducting alias resolution on N801 - {Echo, TTL=9, Pre-echoing=195.81.187.2 (offset=1)}... Done.
+Conducting alias resolution on N802 - {Echo, TTL=10, Pre-echoing=84.233.163.222 (offset=3)}... Done.
+Conducting alias resolution on N803 - {46.33.91.14}... Done.
+Conducting alias resolution on N804 - {195.81.177.197}... Done.
+Conducting alias resolution on N805 - {50.115.90.135}... Done.
+Conducting alias resolution on N806 - {Echo, TTL=10, Pre-echoing=198.232.116.98}... Done.
+Conducting alias resolution on N807 - {217.204.79.106}... Done.
+Conducting alias resolution on N808 - {Echo, TTL=9, Pre-echoing=217.204.79.106}... Done.
+Conducting alias resolution on N809 - {89.149.187.217}... Done.
+Conducting alias resolution on N811 - {213.200.127.149}... Done.
+Conducting alias resolution on N812 - {213.254.194.82}... Done.
+Conducting alias resolution on N813 - {46.33.90.30}... Done.
+Conducting alias resolution on N814 - {Echo, TTL=8, Pre-echoing=154.14.135.18}... Done.
+Conducting alias resolution on N815 - {154.14.149.126}... Done.
+Conducting alias resolution on N816 - {206.71.12.27}... Done.
+Conducting alias resolution on N817 - {50.115.90.131}... Done.
+Conducting alias resolution on N818 - {198.232.118.198}... Done.
+Conducting alias resolution on N819 - {Echo, TTL=13, Pre-echoing=198.232.116.158}... Done.
+Conducting alias resolution on N820 - {50.115.91.10}... Done.
+Conducting alias resolution on N821 - {50.115.90.136}... Done.
+Conducting alias resolution on N822 - {Echo, TTL=11, Pre-echoing=198.232.118.178}... Done.
+Conducting alias resolution on N823 - {208.115.137.64}... Done.
+Conducting alias resolution on N824 - {124.65.236.94}... Done.
+Conducting alias resolution on N825 - {61.148.8.22}... Done.
+Conducting alias resolution on N826 - {62.115.175.141}... Done.
+Conducting alias resolution on N827 - {173.228.144.38}... Done.
+Conducting alias resolution on N828 - {64.147.115.6}... Done.
+Conducting alias resolution on N829 - {173.228.144.34}... Done.
+Conducting alias resolution on N830 - {89.149.128.210}... Done.
+Conducting alias resolution on N831 - {70.39.246.205}... Done.
+Conducting alias resolution on N832 - {89.149.184.90}... Done.
+Conducting alias resolution on N833 - {89.149.187.45}... Done.
+Conducting alias resolution on N834 - {89.149.181.69}... Done.
+Conducting alias resolution on N835 - {89.149.128.246}... Done.
+Conducting alias resolution on N836 - {89.149.134.146}... Done.
+Conducting alias resolution on N837 - {89.149.128.158}... Done.
+Conducting alias resolution on N838 - {89.149.133.6}... Done.
+Conducting alias resolution on N839 - {213.200.115.142}... Done.
+Conducting alias resolution on N840 - {141.136.110.65}... Done.
+Conducting alias resolution on N841 - {89.149.130.186}... Done.
+Conducting alias resolution on N842 - {89.149.186.66}... Done.
+Conducting alias resolution on N843 - {89.149.181.230}... Done.
+Conducting alias resolution on N844 - {213.200.120.150}... Done.
+Conducting alias resolution on N845 - {89.149.128.198}... Done.
+Conducting alias resolution on N846 - {89.149.185.194}... Done.
+Conducting alias resolution on N847 - {213.200.118.22}... Done.
+Conducting alias resolution on N848 - {89.149.129.94}... Done.
+Conducting alias resolution on N849 - {89.149.129.46}... Done.
+Conducting alias resolution on N850 - {89.149.129.50}... Done.
+Conducting alias resolution on N851 - {213.200.114.145}... Done.
+Conducting alias resolution on N852 - {89.149.129.149}... Done.
+Conducting alias resolution on N853 - {89.149.141.165}... Done.
+Conducting alias resolution on N854 - {89.149.143.93}... Done.
+Conducting alias resolution on N855 - {89.149.187.222}... Done.
+Conducting alias resolution on N856 - {89.149.186.26}... Done.
+Conducting alias resolution on N857 - {89.149.128.46}... Done.
+Conducting alias resolution on N858 - {213.200.124.86}... Done.
+Conducting alias resolution on N859 - {141.136.106.150}... Done.
+Conducting alias resolution on N860 - {89.149.130.50}... Done.
+Conducting alias resolution on N861 - {89.149.130.118}... Done.
+Conducting alias resolution on N862 - {89.149.132.190}... Done.
+Conducting alias resolution on N863 - {213.200.120.109}... Done.
+Conducting alias resolution on N864 - {89.149.135.126}... Done.
+Conducting alias resolution on N865 - {89.149.181.162}... Done.
+Conducting alias resolution on N866 - {89.149.136.213}... Done.
+Conducting alias resolution on N867 - {89.149.143.162}... Done.
+Conducting alias resolution on N868 - {89.149.182.174}... Done.
+Conducting alias resolution on N869 - {89.149.141.141}... Done.
+Conducting alias resolution on N870 - {89.149.131.217}... Done.
+Conducting alias resolution on N871 - {89.149.128.241}... Done.
+Conducting alias resolution on N872 - {213.200.124.178}... Done.
+Conducting alias resolution on N873 - {89.149.183.37, 213.200.124.169} (cluster)... Done.
+Conducting alias resolution on N874 - {89.149.141.113}... Done.
+Conducting alias resolution on N875 - {89.149.139.121}... Done.
+Conducting alias resolution on N876 - {89.149.184.226}... Done.
+Conducting alias resolution on N877 - {213.200.113.233}... Done.
+Conducting alias resolution on N878 - {89.149.182.166}... Done.
+Conducting alias resolution on N879 - {89.149.128.49}... Done.
+Conducting alias resolution on N880 - {89.149.181.242}... Done.
+Conducting alias resolution on N881 - {213.254.230.41}... Done.
+Conducting alias resolution on N882 - {89.149.141.29}... Done.
+Conducting alias resolution on N883 - {89.149.128.238}... Done.
+Conducting alias resolution on N884 - {204.237.133.5}... Done.
+Conducting alias resolution on N885 - {141.136.108.113}... Done.
+Conducting alias resolution on N886 - {89.149.132.238}... Done.
+Conducting alias resolution on N887 - {89.149.182.158}... Done.
+Conducting alias resolution on N888 - {89.149.134.90}... Done.
+Conducting alias resolution on N889 - {213.254.230.98}... Done.
+Conducting alias resolution on N890 - {89.149.185.90}... Done.
+Conducting alias resolution on N891 - {89.149.129.238}... Done.
+Conducting alias resolution on N892 - {89.149.128.70}... Done.
+Conducting alias resolution on N893 - {89.149.130.58}... Done.
+Conducting alias resolution on N894 - {89.149.129.253}... Done.
+Conducting alias resolution on N895 - {89.149.129.250}... Done.
+Conducting alias resolution on N896 - {89.149.143.253}... Done.
+Conducting alias resolution on N897 - {89.149.130.162}... Done.
+Conducting alias resolution on N898 - {89.149.135.146}... Done.
+Conducting alias resolution on N899 - {89.149.139.210}... Done.
+Conducting alias resolution on N900 - {89.149.184.113}... Done.
+Conducting alias resolution on N901 - {213.200.117.254}... Done.
+Conducting alias resolution on N902 - {89.149.184.162}... Done.
+Conducting alias resolution on N903 - {89.149.136.34}... Done.
+Conducting alias resolution on N904 - {213.200.123.77}... Done.
+Conducting alias resolution on N905 - {89.149.129.25}... Done.
+Conducting alias resolution on N906 - {141.136.106.17}... Done.
+Conducting alias resolution on N907 - {141.136.106.1}... Done.
+Conducting alias resolution on N908 - {89.149.128.106}... Done.
+Conducting alias resolution on N909 - {89.149.128.114}... Done.
+Conducting alias resolution on N910 - {198.46.80.85}... Done.
+Conducting alias resolution on N911 - {104.193.140.7}... Done.
+Conducting alias resolution on N912 - {104.193.140.8}... Done.
+Conducting alias resolution on N913 - {104.193.140.9}... Done.
+Conducting alias resolution on N914 - {104.193.140.10}... Done.
+Conducting alias resolution on N915 - {104.193.140.12}... Done.
+Conducting alias resolution on N916 - {104.193.140.14}... Done.
+Conducting alias resolution on N917 - {104.193.140.15}... Done.
+Conducting alias resolution on N918 - {104.193.140.16}... Done.
+Conducting alias resolution on N919 - {104.193.140.17}... Done.
+Conducting alias resolution on N920 - {104.193.140.20}... Done.
+Conducting alias resolution on N921 - {104.193.140.21}... Done.
+Conducting alias resolution on N922 - {104.193.140.22}... Done.
+Conducting alias resolution on N923 - {104.193.140.23}... Done.
+Conducting alias resolution on N924 - {104.193.140.26}... Done.
+Conducting alias resolution on N925 - {104.193.140.27}... Done.
+Conducting alias resolution on N926 - {104.193.140.35}... Done.
+Conducting alias resolution on N927 - {104.193.140.36}... Done.
+Conducting alias resolution on N928 - {104.193.140.38}... Done.
+Conducting alias resolution on N929 - {104.193.140.39}... Done.
+Conducting alias resolution on N930 - {104.193.140.40}... Done.
+Conducting alias resolution on N931 - {104.193.140.41}... Done.
+Conducting alias resolution on N932 - {104.193.140.42}... Done.
+Conducting alias resolution on N933 - {104.193.140.43}... Done.
+Conducting alias resolution on N934 - {104.193.140.44}... Done.
+Conducting alias resolution on N935 - {104.193.140.45}... Done.
+Conducting alias resolution on N936 - {104.193.140.46}... Done.
+Conducting alias resolution on N937 - {104.193.140.49}... Done.
+Conducting alias resolution on N938 - {104.193.140.50}... Done.
+Conducting alias resolution on N939 - {104.193.140.52}... Done.
+Conducting alias resolution on N940 - {104.193.140.53}... Done.
+Conducting alias resolution on N941 - {104.193.140.54}... Done.
+Conducting alias resolution on N942 - {104.193.140.55}... Done.
+Conducting alias resolution on N943 - {104.193.140.57}... Done.
+Conducting alias resolution on N944 - {104.193.140.58}... Done.
+Conducting alias resolution on N945 - {104.193.140.59}... Done.
+Conducting alias resolution on N946 - {104.193.140.60}... Done.
+Conducting alias resolution on N947 - {104.193.140.61}... Done.
+Conducting alias resolution on N948 - {104.193.140.62}... Done.
+Conducting alias resolution on N949 - {104.193.140.63}... Done.
+Conducting alias resolution on N950 - {104.193.140.66}... Done.
+Conducting alias resolution on N951 - {104.193.140.67}... Done.
+Conducting alias resolution on N952 - {104.193.140.68}... Done.
+Conducting alias resolution on N953 - {104.193.140.70}... Done.
+Conducting alias resolution on N954 - {104.193.140.71}... Done.
+Conducting alias resolution on N955 - {104.193.140.72}... Done.
+Conducting alias resolution on N956 - {104.193.140.73}... Done.
+Conducting alias resolution on N957 - {104.193.140.75}... Done.
+Conducting alias resolution on N958 - {104.193.140.76}... Done.
+Conducting alias resolution on N959 - {104.193.140.78}... Done.
+Conducting alias resolution on N960 - {104.193.140.79}... Done.
+Conducting alias resolution on N961 - {104.193.140.81}... Done.
+Conducting alias resolution on N962 - {104.193.140.82}... Done.
+Conducting alias resolution on N963 - {104.193.140.83}... Done.
+Conducting alias resolution on N964 - {104.193.140.84}... Done.
+Conducting alias resolution on N965 - {104.193.140.85}... Done.
+Conducting alias resolution on N966 - {104.193.140.86}... Done.
+Conducting alias resolution on N967 - {104.193.140.87}... Done.
+Conducting alias resolution on N968 - {104.193.140.88}... Done.
+Conducting alias resolution on N969 - {104.193.140.89}... Done.
+Conducting alias resolution on N970 - {104.193.140.90}... Done.
+Conducting alias resolution on N971 - {104.193.140.91}... Done.
+Conducting alias resolution on N972 - {104.193.140.92}... Done.
+Conducting alias resolution on N973 - {104.193.140.93}... Done.
+Conducting alias resolution on N974 - {104.193.140.94}... Done.
+Conducting alias resolution on N975 - {104.193.140.95}... Done.
+Conducting alias resolution on N976 - {89.149.185.54}... Done.
+Conducting alias resolution on N977 - {141.136.99.114}... Done.
+Conducting alias resolution on N978 - {89.149.143.114}... Done.
+Conducting alias resolution on N979 - {141.136.107.189}... Done.
+Conducting alias resolution on N980 - {213.200.118.198}... Done.
+Conducting alias resolution on N981 - {213.254.230.57}... Done.
+Conducting alias resolution on N982 - {89.202.65.190}... Done.
+Conducting alias resolution on N983 - {149.235.16.230}... Done.
+Conducting alias resolution on N985 - {149.235.16.81}... Done.
+Conducting alias resolution on N986 - {149.235.16.238}... Done.
+Conducting alias resolution on N987 - {213.161.83.187}... Done.
+Conducting alias resolution on N988 - {149.235.24.225}... Done.
+Conducting alias resolution on N989 - {149.235.24.234}... Done.
+Conducting alias resolution on N990 - {149.235.24.242}... Done.
+Conducting alias resolution on N991 - {89.149.183.213}... Done.
+Conducting alias resolution on N992 - {154.14.32.174}... Done.
+Conducting alias resolution on N993 - {158.177.118.205}... Done.
+Conducting alias resolution on N994 - {158.177.118.203}... Done.
+Conducting alias resolution on N995 - {64.124.79.150}... Done.
+Conducting alias resolution on N996 - {173.205.92.249}... Done.
+Conducting alias resolution on N997 - {Echo, TTL=14, Pre-echoing=173.205.92.249}... Done.
+Conducting alias resolution on N999 - {65.19.141.30}... Done.
+Conducting alias resolution on N1000 - {192.83.150.254}... Done.
+Conducting alias resolution on N1001 - {89.149.186.149}... Done.
+Conducting alias resolution on N1002 - {213.200.118.214}... Done.
+Conducting alias resolution on N1003 - {89.149.130.1}... Done.
+Conducting alias resolution on N1004 - {213.254.214.166}... Done.
+Conducting alias resolution on N1005 - {89.149.186.242}... Done.
+Conducting alias resolution on N1006 - {213.254.230.206}... Done.
+Conducting alias resolution on N1007 - {89.149.142.21}... Done.
+Conducting alias resolution on N1008 - {220.242.7.217}... Done.
+Conducting alias resolution on N1009 - {220.242.7.142}... Done.
+--- End of full alias resolution (02-06-2021 23:11:01) ---
+Elapsed time: 40 minutes 38 seconds
+Total amount of probes: 8592
+Total amount of successful probes: 7247 (84.3459%)
+
+Final alias hints have been saved in the output file AS3257_02-06.hints.
+Final fingerprints have been saved in the output file AS3257_02-06.fingerprints.
+Final aliases been saved in the output file AS3257_02-06.aliases-f.
+Network graph metrics been saved in the output file AS3257_02-06.metrics.

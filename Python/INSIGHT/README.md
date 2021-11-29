@@ -1,6 +1,6 @@
 # INSIGHT - A Python library to model and study networks
 
-*By Jean-François Grailet (last updated: November 28, 2021)*
+*By Jean-François Grailet (last updated: November 29, 2021)*
 
 ## About
 

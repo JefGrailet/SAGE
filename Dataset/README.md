@@ -1,6 +1,6 @@
 # Dataset
 
-*By Jean-François Grailet (last updated: June 30, 2021)*
+*By Jean-François Grailet (last updated: November 29, 2021)*
 
 ## About
 
@@ -123,10 +123,10 @@ failure).
   a subnet which might be the real-life link) connecting a neighborhood `u` to a neighborhood `v` 
   where `v` is bordered by subnets built with the third rule of subnet inference (_echoing_ 
   trails). Such links shouldn't actually have a _medium_ at all since the last route hops towards 
-  subnets like those of `v` are _echoing_ and therefore hiding the actual router interface. While 
-  parsing a `.graph`, one can therefore ignore the _medium_ associated to any link pointing 
-  towards a neighborhood comparable to `v`. As of October 12, 2020, the public code of `SAGE` no 
-  longer searches a _medium_ for such links.
+  subnets like those of `v` are _echoing_ and therefore hiding the actual router interface. 
+  Therefore, while parsing a `.graph`, the _medium_ associated to any link pointing towards a 
+  neighborhood comparable to the aforementioned `v` can be ignored. As of October 12, 2020, the 
+  public code of `SAGE` no longer searches a _medium_ for such links.
 
 * Various comments in the code, variable names or metrics denotes an _alias_ as the complete list 
   of IPs that could be aliased with each others. This is kind of a language abuse: usually, in the 
