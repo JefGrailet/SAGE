@@ -20,15 +20,13 @@ Since it is built on top of `WISE`, which initially needed to be compatible with
 
 ## Publications
 
-### On `SAGE`
-
 * [Travelling Without Moving: Discovering Neighborhood Adjacencies](http://www.run.montefiore.ulg.ac.be/~grailet/docs/publications/SAGE_TMA_2021.pdf)<br />
   Jean-François Grailet, Benoit Donnet<br />
   [Network Traffic Measurement and Analysis Conference (TMA) 2021](http://tma.ifip.org/2021/), Online, 14 and 15/09/2021
 
 ### Related work
 
-The following publications can be consulted by interested readers to learn more about `SAGE`. The sixth section of the first paper describes and assesses in details the core ideas used to design `SAGE` (i.e., _neighborhoods_ and their _peers_). The second publication is my doctoral thesis and provides, among others, a detailed description of both `WISE` and `SAGE`. People who may want to re-use `WISE`/`SAGE` algorithms might want to read chapters 7 (`WISE`) and 11 (`SAGE`).
+The following publications can be consulted by interested readers to learn more about `SAGE`. The sixth section of the first paper describes and assesses the core ideas used to design `SAGE` (i.e., _neighborhoods_ and their _peers_). The second publication is my doctoral thesis and provides, among others, a detailed description of both `WISE` and `SAGE`. People who want to re-use `WISE`/`SAGE` algorithms might want to read chapters 7 (`WISE`) and 11 (`SAGE`).
 
 * [Virtual Insanity: Linear Subnet Discovery](http://www.run.montefiore.ulg.ac.be/~grailet/docs/publications/WISE_TNSM_2020.pdf)<br />
   Jean-François Grailet, Benoit Donnet<br />
