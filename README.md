@@ -1,6 +1,6 @@
 # SAGE (Subnet AGgrEgation)
 
-*By Jean-François Grailet (last updated: June 30, 2021)*
+*By Jean-François Grailet (last updated: December 5, 2021)*
 
 ## Overview
 
@@ -20,13 +20,23 @@ Since it is built on top of `WISE`, which initially needed to be compatible with
 
 ## Publications
 
-### Preliminary research
+### On `SAGE`
 
-While there is currently no publication mentioning or introducing `SAGE`, one peer-reviewed publication already discusses the core ideas used to build `SAGE` (i.e., _neighborhoods_ and their _peers_), using an upgraded version of `WISE` to collect the data we needed to do so.
+* [Travelling Without Moving: Discovering Neighborhood Adjacencies](http://www.run.montefiore.ulg.ac.be/~grailet/docs/publications/SAGE_TMA_2021.pdf)<br />
+  Jean-François Grailet, Benoit Donnet<br />
+  [Network Traffic Measurement and Analysis Conference (TMA) 2021](http://tma.ifip.org/2021/), Online, 14 and 15/09/2021
+
+### Related work
+
+The following publications can be consulted by interested readers to learn more about `SAGE`. The sixth section of the first paper describes and assesses in details the core ideas used to design `SAGE` (i.e., _neighborhoods_ and their _peers_). The second publication is my doctoral thesis and provides, among others, a detailed description of both `WISE` and `SAGE`. People who may want to re-use `WISE`/`SAGE` algorithms might want to read chapters 7 (`WISE`) and 11 (`SAGE`).
 
 * [Virtual Insanity: Linear Subnet Discovery](http://www.run.montefiore.ulg.ac.be/~grailet/docs/publications/WISE_TNSM_2020.pdf)<br />
   Jean-François Grailet, Benoit Donnet<br />
   [IEEE Transactions on Network and Service Management](https://www.comsoc.org/publications/journals/ieee-tnsm), Volume 17, Issue 2, pp. 1268-1281 ([cf. IEEE Xplore](https://ieeexplore.ieee.org/document/9016121))
+
+* [Efficient Multi-Level Measurements and Modeling of Computer Networks](http://www.run.montefiore.ulg.ac.be/~grailet/docs/thesis/EfficientMultiLevelMeasurementsAndModelingOfComputerNetworks.pdf)<br />
+  Jean-François Grailet<br />
+  Doctoral thesis (available on [ORBi](https://orbi.uliege.be/handle/2268/262826))
 
 ## Content of this repository
 
